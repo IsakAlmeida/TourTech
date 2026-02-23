@@ -1,0 +1,28 @@
+body {
+    background-image: url(../assets/imgs/login/background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.logo{
+    display: block;
+    margin: 40px auto 20px auto;
+    width: 250px; 
+}
+
+.forms{
+    background-color: #FFFF;
+    color: #0000;
+    width: 949px;
+    height: 691px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 25px;
+    opacity: 85%;
+    box-shadow: 5px 5px 10px 2px rgba(0,0,0,0.3);
+}
+
