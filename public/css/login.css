@@ -1,28 +1,229 @@
 body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    height: 100vh;
     background-image: url(../assets/imgs/login/background.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.logo{
-    display: block;
-    margin: 40px auto 20px auto;
-    width: 250px; 
+.logo {
+    width: 15vw;
+    margin-bottom: 3vh;
 }
 
-.forms{
+.forms {
+    background-color: rgba(255, 255, 255, 0.85);
+    width: 45vw;
+    height: 70vh;
+    border-radius: 2vh;
+    box-shadow: 0.5vw 0.5vh 1vh 0.2vh rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7vh;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.campo label {
+    font-weight: 600;
+    font-size: 1.8vh
+}
+
+.campo input {
+    width: 22vw;
+    height: 4.5vh;
+    border-radius: 1vh;
+    border: 0.1vh solid #ccc;
+    padding: 0 0.5vw;
+    font-size: 2vh;
     background-color: #FFFF;
-    color: #0000;
-    width: 949px;
-    height: 691px;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 25px;
-    opacity: 85%;
-    box-shadow: 5px 5px 10px 2px rgba(0,0,0,0.3);
+    opacity: 100%;
 }
 
+.title {
+    color: #1E73B8;
+    font-size: 5.5vh;
+    font-weight: 500;
+}
+
+.error {
+    margin-top: 0.5vh;
+    color: red;
+    font-size: 1.4vh;
+    padding-left: 0.4vh;
+}
+
+.btnEntrar {
+    background-color: #1E73B8;
+    color: #FFFF;
+    border-radius: 2vh;
+    border: 0.1vh solid #ccc;
+    height: 4vh;
+    width: 20vh;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-size: 2.2vh
+}
+
+.btnEntrar:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.3);
+}
+
+.call-to-action {
+    font-size: 2.1vh;
+    display: flex;
+    flex-direction: row;
+    gap: 0.8vh;
+}
+
+.call-to-action p{
+    margin: 0;
+}
+.ancora {
+    color: #379c63;
+    text-decoration: none;
+    transition: transform 0.2s ease, 0.2s ease;
+}
+
+.ancora:hover {
+    transform: scale(1.08);
+}
+
+.esqueceu-senha {
+    margin-top: 0.6vh;
+    color: #379c63;
+    font-size: 1.4vh;
+    transition: transform 0.2s ease, 0.2s ease;
+    cursor: pointer;
+    padding-left: 0.4vh;
+}
+
+.esqueceu-senha:hover{
+    transform: scale(1.05);
+}
+
+/* TABLETS (até 992px) */
+@media (max-width: 992px) {
+    body {
+        padding: 2vh;
+    }
+
+    .logo {
+        width: 30vw;
+        margin-bottom: 2vh;
+    }
+
+    .forms {
+        width: 85vw;
+        height: auto;
+        padding: 4vh 0;
+        gap: 4vh;
+        border-radius: 2vh;
+    }
+
+    .title {
+        font-size: 4vh;
+        text-align: center;
+    }
+
+    .campo {
+        width: 100%;
+        align-items: center;
+    }
+
+    .campo label {
+        font-size: 2vh;
+        align-self: flex-start;
+        margin-left: 7.5vw;
+    }
+
+    .campo input {
+        width: 70vw;
+        height: 5vh;
+        font-size: 2vh;
+        padding: 0 1vw;
+    }
+
+    .error {
+        font-size: 1.6vh;
+        align-self: flex-start;
+        margin-left: 7.5vw;
+    }
+
+    .esqueceu-senha {
+        font-size: 1.6vh;
+        align-self: flex-start;
+        margin-left: 7.5vw;
+    }
+
+    .btnEntrar {
+        width: 50vw;
+        height: 5vh;
+        font-size: 2vh;
+    }
+
+    .call-to-action {
+        font-size: 1.9vh;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.5vh;
+    }
+
+}
+
+/* CELULAR (até 600px) */
+@media (max-width: 600px) {
+    body {
+        padding: 2vh;
+    }
+
+    .logo {
+        width: 40vw;
+    }
+
+    .forms {
+        width: 90vw;
+        height: auto;
+        padding: 4vh 0;
+        border-radius: 2vh;
+        gap: 3vh;
+    }
+
+    .title {
+        font-size: 3.5vh;
+        text-align: center;
+    }
+
+    .campo input {
+        width: 70vw;
+        height: 5vh;
+        font-size: 2vh;
+    }
+
+    .btnEntrar {
+        width: 60vw;
+        height: 5vh;
+        font-size: 2vh;
+    }
+
+    .call-to-action {
+        font-size: 1.8vh;
+        flex-direction: column;
+        align-items: center;
+    }
+
+}

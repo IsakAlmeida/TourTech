@@ -1,16 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login.css">
     <title>Login - TourTech</title>
     <link rel="Icon" href="./assets/imgs/icon-secondary.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-    <img src="./assets/imgs/icon.png" alt="Logo" class="Logo">
+    <img src="./assets/imgs/icon.png" alt="Logo" class="logo">
     <div class="forms">
-        <input type="text">
+        <div class="title">Bem-vindo de volta!</div>
+        <div class="campo">
+            <label for="login">Login: </label> <br>
+            <input type="text" id="iptLogin" placeholder="Digite seu email">
+            <span class="error" id="errorLogin"></span>
+        </div>
+        <div class="campo">
+            <label for="senha">Senha: </label> <br>
+            <input type="password" id="iptSenha" placeholder="*********">
+            <span class="error" id="errorSenha"></span>
+            <a onclick="" class="esqueceu-senha">Esqueci minha senha</a>
+        </div>
+
+        <button class="btnEntrar" onclick="entrar()">Entrar</button>
+        <div class="call-to-action"><p>Ainda não tem uma conta?</p> <a href="cadastro.html" class="ancora">Cadastre-se</a></div>
     </div>
 </body>
 </html>
+<script>
+    errorSenha = document.getElementById("errorSenha");
+    errorLogin = document.getElementById("errorLogin");
+
+    function entrar(){
+        errorLogin.innerHTML = "";
+        errorSenha.innerHTML = "";
+
+        var login = iptLogin.value;
+        var senha = iptSenha.value;
+
+        if(login == ""){
+            errorLogin.innerHTML = `Preencha o campo Login!`;
+        } 
+        if(senha == ""){
+            errorSenha.innerHTML = `Preencha o campo Senha!`;
+        }
+
+
+    }
+</script>
