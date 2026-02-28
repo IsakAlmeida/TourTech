@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/cadastro.css">
+    <title>Cadastro - TourTech</title>
+    <link rel="Icon" href="./assets/imgs/icon-secondary.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <img src="./assets/imgs/icon.png" alt="Logo" class="logo">
+    <div class="forms">
+        <div class="title">Crie sua conta!</div>
+        <div class="descricao">Cadastre-se para receber informações privilegiadas sobre o turismo no Rio de Janeiro
+        </div>
+        <div class="campo">
+            <label>Nome: </label> <br>
+            <input type="text" id="iptNome" placeholder="Nome completo">
+            <span class="error" id="errorNome"></span>
+        </div>
+        <div class="campo">
+            <label>Email: </label> <br>
+            <input type="email" id="iptEmail" placeholder="Digite seu email">
+            <span class="error" id="errorEmail"></span>
+        </div>
+        <div class="campo">
+            <label>Senha: </label> <br>
+            <input type="password" id="iptSenha" placeholder="*********">
+            <span class="error" id="errorSenha"></span>
+        </div>
+        <div class="campo">
+            <label>Confirmação de Senha: </label> <br>
+            <input type="password" id="iptConfirmacaoSenha" placeholder="*********">
+            <span class="error" id="errorConfirmacaoSenha"></span>
+        </div>
+        <div class="campo">
+            <label>Token Empresa: </label> <br>
+            <input type="text" id="iptToken" placeholder="Token da sua empresa para criação de conta">
+            <span class="error" id="errorToken"></span>
+        </div>
+
+        <button class="btnEntrar" onclick="entrar()">Entrar</button>
+        <div class="call-to-action">
+            <p>Já possui uma conta?</p> <a href="login.html" class="ancora">Login</a>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    errorSenha = document.getElementById("errorSenha");
+    errorEmail = document.getElementById("errorEmail");
+    errorNome = document.getElementById("errorNome");
+    errorConfirmacaoSenha = document.getElementById("errorConfirmacaoSenha");
+    errorToken = document.getElementById("errorToken");
+
+    function entrar() {
+        errorEmail.innerHTML = "";
+        errorSenha.innerHTML = "";
+        errorConfirmacaoSenha.innerHTML = "";
+        errorNome.innerHTML = "";
+        errorToken.innerHTML = "";
+
+        var email = iptEmail.value;
+        var senha = iptSenha.value;
+        var confirmacaoSenha = iptConfirmacaoSenha.value;
+        var nome = iptNome.value;
+        var token = iptToken.value;
+
+        var camposVazios = false;
+
+        if (email == "") errorEmail.innerHTML = `Preencha o campo Email!`, camposVazios = true;
+        if (senha == "") errorSenha.innerHTML = `Preencha o campo Senha!`, camposVazios = true;
+        if (nome == "") errorNome.innerHTML = `Preencha o campo Nome!`, camposVazios = true;
+        if (confirmacaoSenha == "") errorConfirmacaoSenha.innerHTML = `Preencha o campo Confirmação de Senha!`, camposVazios = true;
+        if (token == "") errorToken.innerHTML = `Preencha o campo Token!`, camposVazios = true;
+
+        if(!camposVazios){
+            if(nome.length < 5) errorNome.innerHTML = `O Nome deve conter mais de 5 caracteres`;
+            if(!email.includes("@") || !email.includes(".")) errorEmail.innerHTML = `O email deve conter '@' e '.'`;
+            if(senha.length < 5) errorSenha.innerHTML = `Senha deve conter mais de 5 caracteres`;
+            if(confirmacaoSenha != senha) errorConfirmacaoSenha.innerHTML = `As senhas devem ser iguais`;
+            // if(token) fazer validação se o token existe
+        }
+
+
+    }
+</script>

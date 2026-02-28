@@ -1,0 +1,200 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+
+    /* permite crescer se necessário, mas não força scroll */
+    min-height: 100vh;
+
+    background-image: url(../assets/imgs/login/background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.logo {
+    width: 15vw;
+    margin-bottom: 1.5vh;
+}
+
+
+.forms {
+    background-color: rgba(255, 255, 255, 0.85);
+    width: 45vw;
+    min-height: auto;
+    border-radius: 2vh;
+    box-shadow: 0.5vw 0.5vh 1vh 0.2vh rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3vh 0;
+    gap: 1.5vh;
+}
+
+
+.title {
+    color: #1E73B8;
+    font-size: 4.2vh;
+    font-weight: 500;
+    text-align: center;
+}
+
+
+.forms .descricao {
+    color: #8d8989;
+    font-size: 1.6vh;
+    text-align: center;
+    width: 70%;
+}
+
+
+.campo {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.campo label {
+    font-weight: 600;
+    font-size: 1.7vh;
+}
+
+
+.campo input {
+    width: 22vw;
+    height: 4vh;
+    border-radius: 1vh;
+    border: 0.1vh solid #ccc;
+    padding: 0 0.5vw;
+    font-size: 1.8vh;
+    background-color: #fff;
+}
+
+
+.error {
+    margin-top: 0.3vh;
+    color: red;
+    font-size: 1.3vh;
+}
+
+
+.btnEntrar {
+    background-color: #1E73B8;
+    color: #fff;
+    border-radius: 2vh;
+    border: none;
+    height: 4.2vh;
+    width: 18vh;
+    cursor: pointer;
+    font-size: 1.8vh;
+    transition: 0.2s;
+}
+
+.btnEntrar:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.3);
+}
+
+
+.call-to-action {
+    font-size: 1.8vh;
+    display: flex;
+    gap: 0.5vh;
+}
+
+.call-to-action p {
+    margin: 0;
+}
+
+
+.ancora,
+.esqueceu-senha {
+    color: #379c63;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.ancora:hover,
+.esqueceu-senha:hover {
+    transform: scale(1.05);
+}
+
+
+/* TABLETS (até 992px) */
+@media (max-width: 992px) {
+    .logo {
+        width: 28vw;
+    }
+
+    .forms {
+        width: 80vw;
+        padding: 3vh 0;
+        gap: 1.5vh;
+    }
+
+    .title {
+        font-size: 3.5vh;
+    }
+
+    .forms .descricao {
+        font-size: 1.6vh;
+        width: 80%;
+    }
+
+    .campo input {
+        width: 60vw;
+        height: 4.5vh;
+    }
+
+    .btnEntrar {
+        width: 30vw;
+        height: 4.5vh;
+    }
+}
+
+
+/* CELULAR (até 600px) */
+
+@media (max-width: 600px) {
+    .logo {
+        width: 40vw;
+    }
+
+    .forms {
+        width: 90vw;
+        padding: 3vh 0;
+        gap: 1.2vh;
+    }
+
+    .title {
+        font-size: 3vh;
+    }
+
+    .forms .descricao {
+        font-size: 1.5vh;
+        width: 85%;
+    }
+
+    .campo input {
+        width: 70vw;
+        height: 4.5vh;
+    }
+
+    .btnEntrar {
+        width: 50vw;
+        height: 4.5vh;
+    }
+
+    .call-to-action {
+        flex-direction: column;
+        align-items: center;
+    }
+}
