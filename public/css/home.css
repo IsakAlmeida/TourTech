@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-image: linear-gradient(rgb(125, 226, 249), white);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400; /* normal */
+}
+
+.header {
+  background-image: linear-gradient(rgb(255, 211, 129), white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 10vh;
+}
+
+.logo img {
+  height: 15vh; /* controla tamanho do logo */
+  cursor: pointer;
+}
+
+.logo img:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.header .headerClick {
+  display:flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 5%;
+}
+
+
+/* .header .botao{
+  display: flex;
+  background-color: orange;
+  border-radius: 20px;
+  padding: 8px;
+} */
+
+.btnHome {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  
+}
+
+.btnSobre {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.btnPontos {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.btnLogin {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.botao {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.botao:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+
+.capa {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagemRio {
+  width: 100vw;
+  height: auto;
+  object-fit: cover;
+  filter: blur(5px);
+  transform: scale(1.05);
+  display: block;
+
+}
+
+.texto {
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  text-align: left;
+  z-index: 2;
+  max-width: 90%;
+}
+
+.capaKPI {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 5%;
+  margin-top: -10vh;
+  position: relative;
+  z-index: 3;
+}
+
+.boxKPI {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5F9FB6;
+  width: 20vw;
+  height: 20vh;
+  border: 1px solid rgb(150, 150, 150);
+  border-radius: 2vh;
+  color: white;
+  font-weight: 600;
+  font-size: larger;
+}
+
+.servicosEx {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5%;
+}
+
+.boxNossoServico {
+  background-color: #FFFFFF;
+  width: 80vw;
+  height: 60vh;
+  border-radius: 6vh;
+  margin: 5vh 10vw;
+}
+
+.boxNossoServico h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5%;
+}
+
+.boxNossoServico h2 {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 5%;
+}
+
+.footer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  background-color: #495E51;
+  color: #FFFFFF;
+}
+
+.textoFooter {
+  padding: 3vw;
+}
