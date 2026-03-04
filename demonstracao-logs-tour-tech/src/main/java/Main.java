@@ -16,14 +16,15 @@ public class Main {
 
         DateTimeFormatter formatoDia = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm:ss");
-
+        Integer id = 1;
         while (true) {
             String dia = LocalDateTime.now().format(formatoDia);
             String horario = LocalDateTime.now().format(formatoHora);
             Integer aleatorio = ThreadLocalRandom.current().nextInt(0, 6);
             String evento = eventos[aleatorio];
 
-            System.out.println("["+ dia + "] " + "[" + horario + "] [INFO] " + evento);
+            System.out.println("["+ (id++) + "] " +"["+ dia + "] " + "[" + horario + "] " + evento);
+
 
             Thread.sleep(2000);
         }
