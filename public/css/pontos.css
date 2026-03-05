@@ -111,7 +111,7 @@ body {
 }
 
 .upperMain select {
-    background-color: #70f5f5;
+    background: linear-gradient(#70f5f5, #ffffff);
     border-radius: 1vh;
     width: 35vh;
     height: 5vh;
@@ -119,7 +119,7 @@ body {
 }
 
 .upperMain button {
-    background-color: #70f5f5;
+    background: linear-gradient(#70f5f5, #ffffff);
     border-radius: 1vh;
     width: 25vh;
     height: 5vh;
