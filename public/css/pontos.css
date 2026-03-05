@@ -1,0 +1,392 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+.header {
+  background-image: linear-gradient(rgb(255, 211, 129), white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 10vh;
+}
+
+.logo img {
+  height: 15vh;
+  cursor: pointer;
+}
+
+.logo img:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.header .headerClick {
+  display:flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 5%;
+}
+
+.btnHome {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  
+}
+
+.btnSobre {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.btnPontos {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.btnLogin {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.botao {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.botao:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.main {
+    font-family: 'Montserrar', sans-serif;
+    color: #FFFFFF;
+}
+
+.upperMain {
+    display: flex;
+    background-image: url('../assets/imgs/Pontos/imgRio.jpg');
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 500px;
+    padding: 0;
+    margin: 0;
+    text-shadow: 2px 2px black;
+}
+
+.upperMain h1 {
+    font-size: 350%;
+}
+
+.upperMain h3 {
+    font-size: 110%;
+}
+
+.upperMain span {
+    font-size: 2.5vh;
+}
+
+.upperMain select {
+    background-color: #70f5f5;
+    border-radius: 1vh;
+    width: 35vh;
+    height: 5vh;
+    font-size: 2.5vh;
+}
+
+.upperMain button {
+    background-color: #70f5f5;
+    border-radius: 1vh;
+    width: 25vh;
+    height: 5vh;
+    cursor: pointer;
+    font-size: 2.5vh;
+}
+
+.upperMain select:hover {
+    background-color: #a4fcfc;
+}
+
+.upperMain button:hover {
+    background-color: #a4fcfc;
+}
+
+.lowerMain {
+    display: flex;
+    background-image: url('../assets/imgs/Pontos/pordosol2.jpg');
+    background-size: cover;
+    background-position: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+    gap: 10%;
+    text-shadow: 1px 1px black;
+    margin: 0;
+    padding: 0;
+}
+
+.lowerMain #aprenda {
+    font-size: 120%;
+    margin: 5% 10% 5% 0%;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#imagem {
+    flex: 0 0 40%;
+    display: flex;
+    justify-content: center;
+}
+
+#imagem img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 5% 10% 5% 50%;
+}
+
+.footer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  background-color: #495E51;
+  color: #FFFFFF;
+}
+
+.textoFooter {
+  padding: 3vw;
+}
+
+/* TABLETS (até 992px) */
+@media (max-width: 992px) {
+
+    body {
+        padding: 0;
+    }
+
+    .header {
+        width: 100%;
+        font-size: 60%;
+        margin-left: -10%;
+    }
+
+    .logo{
+        width: 70%;
+    }
+
+    .logo img {
+        width: 80%;
+        height: auto;
+    }
+
+    .headerClick{
+        display: flex;
+        justify-content: flex-start;
+        margin-left: -10%;
+        width: 80%;
+        font-size: 1.8vh;
+        height: auto;
+    }
+
+    .botao{
+        width: 30%;
+        padding: 3%;
+        font-size: 1.6vh;
+    }
+
+    .main {
+        width: 100%;
+    }
+
+    .upperMain {
+        width: 100%;
+        height: auto;
+        padding: 4vh 0vw;
+        gap: 2vh;
+    }
+
+    .lowerMain {
+        font-size: 4vh;
+        text-align: center;
+        gap: 0%;
+    }
+
+    .upperMain select {
+        background: linear-gradient(#70f5f5, #ffffff);
+        border-radius: 0.7vh;
+        width: 25vh;
+        height: 5vh;
+        font-size: 2.0vh;
+    }
+
+    .upperMain button {
+        background: linear-gradient(#70f5f5, #ffffff);
+        border-radius: 1vh;
+        width: 25vh;
+        height: 5vh;
+        cursor: pointer;
+        font-size: 2.0vh;
+    }
+
+    .lowerMain #aprenda {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 0 0 25%;
+        font-size: 60%;
+        width: 100%;
+        max-width: 100%;
+        height: 30%;
+        font-weight: bold;
+    }
+
+    #imagem {
+        flex: 0 0 70%;
+        display: flex;
+        justify-content: center;
+    }
+
+    #imagem img {
+        width: 90%;
+        max-width: 70%;
+        height: auto;
+        margin: 5% 10% 5% 10%;
+    }
+
+    .footer {
+        width: 100%;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+
+}
+
+/* CELULAR (até 600px) */
+@media (max-width: 600px) {
+    body {
+        padding: 0;
+    }
+
+    .header {
+        width: 100%;
+        font-size: 60%;
+        margin-left: -10%;
+    }
+
+    .logo{
+        width: 70%;
+    }
+
+    .logo img {
+        width: 80%;
+        height: auto;
+    }
+
+    .headerClick{
+        display: flex;
+        justify-content: flex-start;
+        margin-left: -10%;
+        width: 80%;
+        font-size: 1.4vh;
+        height: auto;
+    }
+
+    .botao{
+        width: 60%;
+        padding: 3%;
+        font-size: 1.4vh;
+    }
+
+    .main {
+        width: 100%;
+    }
+
+    .upperMain {
+        width: 100%;
+        height: auto;
+        padding: 4vh 0vw;
+        gap: 2vh;
+    }
+
+    .lowerMain {
+        font-size: 4vh;
+        text-align: center;
+        gap: 3%;
+    }
+
+    .lowerMain #aprenda {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 0 0 25%;
+        font-size: 32%;
+        width: 100%;
+        max-width: 100%;
+        height: 80%;
+        font-weight: bold;
+        /*margin: 25% 20% 0% 0%;*/
+    }
+
+    .upperMain select {
+        background: linear-gradient(#70f5f5, #ffffff);
+        border-radius: 1vh;
+        width: 15vh;
+        height: 5vh;
+        font-size: 2.0vh;
+    }
+
+    .upperMain button {
+        background: linear-gradient(#70f5f5, #ffffff);
+        border-radius: 1vh;
+        width: 20vh;
+        height: 5vh;
+        cursor: pointer;
+        font-size: 2.0vh;
+    }
+
+    #imagem {
+        flex: 0 0 70%;
+        display: flex;
+        justify-content: center;
+    }
+
+    #imagem img {
+        width: 100%;
+        max-width: 80%;
+        height: auto;
+        margin: 5% 10% 5% 10%;
+    }
+
+    .footer {
+        width: 100%;
+        align-items: center;
+    }
+
+}

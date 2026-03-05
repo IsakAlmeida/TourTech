@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pontos Turísticos do Rio</title>
+    <link rel="stylesheet" href="./css/pontos.css"/>
+</head>
+
+<body>
+    <div class="header">
+        <a href="home.html" class="logo">
+            <img src="assets/Logo.png" alt="Logo">
+        </a>
+        <div class="headerClick">
+            <a href="Home.html" class="btnHome">Home</a>
+            <a href="Sobre.html" class="btnSobre">Sobre</a>
+            <a href="Pontos.html" class="btnPontos">Pontos</a>
+            <a href="Login.html" class="btnLogin">Login</a>
+            <button class="botao" onclick="Cadastrar()">Cadastrar</button>
+        </div>
+    </div>
+    <main class="main">
+        <div class="upperMain">
+            <h1>Conheça grandes pontos turísticos do Rio de Janeiro</h1><br><br>
+            <h3>A cidade e o estado do Rio de Janeiro são palcos de belezas naturais e construções humanas
+                espetaculares. Escolha uma das opções abaixo e saiba mais sobre elas!</h3><br><br>
+            <div id="destino" style="display: block;">
+                <span>Escolha uma opção:</span><br>
+                    <select id="sltDestino">
+                        <option value="0">Selecione</option>
+                        <option value="1">Capital</option>
+                        <option value="2">Interior/Litoral</option>
+                    </select>
+                <button onclick="escolher()">Escolher</button>
+            </div>
+            <div id="city" style="display: none;">
+                <span>Cidade do Rio de Janeiro:</span><br>
+                <select id="sltCidadeRJ">
+                    <option value="0">Selecione</option>
+                    <option value="1">Arcos da Lapa</option>
+                    <option value="2">Cristo Redentor</option>
+                    <option value="3">Escadaria Selarón</option>
+                    <option value="4">Estádio do Maracanã</option>
+                    <option value="5">Museu do Amanhã</option>
+                    <option value="6">Pão de Açúcar</option>
+                    <option value="7">Praia de Copacabana</option>
+                    <option value="8">Sambódromo da Sapucaí</option>
+                    <option value="9">Theatro Municipal</option>
+                </select>
+                <button onclick="conhecerCidade()">Conhecer Mais</button>
+                <button onclick="voltar()">Voltar</button>
+            </div>
+            <div id="state" style="display: none;">
+                <span>Estado do Rio de Janeiro:</span><br>
+                <select id="sltEstadoRJ">
+                    <option value="0">Selecione</option>
+                    <option value="1">Angra dos Reis</option>
+                    <option value="2">Armação dos Búzios</option>
+                    <option value="3">Arraial do Cabo</option>
+                    <option value="4">Cabo Frio</option>
+                    <option value="5">Paraty</option>
+                    <option value="6">Parque Nacional do Itatiaia</option>
+                    <option value="7">Petrópolis</option>
+                </select>
+                <button onclick="conhecerEstado()">Conhecer Mais</button>
+                <button onclick="voltar()">Voltar</button>
+            </div>
+        </div>
+        <div class="lowerMain">
+            <div id="imagem"></div>
+            <div id="aprenda"></div>
+        </div>
+    </main>
+    <div class="footer">
+        <div class="textoFooter">
+            <h4>Texto que não sei</h4>
+            <p>
+                <br>
+                Contato:<br>
+                Email:<br>
+                Tel:<br>
+                Instagram:<br>
+                Facebook:<br>
+            </p>
+        </div>  
+    </div>
+</body>
+
+</html>
+
+<script>
+    function escolher() {
+        let sltDestino = document.getElementById('sltDestino');
+        let destinoRegiao = sltDestino.value;
+        if (sltDestino.value == '' || destinoRegiao == '0') {
+            alert("Escolher um dos destinos entre as opções abaixo")
+        } else if (destinoRegiao == '1') {
+            destino.style.display = 'none';
+            city.style.display = 'block';
+
+        } else {
+            destino.style.display = 'none';
+            state.style.display = 'block';
+        }
+    }
+    function conhecerCidade() {
+        let aprenda = document.getElementById('aprenda');
+        let imagem = document.getElementById('imagem');
+        aprenda.innerHTML = '';
+        imagem.innerHTML = '';
+        let sltCidadeRJ = document.getElementById('sltCidadeRJ');
+        let capital = sltCidadeRJ.value;
+        if (sltCidadeRJ.value == '0') {
+            alert('Escolha um dos pontos turísticos da Cidade Maravilhosa');
+        } else if (capital == '1') {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/imgArcos.jpg">`
+            aprenda.innerHTML += `Os Arcos da Lapa foram construídos na primeira metade do século XVIII para servirem como um aqueduto ligando o Rio Carioca até o centro do cidade. Porém, com o passar do tempo, foi perdendo a sua utilidade devido a sistemas mais eficientes de transporte das águas. Então, em 1896, decidiu-se pela transformação do velho aqueduto em um caminho a ser utilizado por bondes, ligando o centro ao bairro de Santa Teresa. Soma-se a isso o fato do bairro da Lapa ter se tornado um bairro boêmio, onde os muitos bares atraem a atenção dos turistas nacionais e estrangeiros.`
+        } else if (capital == '2') {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/imgCristo.jpg">`
+            aprenda.innerHTML += `A primeira ideia de uma estátua no Corcovado veio do padre francês Pierre Marie Boss, ainda no século XIX. Após um período esquecido, a ideia começou a ter forma a partir de 1921, com a escolha do projeto do arquiteto Heitor da Silva Costa. E em 12 de outubro de 1931, a construção imponente foi inaugurada. Hoje a estátua, que fica localizada no Parque Nacional da Tijuca, é considerada uma das Sete Maravilhas do Mundo Moderno e se tornou o maior símbolo do Rio e do Brasil, sendo visitada por mais de 2 milhões de turistas.`
+        } else if (capital == '3') {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/escadariaSelaron.jpg">`
+            aprenda.innerHTML += `A Escadaria Selarón começou a ser elaborada em 1990 pelo artista chileno Jorge Selarón, que afirmou ser uma "homenagem ao povo brasileiro". Constituída de azulejos vindos de mais de 120 países, rapidamente chamou a atenção de turistas e da mídia, pela sua beleza e criatividade. São 215 degraus e 125 metros de comprimento, que foram tombados pela prefeitura do Rio em 2005.`
+        } else if (capital == '4') {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/imgMaraca.jpg">`
+            aprenda.innerHTML += `O estádio do Maracanã é um dos templos do futebol mundial. Palco de duas finais da Copa do Mundo, das cerimônias de abertura e encerramento das Olimpíadas de 2016 e de jogos históricos da Seleção Brasileira e de clubes, o "Maraca" foi construído para a Copa de 1950, tendo uma capacidade total de 200.000 pessoas. Décadas depois, foi reformado para o torneio de 2014, ganhando o visual visto hoje, melhorias estruturais e na segurança e tendo a capacidade de 78.838 espectadores. Atrai turistas de todo o mundo, em especial os amantes do futebol.`
+        } else if (capital == '5') {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/imgMuseu.webp">`
+            aprenda.innerHTML += `Uma das obras mais recentes, o Museu do Amanhã busca trazer o visitante pra refletir sobre o futuro do planeta e da humanidade. Inaugurado em dezembro de 2015 e projetado pelo arquiteto espanhol Santiago Calatrava, o museu tem atrações altamente tecnológicas e se dividem em cinco partes: Cosmos, Terra, Antropoceno, Amanhãs e Nós. Todas elas conversando sobre o passado, o presente e imaginando qual futuro queremos deixar para as próximas gerações. É o museu mais visitado da América do Sul e atraiu, em 10 anos, mais de 8 milhões de visitantes.`
+        } else if (capital == '6') {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/imgPao.jpg">`
+            aprenda.innerHTML += `Uma das principais belezas naturais do Rio, o Pão de Açúcar é formado pelos morros da Urca e Pão de Açúcar. Oferece uma vista panorâmica para a Baía de Guanabara, especialmente no momento do pôr-do-Sol, e é acessado pelo Bondinho que parte da Praia Vermelha, com parada no Morro da Urca.`
+        } else if (capital == '7') {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/imgCopa.jpg">`
+            aprenda.innerHTML += `Copacabana é uma das praias mais conhecidas mundo afora. É palco da principal celebração da virada de ano no Rio, recebendo mais de dois milhões de pessoas, além de show gratuito de bandas e artistas mundialmente reconhecidos. Também é sinônimo do estilo de vida carioca, que em épocas de calor, procura sempre uma praia pra se refrescar. E os turistas que visitam a cidade acabam não resistindo a uma praia e ao mar nestes dias fervorosos.`
+        } else if (capital == '8') {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/imgSapucai.webp">`
+            aprenda.innerHTML += `Inagurado em 1984 e reformado entre 2011 e 2012, o Sambódromo da Sapucaí, projeto de Oscar Niemeyer, é o ponto principal do Carnaval carioca. Os desfiles das escolas de samba, com seus carros altamente coloridos e criativos, fantasias encantadoras e ritmos que levam o público a cantar junto, se tornaram conhecidos no mundo todo, atraindo cada vez a atenção e curiosidade de turistas estrangeiros, que vêm ao Rio para aproveitar a folia carioca.`
+        } else {
+            imagem.innerHTML = `<img src="../public/assets/imgs/Pontos/imgTheatro.jpg">`
+            aprenda.innerHTML += `O Theatro Municipal do Rio é um prédio centenário, datado de 1909. Foi erguido para ser a principal casa das peças teatrais no Rio, em uma época em que as exibições estavam em alta. Além disso, também abriga obras de arte de artistas brasileiros, como Eliseu Visconti e Rodolfo Bernadelli. Passou por uma reforma em preparação para a celebração de seu centenário e continua até como um dos teatros mais relevantes do país.`
+        }
+    }
+    function conhecerEstado() {
+        let aprenda = document.getElementById('aprenda');
+        let imagem = document.getElementById('imagem');
+        aprenda.innerHTML = '';
+        imagem.innerHTML = '';
+        let sltEstadoRJ = document.getElementById('sltEstadoRJ');
+        let estado = sltEstadoRJ.value;
+        if (sltEstadoRJ.value == '0') {
+            alert('Escolha um dos pontos turísticos do estado');
+        } else if (estado == '1') {
+            imagem.innerHTML = `<img src= "../public/assets/imgs/Pontos/imgAngra.jpg">`
+            aprenda.innerHTML = `Angra dos Reis é um município localizado no sul do estado do Rio, a 158 km da capital fluminense. É conhecido principalmente pelas suas praias com águas cristalinas, pelo ecoturismo e prédios históricos. Praticantes de mergulho, rapel, rafting, entre outros, têm na cidade um destino obrigatório. A Ilha Grande, a principal entre as mais de 300 ilhas da cidade, é o destino ideal para quem quer sair do concreto das cidades e apreciar a natureza em estado puro, com suas cachoeiras e praias.`
+        } else if (estado == '2') {
+            imagem.innerHTML = `<img src= "../public/assets/imgs/Pontos/imgBuzios.webp">`
+            aprenda.innerHTML = `Armação dos Búzios, ou só Búzios, fica a 160 km da cidade do Rio. É um dos munícipios que fazem parte da Região dos Lagos. Destaca-se por suas praias paradisíacas, como Tucuns, João Fernandes e da Ferradura. Além delas, a cidade se destaca também pelos seus ventos, sendo ideal para a prática do voo livre e iatismo, e pela presença dos transatlânticos, que têm em Búzios uma parada quase obrigatória.`
+        } else if (estado == '3') {
+            imagem.innerHTML = `<img src= "../public/assets/imgs/Pontos/imgArraial.jpg">`
+            aprenda.innerHTML = `Arraial do Cabo é uma cidade litorânea localizada a 165 km de distância da capital, sendo parte da Região dos Lagos. Se destaca por suas praias com águas cristalinas, em especial o Pontal do Atalaia, Praia Grande e a Praia do Forno. Também existem as grutas do Amor e Azul, com suas formações rochosas chamativas.`
+        } else if (estado == '4') {
+            imagem.innerHTML = `<img src= "../public/assets/imgs/Pontos/imgCabo.jpg">`
+            aprenda.innerHTML = `Cabo Frio está localizado no litoral do Rio, na região conhecida como Região dos Lagos, a uma distância de aproximadamente 150 km da capital. Suas praias são seu principal destaque, sendo a mais conhecida a Praia do Forte, mas com destaque também para a Praia das Conchas e a Praia do Japonês, esta última ideal para a prática do surfe. Há também o Forte São Mateus, construção histórica localizada na Praia do Forte `
+        } else if (estado == '5') {
+            imagem.innerHTML = `<img src= "../public/assets/imgs/Pontos/imgParaty.jpg">`
+            aprenda.innerHTML = `Paraty é um município localizado perto da divisa entre os estados de São Paulo e Rio de Janeiro, estando próximos 280 km de São Paulo e 250 km do Rio de Janeiro. Seus atrativos incluem a Serra do Mar, as cachoeiras, como a do Iriri e da Pedra Branca que são ótimas para um banho natural, as diversas praias, como Itanema e dos Ranchos, além dos prédios da época do Brasil Colonial. Mas o principal atrativo é a Festa Literária Internacional de Paraty, a FLIP, uma das mais importantes da América Latina e que reúne escritores consagrados do Brasil e da América Latina.`
+        } else if (estado == '6') {
+            imagem.innerHTML = `<img src= "../public/assets/imgs/Pontos/imgItatiaia.jpg">`
+            aprenda.innerHTML = `O Parque Nacional do Itatiaia fica localizado no município de mesmo nome, a 183 km da capital Rio de Janeiro. Além da grande biodiversidade existente, o parque também se destaca como um local propício para a prática do montanhismo e para a caminhada em trilhas. Quem desejar pode se banhar nas cachoeiras, como a Santa Clara, a Véu da Noiva e a Itaporani. É conhecido também por ser um dos poucos locais no país com registro de neve (o último em 2012).`
+        } else if (estado == '7') {
+            imagem.innerHTML = `<img src= "../public/assets/imgs/Pontos/imgPetropolis.webp">`
+            aprenda.innerHTML = `Petrópolis fica localizada na Região Metropolitana do Rio, a 70 km da capital. Petrópolis se destaca pelas construções da época colonial do país, como o Palácio Rio Negro, o Palácio Quitandinha e o que hoje abriga o Museu Imperial, com mobiliários que foram de Dom Pedro II. Outra construção chamativa é a Catedral de Petrópolis. Cabe lembrar que o município é delimitado pelo Parque Nacional da Serra dos Órgãos, o que o torna um destino muito apreciado pelos cariocas que querem dar um tempo das praias e do agito da capital.`
+        }
+    }
+    function voltar() {
+        let sltDestino = document.getElementById('sltDestino');
+        let aprenda = document.getElementById('aprenda');
+        let imagem = document.getElementById('imagem');
+        sltDestino.value = '0';
+        city.style.display = 'none';
+        state.style.display = 'none';
+        destino.style.display = 'block';
+        aprenda.innerHTML = '';
+        imagem.innerHTML = '';
+    }
+</script>
