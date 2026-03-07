@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 
+
+
 body {
   margin: 0;
   padding: 0;
@@ -152,6 +154,11 @@ body {
   padding: 5%;
 }
 
+.IMGgraficos img {
+  width: 300px;
+  height: auto;
+}
+
 .boxNossoServico {
   background-color: #FFFFFF;
   width: 80vw;
@@ -184,4 +191,87 @@ body {
 
 .textoFooter {
   padding: 3vw;
+}
+
+
+@media only screen and (max-width: 600px) {
+body {
+  font-size: 12px;
+}
+
+  .header {
+  background-image: linear-gradient(rgb(255, 211, 129), white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0%;
+  height: 10vh;
+}
+
+.logo img {
+    height: 10vh;
+}
+
+  .btnHome,
+  .btnSobre,
+  .btnPontos,
+  .btnLogin {
+    font-size: 12px;
+  }
+
+  .botao {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .headerClick {
+    gap: 10px;
+  }
+
+  .capaKPI {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: -20vh;
+  }
+
+  .imagemRio {
+  height: 100%;
+  width: 100%;
+}
+
+.texto {
+  left: 5%;
+  top: 30%;
+  transform: translateY(-50%);
+}
+
+  .boxKPI {
+    width: 40%;
+    height: 12vh;
+    font-size: 14px;
+  }
+
+  .servicosEx {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .IMGgraficos img {
+    width: 70%;
+    max-width: 200px;
+  }
+
+  .boxNossoServico {
+    width: 90%;
+    height: auto;
+    margin: 20px auto;
+    padding: 10px;
+  }
+
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
 }
