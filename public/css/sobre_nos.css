@@ -102,7 +102,8 @@ body {
     flex-direction: column;
 }
 .caixa {
-    background-color: #5b739e67;
+    background-image: url(/TourTech/public/assets/img/pexels-joao-ricardo-januzzi-94538344-9229056.jpg);
+    background-size: 110vh 90vh; 
     height: 30vh;
     width: 84vh;
     text-align: center;
@@ -111,13 +112,12 @@ body {
     margin-bottom: 8vh;
     border-style: solid;
     border: 1vh solid #1c2a29;
-    background-image: url(./img/pexels-joao-victor-valeriote-3691654-5535714.jpg);
-    background-size: 110vh 90vh;
     font-size: medium;
     line-height: 5vh;
 }
 .caixa p{
     font-size: 2.6vh;
+    font-weight: 400;
 }
 .corpo_sobreNos {
     background-color: #5b739e8d;
@@ -144,14 +144,13 @@ body {
     padding: 10vh;
     height: 30vh;
     width: 30vh;
-    background-image: url(./img/pexels-elijahsad-3473569.jpg);
+    background-image: url(/TourTech/public/assets/img/pexels-elijahsad-3473569.jpg);
     background-size: 100vh 50vh;
     line-height: 3vh;
     letter-spacing: 1px;
+    font-weight: 400;
 }
-.box1 p{
-    color: white;
-}
+
 .box2 {
     display: flex;
     justify-content: center;
@@ -164,14 +163,13 @@ body {
     padding: 10vh;
     height: 30vh;
     width: 30vh;
-    background-image: url(./img/pexels-elijahsad-3473569.jpg);
+    background-image: url(/TourTech/public/assets/img/pexels-elijahsad-3473569.jpg);
     background-size: 100vh 50vh;
     line-height: 3vh;
     letter-spacing: 1px;
+    font-weight: 400;
 }
-.box2{
-    color: white;
-}
+
 .container_parte2 {
     display: flex;
     justify-content: center;
@@ -300,5 +298,25 @@ body {
 .container_parte2 {
     gap: 19px;
 }
+.footer {
+    font-size: 1.0vh;
+    flex-direction: row;
+    text-align: center;
+    gap: 3vh;
+  }
 
+  .textoFooter h4{
+    width: 100%;
+  }
+
+  .logoDown{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logoDown img{
+    height: 10vh;
+  }
 }
