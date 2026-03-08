@@ -18,6 +18,12 @@ body {
     margin-bottom: 3vh;
 }
 
+.logo:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: 0.2s;
+}
+
 .forms {
     background-color: rgba(255, 255, 255, 0.85);
     width: 45vw;
@@ -89,9 +95,10 @@ body {
     gap: 0.8vh;
 }
 
-.call-to-action p{
+.call-to-action p {
     margin: 0;
 }
+
 .ancora {
     color: #379c63;
     text-decoration: none;
@@ -111,7 +118,7 @@ body {
     padding-left: 0.4vh;
 }
 
-.esqueceu-senha:hover{
+.esqueceu-senha:hover {
     transform: scale(1.05);
 }
 
