@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-image: linear-gradient(rgb(125, 226, 249), white);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400; /* normal */
+}
+
+.header {
+  background-image: linear-gradient(rgb(255, 211, 129), white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 10vh;
+}
+
+.logo img {
+  height: 15vh; /* controla tamanho do logo */
+  cursor: pointer;
+}
+
+.logo img:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.header .headerClick {
+  display:flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 5%;
+}
+
+.btnHome {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  
+}
+
+.btnSobre {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.btnPontos {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.btnLogin {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.botao {
+  background: linear-gradient(135deg, #ff8c00, #ffa500);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.botao:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.menu {
+    display: flex;
+    justify-content: center;
+}
+
+.menu p {
+    margin-left: 35px;
+    margin-right: 35px;
+}
+.titulo {
+    text-decoration-line:underline;
+}
+.titulo2{  
+    text-decoration-line:underline;
+}
+.conteudo {
+    background-color: #ffffff71;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.caixa {
+    background-color: #5b739e67;
+    height: 30vh;
+    width: 84vh;
+    text-align: center;
+    border-radius: 2vh;
+    padding: 13vh;
+    margin-bottom: 8vh;
+    border-style: solid;
+    border: 1vh solid #1c2a29;
+    background-image: url(./img/pexels-joao-victor-valeriote-3691654-5535714.jpg);
+    background-size: 110vh 90vh;
+    font-size: medium;
+    line-height: 5vh;
+}
+.caixa p{
+    font-size: 2.6vh;
+}
+.corpo_sobreNos {
+    background-color: #5b739e8d;
+    height: 100%;
+
+}
+
+.container_parte1 {
+    display: flex;
+    justify-content: center;
+    gap: 55px;
+    margin-bottom: 45px;
+}
+
+.box1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    border-style: solid;
+    border: 0.70vh solid #1c2a29;
+    border-radius: 2vh;
+    padding: 10vh;
+    height: 30vh;
+    width: 30vh;
+    background-image: url(./img/pexels-elijahsad-3473569.jpg);
+    background-size: 100vh 50vh;
+    line-height: 3vh;
+    letter-spacing: 1px;
+}
+.box1 p{
+    color: white;
+}
+.box2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    border-style: solid;
+    border: 0.70vh solid #1c2a29;
+    border-radius: 2vh;
+    padding: 10vh;
+    height: 30vh;
+    width: 30vh;
+    background-image: url(./img/pexels-elijahsad-3473569.jpg);
+    background-size: 100vh 50vh;
+    line-height: 3vh;
+    letter-spacing: 1px;
+}
+.box2{
+    color: white;
+}
+.container_parte2 {
+    display: flex;
+    justify-content: center;
+    gap: 55px;
+    margin-bottom: 50px;
+}
+
+.rodape {
+    background-color: #1c2a29;
+    display: flex;
+    height: 25.0vh;
+}
+.footer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  background-color: #495E51;
+  color: #FFFFFF;
+  gap: 20vh;
+}
+
+.textoFooter {
+  max-width: 30%;
+  padding: 3vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contato{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoDown img{
+  height: 30vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.imgBranca {
+  filter: brightness(0) invert(1);
+  width: 40px;
+  height: auto;
+}
+@media (max-width: 992px) {
+    body {
+    margin: 0px;
+    padding: 0px;
+}
+  .header {
+  background-image: linear-gradient(rgb(255, 211, 129), white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0%;
+  height: 10vh;
+}
+
+.logo img {
+    height: 10vh;
+}
+
+  .btnHome,
+  .btnSobre,
+  .btnPontos,
+  .btnLogin {
+    font-size: 12px;
+  }
+
+  .botao {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .headerClick {
+    gap: 10px;
+  }
+.caixa {
+    width: 25vh;
+    height: 31vh;
+    padding: 80px;
+    line-height: 5.5vw;
+    margin-bottom: 4px;
+}
+.caixa p{
+    font-size: 4.5vw;
+    letter-spacing: -1px;
+}
+
+.corpo_sobreNos {
+    width: 40vh;
+    height: 50vh;
+}
+.box1 {
+    width: 0vh;
+    height: 47vw;
+}
+.box1 p{
+    font-size: 3.5vw;
+    line-height: 5vw;
+    letter-spacing: 1px;
+}
+.box1 h3{
+    font-size: 1vw;
+    letter-spacing: 2px;
+}
+.container_parte1{
+    gap: 19px;
+}
+.box2 {
+    width: 0vh;
+    height: 47vw;
+}
+.box2 p{
+    font-size: 3.5vw;
+    line-height: 5vw;
+    letter-spacing: 1px;
+}
+.box2 h3{
+    font-size: 0vw;
+    letter-spacing: 2px;
+}
+.container_parte2 {
+    gap: 19px;
+}
+
+}
