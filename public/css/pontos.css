@@ -8,74 +8,74 @@ body {
 }
 
 .header {
-  background-image: linear-gradient(rgb(255, 211, 129), white);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 5%;
-  height: 10vh;
+    background-image: linear-gradient(rgb(255, 211, 129), white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 10vh;
 }
 
 .logo img {
-  height: 15vh;
-  cursor: pointer;
+    height: 15vh;
+    cursor: pointer;
 }
 
 .logo img:hover {
-  opacity: 0.8;
-  transform: scale(1.05);
-  transition: 0.2s;
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: 0.2s;
 }
 
 .header .headerClick {
-  display:flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  gap: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 5%;
 }
 
 .btnHome {
-  text-decoration: none;
-  color: black;
-  font-weight: 600;
-  
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+
 }
 
 .btnSobre {
-  text-decoration: none;
-  color: black;
-  font-weight: 600;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
 }
 
 .btnPontos {
-  text-decoration: none;
-  color: black;
-  font-weight: 600;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
 }
 
 .btnLogin {
-  text-decoration: none;
-  color: black;
-  font-weight: 600;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
 }
 
 .botao {
-  background: linear-gradient(135deg, #ff8c00, #ffa500);
-  color: white;
-  border: none;
-  border-radius: 30px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+    background: linear-gradient(135deg, #ff8c00, #ffa500);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
 
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .botao:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .main {
@@ -172,15 +172,33 @@ body {
 }
 
 .footer {
-  width: 100%;
-  height: auto;
-  display: flex;
-  background-color: #495E51;
-  color: #FFFFFF;
+    width: 100%;
+    height: auto;
+    display: flex;
+    background-color: #495E51;
+    color: #FFFFFF;
+    gap: 20vh;
 }
 
 .textoFooter {
-  padding: 3vw;
+    max-width: 30%;
+    padding: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contato {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoDown img {
+    height: 30vh;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 /* TABLETS (até 992px) */
@@ -196,7 +214,7 @@ body {
         margin-left: -10%;
     }
 
-    .logo{
+    .logo {
         width: 70%;
     }
 
@@ -205,7 +223,7 @@ body {
         height: auto;
     }
 
-    .headerClick{
+    .headerClick {
         display: flex;
         justify-content: flex-start;
         margin-left: -10%;
@@ -214,7 +232,7 @@ body {
         height: auto;
     }
 
-    .botao{
+    .botao {
         width: 30%;
         padding: 3%;
         font-size: 1.6vh;
@@ -280,10 +298,25 @@ body {
     }
 
     .footer {
+        font-size: 1.0vh;
+        flex-direction: row;
+        text-align: center;
+        gap: 2vh;
+    }
+
+    .textoFooter h4 {
         width: 100%;
+    }
+
+    .logoDown {
+        width: 50%;
+        display: flex;
+        justify-content: center;
         align-items: center;
-        margin: 0;
-        padding: 0;
+    }
+
+    .logoDown img {
+        height: 15vh;
     }
 
 }
@@ -300,7 +333,7 @@ body {
         margin-left: -10%;
     }
 
-    .logo{
+    .logo {
         width: 70%;
     }
 
@@ -309,7 +342,7 @@ body {
         height: auto;
     }
 
-    .headerClick{
+    .headerClick {
         display: flex;
         justify-content: flex-start;
         margin-left: -10%;
@@ -318,7 +351,7 @@ body {
         height: auto;
     }
 
-    .botao{
+    .botao {
         width: 60%;
         padding: 3%;
         font-size: 1.4vh;
@@ -385,8 +418,25 @@ body {
     }
 
     .footer {
+        font-size: 1.0vh;
+        flex-direction: row;
+        text-align: center;
+        gap: 3vh;
+    }
+
+    .textoFooter h4 {
         width: 100%;
+    }
+
+    .logoDown {
+        width: 80%;
+        display: flex;
+        justify-content: center;
         align-items: center;
+    }
+
+    .logoDown img {
+        height: 10vh;
     }
 
 }
