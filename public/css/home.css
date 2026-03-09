@@ -215,7 +215,7 @@ body {
   align-items: center;
 }
 
-.contato{
+.contatoFooter{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -232,6 +232,77 @@ body {
   filter: brightness(0) invert(1);
   width: 40px;
   height: auto;
+}
+
+.textEntreContato{
+  text-align: center;
+  max-width: 600px;
+  margin: -2vh auto 4vh auto;
+  color: #555;
+  font-size: 18px;
+}
+
+.boxInformacoes{
+  display: flex;
+  justify-content: center;
+  gap: 3vw;
+  padding: 2vh 4vw;
+}
+
+.cardContato{
+  background: white;
+  border-radius: 20px;
+  padding: 30px 25px;
+  width: 18vw;
+  text-align: center;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardContato:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+
+.iconeContato{
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+
+.cardContato h3{
+  margin-bottom: 8px;
+  color: #333;
+}
+
+
+.cardContato p{
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 18px;
+}
+
+.contato{
+  text-decoration: none;
+  background: linear-gradient(135deg,#ff8c00,#ffa500);
+  color: white;
+  padding: 10px 22px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 18px;
+
+  transition: all 0.25s ease;
+}
+
+.contato:hover{
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 @media only screen and (max-width: 600px) {
@@ -330,5 +401,15 @@ body {
   .logoDown img{
     height: 10vh;
   }
+
+    .boxInformacoes{
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cardContato{
+  width: 80%;
+}
 
 }
