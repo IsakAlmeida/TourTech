@@ -1,0 +1,22 @@
+info:
+  name: Logar
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:3333/autenticacao/logar
+  body:
+    type: json
+    data: |-
+      {
+        "emailServer": "isak@email.com",
+        "senhaServer": "123456"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

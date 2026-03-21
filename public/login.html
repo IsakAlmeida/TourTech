@@ -28,28 +28,88 @@
             <span class="error" id="errorSenha"></span>
             <a onclick="" class="esqueceu-senha">Esqueci minha senha</a>
         </div>
-
+        <span class=loading id="loading"></span>
         <button class="btnEntrar" onclick="entrar()">Entrar</button>
-        <div class="call-to-action"><p>Ainda não tem uma conta?</p> <a href="cadastro.html" class="ancora">Cadastre-se</a></div>
+        <div class="call-to-action">
+            <p>Ainda não tem uma conta?</p> <a href="cadastro.html" class="ancora">Cadastre-se</a>
+        </div>
     </div>
 </body>
+
 </html>
 <script>
     errorSenha = document.getElementById("errorSenha");
     errorLogin = document.getElementById("errorLogin");
+    loading = document.getElementById("loading");
 
-    function entrar(){
+    function entrar() {
         errorLogin.innerHTML = "";
         errorSenha.innerHTML = "";
 
         var login = iptLogin.value;
         var senha = iptSenha.value;
+        var camposValidos = true;
 
-        if(login == ""){
+        if (login == "") {
             errorLogin.innerHTML = `Preencha o campo Login!`;
-        } 
-        if(senha == ""){
+            camposValidos = false;
+        }
+        if (senha == "") {
             errorSenha.innerHTML = `Preencha o campo Senha!`;
+            camposValidos = false;
+        }
+
+        if (camposValidos) {
+            fetch("/autenticacao/logar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    emailServer: login,
+                    senhaServer: senha
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()")
+
+                if (resposta.ok) {
+                    console.log(resposta);
+
+                    resposta.json().then(json => {
+                        console.log(json);
+                        console.log(JSON.stringify(json));
+                        sessionStorage.EMAIL_USUARIO = json.email;
+                        sessionStorage.NOME_USUARIO = json.nome;
+                        sessionStorage.ID_USUARIO = json.idUsuario;
+                        sessionStorage.NIVEL_ACESSO = json.nivelAcesso;
+
+                        loading.style.display = "flex";
+                        loading.innerHTML = `<img src="assets/imgs/login/loading.gif">`;
+                        setTimeout(function () {
+                            window.location = "./dashboard/cards.html";
+                        }, 1000); // apenas para exibir o loading
+
+                    });
+
+                } else {
+
+                    console.log("Houve um erro ao tentar realizar o login!");
+
+                    if (resposta.status == 403) {
+                        errorSenha.innerHTML = `Credenciais inválidas!`;
+                    } else {
+                        errorSenha.innerHTML = `Usuário já utilizando este sistema!`;
+                    }
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        finalizarAguardar(texto);
+                    });
+                }
+            }).catch(function (erro) {
+                console.log(erro);
+            })
+
+            return false;
         }
 
 

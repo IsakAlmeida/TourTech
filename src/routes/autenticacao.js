@@ -12,4 +12,5 @@ router.post("/logar", function (req, res) {
     autenticacaoController.logar(req, res);
 });
 
+
 module.exports = router;

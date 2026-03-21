@@ -10,13 +10,14 @@ function logar(req, res) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
 
-        autenticacaoModel.autenticar(email, senha)
+        autenticacaoModel.logar(email, senha)
             .then(
                 function (resultadoLogar) {
                     console.log(`\nResultados encontrados: ${resultadoLogar.length}`);
                     console.log(`Resultados: ${JSON.stringify(resultadoLogar)}`); // transforma JSON em String
 
                     if (resultadoLogar.length == 1) {
+                        res.send(resultadoLogar);
                         console.log(resultadoLogar);
                     } else if (resultadoLogar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
@@ -40,7 +41,8 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-    var fkEmpresa = req.body.idEmpresaVincularServer;
+    var fkEmpresa = req.body.idEmpresaServer;
+    var fkNivelAcesso = req.body.idNivelAcessoServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -51,10 +53,11 @@ function cadastrar(req, res) {
         res.status(400).send("Sua senha está undefined!");
     } else if (fkEmpresa == undefined) {
         res.status(400).send("Sua empresa a vincular está undefined!");
+    } else if (fkNivelAcesso == undefined) {
+        res.status(400).send("Seu nível de acesso está undefined!")
     } else {
-
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha, fkEmpresa)
+        autenticacaoModel.cadastrar(nome, email, senha, fkEmpresa, fkNivelAcesso)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -72,7 +75,30 @@ function cadastrar(req, res) {
     }
 }
 
+function verificarToken(req, res) {
+    var codigoToken = req.body.codigoTokenServer;
+    if (codigoToken == undefined) res.status(400).send("Seu nível de acesso está undefined!");
+    else {
+        autenticacaoModel.verificarToken(codigoToken)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro no token! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            )
+    }
+}
+
 module.exports = {
-    autenticar,
-    cadastrar
+    logar,
+    cadastrar,
+    verificarToken
 }

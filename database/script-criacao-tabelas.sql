@@ -3,6 +3,14 @@
 CREATE DATABASE tourTech;
 USE tourTech;
 
+-- TABELA EMPRESA
+CREATE TABLE empresa (
+    idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
+    razaoSocial VARCHAR(100),
+    nomeFantasia VARCHAR(100),
+    cnpj CHAR(14)
+);
+
 -- TABELA NIVEL ACESSO
 CREATE TABLE nivelAcesso (
     idNivelAcesso INT PRIMARY KEY AUTO_INCREMENT,
@@ -17,7 +25,9 @@ CREATE TABLE usuario (
     email VARCHAR(45),
     senha VARCHAR(12),
     fkNivelAcesso INT,
-    FOREIGN KEY (fkNivelAcesso) REFERENCES nivelAcesso(idNivelAcesso)
+    fkEmpresa INT,
+    FOREIGN KEY (fkNivelAcesso) REFERENCES nivelAcesso(idNivelAcesso),
+    FOREIGN KEY (fkEmpresa) REFERENCES empresa(idEmpresa)
 );
 
 -- TABELA LOG SISTEMA
@@ -26,16 +36,6 @@ CREATE TABLE logSistema (
     evento VARCHAR(50),
     data DATE,
     hora TIME,
-    fkUsuario INT,
-    FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
-);
-
--- TABELA EMPRESA
-CREATE TABLE empresa (
-    idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
-    razaoSocial VARCHAR(100),
-    nomeFantasia VARCHAR(100),
-    cnpj CHAR(14),
     fkUsuario INT,
     FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
 );
