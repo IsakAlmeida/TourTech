@@ -78,10 +78,10 @@
                     resposta.json().then(json => {
                         console.log(json);
                         console.log(JSON.stringify(json));
-                        sessionStorage.EMAIL_USUARIO = json.email;
-                        sessionStorage.NOME_USUARIO = json.nome;
-                        sessionStorage.ID_USUARIO = json.idUsuario;
-                        sessionStorage.NIVEL_ACESSO = json.nivelAcesso;
+                        sessionStorage.EMAIL_USUARIO = json[0].email;
+                        sessionStorage.NOME_USUARIO = json[0].nome;
+                        sessionStorage.ID_USUARIO = json[0].idUsuario;
+                        sessionStorage.NIVEL_ACESSO = json[0].nivelAcesso;
 
                         loading.style.display = "flex";
                         loading.innerHTML = `<img src="assets/imgs/login/loading.gif">`;
@@ -99,7 +99,7 @@
                         errorSenha.innerHTML = `Credenciais inválidas!`;
                     } else {
                         errorSenha.innerHTML = `Usuário já utilizando este sistema!`;
-                    }
+                        }
                     resposta.text().then(texto => {
                         console.error(texto);
                         finalizarAguardar(texto);

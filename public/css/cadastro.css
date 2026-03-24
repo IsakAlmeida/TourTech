@@ -89,7 +89,7 @@ body {
 }
 
 
-.btnEntrar {
+.btnCadastrar {
     background-color: #1E73B8;
     color: #fff;
     border-radius: 2vh;
@@ -101,7 +101,7 @@ body {
     transition: 0.2s;
 }
 
-.btnEntrar:hover {
+.btnCadastrar:hover {
     transform: scale(1.08);
     box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.3);
 }
@@ -131,6 +131,18 @@ body {
     transform: scale(1.05);
 }
 
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2vh;
+}
 
 /* TABLETS (até 992px) */
 @media (max-width: 992px) {
@@ -158,7 +170,7 @@ body {
         height: 4.5vh;
     }
 
-    .btnEntrar {
+    .btnCadastrar {
         width: 30vw;
         height: 4.5vh;
     }
@@ -192,7 +204,7 @@ body {
         height: 4.5vh;
     }
 
-    .btnEntrar {
+    .btnCadastrar {
         width: 50vw;
         height: 4.5vh;
     }

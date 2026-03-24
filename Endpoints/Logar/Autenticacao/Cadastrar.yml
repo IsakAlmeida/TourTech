@@ -1,17 +1,20 @@
 info:
-  name: Logar
+  name: Cadastrar
   type: http
-  seq: 1
+  seq: 3
 
 http:
   method: POST
-  url: "{{localhost}}/autenticacao/logar"
+  url: "{{localhost}}/autenticacao/cadastrar"
   body:
     type: json
     data: |-
       {
         "emailServer": "bruno@gmail.com",
-        "senhaServer": "123456"
+        "senhaServer": "senha123",
+        "nomeServer": "bruno",
+        "empresaServer": "1",
+        "nivelAcessoServer": "2"
       }
   auth: inherit
 

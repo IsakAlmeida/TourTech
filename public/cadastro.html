@@ -44,8 +44,8 @@
             <input type="text" id="iptToken" placeholder="Token da sua empresa para criação de conta">
             <span class="error" id="errorToken"></span>
         </div>
-
-        <button class="btnEntrar" onclick="entrar()">Entrar</button>
+        <span id="loading" class="loading"></span>
+        <button class="btnCadastrar" onclick="cadastrar()">Cadastrar</button>
         <div class="call-to-action">
             <p>Já possui uma conta?</p> <a href="login.html" class="ancora">Login</a>
         </div>
@@ -60,7 +60,7 @@
     errorConfirmacaoSenha = document.getElementById("errorConfirmacaoSenha");
     errorToken = document.getElementById("errorToken");
 
-    function entrar() {
+    function cadastrar() {
         errorEmail.innerHTML = "";
         errorSenha.innerHTML = "";
         errorConfirmacaoSenha.innerHTML = "";
@@ -81,12 +81,95 @@
         if (confirmacaoSenha == "") errorConfirmacaoSenha.innerHTML = `Preencha o campo Confirmação de Senha!`, camposVazios = true;
         if (token == "") errorToken.innerHTML = `Preencha o campo Token!`, camposVazios = true;
 
-        if(!camposVazios){
-            if(nome.length < 5) errorNome.innerHTML = `O Nome deve conter mais de 5 caracteres`;
-            if(!email.includes("@") || !email.includes(".")) errorEmail.innerHTML = `O email deve conter '@' e '.'`;
-            if(senha.length < 5) errorSenha.innerHTML = `Senha deve conter mais de 5 caracteres`;
-            if(confirmacaoSenha != senha) errorConfirmacaoSenha.innerHTML = `As senhas devem ser iguais`;
+        if (!camposVazios) {
+            if (nome.length < 5) errorNome.innerHTML = `O Nome deve conter mais de 5 caracteres`;
+            if (!email.includes("@") || !email.includes(".")) errorEmail.innerHTML = `O email deve conter '@' e '.'`;
+            if (senha.length < 5) errorSenha.innerHTML = `Senha deve conter mais de 5 caracteres`;
+            if (confirmacaoSenha != senha) errorConfirmacaoSenha.innerHTML = `As senhas devem ser iguais`;
             // if(token) fazer validação se o token existe
+
+            fetch("/autenticacao/verificarToken", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    tokenServer: token
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU BUSCANDO O TOKEN...")
+
+                if (resposta.ok) {
+                    resposta.json().then(res => {
+                        console.log(resposta);
+                        var nivelAcesso = res[0].idNivelAcesso;
+                        var fkEmpresa = res[0].fkEmpresa;
+
+                        console.log("FAZENDO CADASTRO...")
+
+                        fetch("/autenticacao/cadastrar", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                emailServer: email,
+                                senhaServer: senha,
+                                nomeServer: nome,
+                                empresaServer: fkEmpresa,
+                                nivelAcessoServer: nivelAcesso
+                            })
+                        }).then(function (resposta) {
+                            console.log("ESTOU NO THEN DO cadastrar()")
+
+                            if (resposta.ok) {
+                                console.log(resposta);
+                                loading.style.display = "flex";
+                                loading.innerHTML = `<img src="assets/imgs/login/loading.gif">`;
+                                setTimeout(function () {
+                                    window.location = "./login.html";
+                                }, 1000); // apenas para exibir o loading
+                            } else {
+
+                                console.log("Houve um erro ao tentar realizar o cadastro!");
+
+                                if (resposta.status == 409) {
+                                    errorEmail.innerHTML = `Email já cadastrado!`;
+                                } else {
+                                    errorToken.innerHTML = `Erro no sistema! Tente novamente mais tarde!`;
+                                }
+
+                                resposta.text().then(texto => {
+                                    console.error(texto);
+                                    finalizarAguardar(texto);
+                                });
+                            }
+                        }).catch(function (erro) {
+                            console.log(erro);
+                        })
+                    });
+
+                    return false;
+
+                } else {
+                    console.log("Houve um erro ao localizar o token!");
+
+                    if (resposta.status == 403) {
+                        errorToken.innerHTML = `Token inválido!`;
+                    } else {
+                        errorToken.innerHTML = `Erro no sistema!`;
+                    }
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        finalizarAguardar(texto);
+                    });
+                }
+            }).catch(function (erro) {
+                console.log(erro);
+            })
+
+            return false;
+
         }
 
 

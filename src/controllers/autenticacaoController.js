@@ -41,8 +41,8 @@ function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-    var fkEmpresa = req.body.idEmpresaServer;
-    var fkNivelAcesso = req.body.idNivelAcessoServer;
+    var fkEmpresa = req.body.empresaServer;
+    var fkNivelAcesso = req.body.nivelAcessoServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -69,20 +69,29 @@ function cadastrar(req, res) {
                         "\nHouve um erro ao realizar o cadastro! Erro: ",
                         erro.sqlMessage
                     );
-                    res.status(500).json(erro.sqlMessage);
+                    if (erro.code == "ER_DUP_ENTRY") {
+                        res.status(409).send("Email duplicado");
+                    } else {
+                        res.status(500).json(erro.sqlMessage);
+                    }
                 }
             );
     }
 }
 
 function verificarToken(req, res) {
-    var codigoToken = req.body.codigoTokenServer;
-    if (codigoToken == undefined) res.status(400).send("Seu nível de acesso está undefined!");
+    var codigoToken = req.body.tokenServer;
+    if (codigoToken == undefined) res.status(400).send("Seu token está undefined!");
     else {
         autenticacaoModel.verificarToken(codigoToken)
             .then(
-                function (resultado) {
-                    res.json(resultado);
+                function (resultadoToken) {
+                    if (resultadoToken.length == 1) {
+                        res.send(resultadoToken);
+                        console.log(resultadoToken);
+                    } else if (resultadoToken.length == 0) {
+                        res.status(403).send("Token inválido");
+                    }
                 }
             ).catch(
                 function (erro) {

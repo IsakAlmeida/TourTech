@@ -12,5 +12,8 @@ router.post("/logar", function (req, res) {
     autenticacaoController.logar(req, res);
 });
 
+router.post("/verificarToken", function(req, res){
+    autenticacaoController.verificarToken(req, res);
+})
 
 module.exports = router;

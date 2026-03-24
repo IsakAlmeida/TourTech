@@ -8,7 +8,7 @@ CREATE TABLE empresa (
     idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
     razaoSocial VARCHAR(100),
     nomeFantasia VARCHAR(100),
-    cnpj CHAR(14)
+    cnpj CHAR(14) UNIQUE
 );
 
 -- TABELA NIVEL ACESSO
@@ -22,7 +22,7 @@ CREATE TABLE nivelAcesso (
 CREATE TABLE usuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(200),
-    email VARCHAR(45),
+    email VARCHAR(45) UNIQUE,
     senha VARCHAR(12),
     fkNivelAcesso INT,
     fkEmpresa INT,
@@ -43,7 +43,7 @@ CREATE TABLE logSistema (
 -- TABELA TOKEN CADASTRO
 CREATE TABLE tokenCadastro (
     idToken INT PRIMARY KEY AUTO_INCREMENT,
-    codigoToken VARCHAR(6),
+    codigoToken VARCHAR(6) UNIQUE,
     dataCriacao DATE,
     fkEmpresa INT,
     fkNivelAcesso INT,
