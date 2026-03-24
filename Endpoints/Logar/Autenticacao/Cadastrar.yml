@@ -1,0 +1,25 @@
+info:
+  name: Cadastrar
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{localhost}}/autenticacao/cadastrar"
+  body:
+    type: json
+    data: |-
+      {
+        "emailServer": "bruno@gmail.com",
+        "senhaServer": "senha123",
+        "nomeServer": "bruno",
+        "empresaServer": "1",
+        "nivelAcessoServer": "2"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

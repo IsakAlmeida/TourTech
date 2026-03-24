@@ -1,0 +1,21 @@
+info:
+  name: Verificar Token
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{localhost}}/autenticacao/verificarToken"
+  body:
+    type: json
+    data: |-
+      {
+        "tokenServer": "CDE456"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
