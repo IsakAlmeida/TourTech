@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AquaTech | Dashboards</title>
 
-
+    
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
     <script src="../js/sessao.js"></script>
@@ -32,7 +32,7 @@
 
     <div class="janela">
         <div class="header-left">
-            <h1>TourTech</h1>
+            <h1>AquaTech</h1>
 
             <div class="hello">
                 <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
@@ -40,7 +40,7 @@
 
             <div class="btn-nav-white">
                 <a href="./cards.html">
-                    <h3>HomePage</h3>
+                    <h3>PrimeiraPagina</h3>
                 </a>
             </div>
 
@@ -75,20 +75,14 @@
         </div>
 
         <div class="dash">
-            <div class="superior">
-                <div class="bar">
-                    <canvas id="myChart"></canvas>
-                </div>
-
-                <div class="doughnut">
-                    <canvas id="myChart2"></canvas>
-                </div>
+            <div id="alerta">
             </div>
 
-            <div class="line">
-                <canvas id="myChart3"></canvas>
+            <div class="btns-dash" id="btnAquario">
+                <!-- O gráfico é chamado de acordo com o id (fk_aquario) do banco  -->
             </div>
-
+            <div id="graficos">
+            </div>
         </div>
     </div>
 
@@ -101,111 +95,6 @@
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
     let proximaAtualizacao;
-
-    const ctx1 = document.getElementById('myChart');
-
-    new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: ['São Paulo', 'Minas Gerais', 'Espírito Santos', 'Goias', 'Distrito Federal', 'Outros'],
-            datasets: [{
-                label: 'Numero de visitantes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Estados que mais vão para o Rio de Janeiro',
-                    color: '#000',
-                    font: {
-                        size: 20,
-                        weight: 'bold'
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    const ctx2 = document.getElementById('myChart2');
-
-    new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-            labels: ['Brasil', 'Estados Unidos', 'X', 'Y', 'Z', 'Outros'],
-            datasets: [{
-                label: 'estrangeiros X brasileiros',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Turistas por país',
-                    color: '#000',
-                    font: {
-                        size: 20,
-                        weight: 'bold'
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-
-    const ctx3 = document.getElementById('myChart3');
-
-    new Chart(ctx3, {
-        type: 'line',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Número de turistas/mês',
-                    color: '#000',
-                    font: {
-                        size: 20,
-                        weight: 'bold'
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-
 
     window.onload = exibirAquariosDoUsuario();
 
