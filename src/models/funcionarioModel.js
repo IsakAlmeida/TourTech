@@ -4,31 +4,18 @@ var database = require("../database/config");
 function listar(id_empresa) {
     var instrucaoSql = `
         SELECT 
-            idUsuario,
-            nome,
-            email,
-            fkEmpresa,
-            fkNivelAcesso
-        FROM usuario
-        WHERE fkEmpresa = ${id_empresa};
-    `;
-
-    console.log("Executando SQL:\n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-
-// Nivel Acesso
-function buscarNiveisAcesso(id_empresa, id_usuario) {
-    var instrucaoSql = `
-        SELECT 
+            u.idUsuario,
+            u.nome,
+            u.email,
+            u.fkEmpresa,
             na.nivel
         FROM usuario u
         JOIN nivelAcesso na 
             ON u.fkNivelAcesso = na.idNivelAcesso
-        WHERE u.fkEmpresa = ${id_empresa}
-        AND u.idUsuario = ${id_usuario};
+        WHERE u.fkEmpresa = ${id_empresa};
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+    console.log("Executando SQL:\n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
@@ -57,6 +44,14 @@ function cadastrar(nome, email, senha, fkNivelAcesso, fkEmpresa) {
 }
 
 
+function listarNiveis() {
+    var instrucaoSql = `
+        SELECT idNivelAcesso, nivel FROM nivelAcesso;
+    `;
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 // Atualizar
 function atualizar(id_usuario, id_empresa, senha) {
     var instrucaoSql = `
@@ -81,8 +76,8 @@ function deletar(id_usuario, id_empresa) {
 
 module.exports = {
     listar,
-    buscarNiveisAcesso,
     cadastrar,
+    listarNiveis,
     atualizar,
     deletar
 }

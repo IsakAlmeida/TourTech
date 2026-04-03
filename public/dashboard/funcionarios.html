@@ -154,52 +154,26 @@
                         const lista = document.getElementById('lista-funcionarios');
                         lista.innerHTML = "";
 
-                        vt_funcionarios.forEach((funcionario, i) => {
+                        vt_funcionarios.forEach((funcionario) => {
 
                             lista.innerHTML += `
                     <div class="linha informacao">
-                        <div class="coluna check"><input type="checkbox"></div>
+                        <div class="coluna check"><input type="checkbox" value="${funcionario.idUsuario}"></div>
                         <div class="coluna">${funcionario.nome}</div>
                         <div class="coluna">
-                            <span id="lista_${i}" class="nivel"></span>
+                            <span class="nivel">${funcionario.nivel}</span>
                         </div>
                         <div class="coluna">${funcionario.email}</div>
                         <div class="coluna">
-                            <button class="btn-editar onclick="editar()"">Editar</button>
+                            <button class="btn-editar onclick="editar()">Editar</button>
                         </div>
                     </div>
                 `;
 
-                            fetch(`/funcionarios/niveisAcesso`, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                    id_empresa: funcionario.fkEmpresa,
-                                    id_usuario: funcionario.idUsuario
-                                })
-                            })
-                                .then(resultado => {
-                                    if (!resultado.ok) {
-                                        throw new Error("Erro ao buscar nível");
-                                    }
-                                    return resultado.json();
-                                })
-                                .then(vt_niveis_acesso => {
-                                    const spanNivel = document.getElementById(`lista_${i}`);
-
-                                    if (vt_niveis_acesso.length > 0) {
-                                        spanNivel.innerHTML = vt_niveis_acesso[0].nivel;
-                                    } else {
-                                        spanNivel.innerHTML = "Sem nível";
-                                    }
-                                })
-                                .catch(erro => console.log("Erro nível:", erro));
-
                         });
                     })
-                    .catch(erro => console.log("Erro funcionários:", erro));
+                    .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+
             }
 
         </script>

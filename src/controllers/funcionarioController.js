@@ -18,25 +18,6 @@ function listar(req, res) {
 }
 
 
-// Nivel Acesso
-function buscarNiveisAcesso(req, res) {
-    let id_empresa = req.body.id_empresa
-    let id_usuario = req.body.id_usuario;
-
-    funcionarioModel.buscarNiveisAcesso(id_empresa, id_usuario).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Controller: Nenhum nível de acesso encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Controller: Houve um erro ao buscar os níveis de acesso: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-
-
 // Cadastrar Funcionario
 function cadastrar(req, res) {
     var nome = req.body.nome;
@@ -69,6 +50,23 @@ function cadastrar(req, res) {
         });
 }
 
+
+// Niveis
+function listarNiveis(req, res) {
+    funcionarioModel.listarNiveis()
+    .then(function (resultado) {
+            res.status(200).json({
+                mensagem: "Controller: Nivel listado com sucesso", resultado
+            });
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Controller: Houve um erro ao listar os niveis: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
 
 
 // Atualizar Senha
@@ -118,8 +116,8 @@ function deletar(req, res) {
 
 module.exports = {
     listar,
-    buscarNiveisAcesso,
     cadastrar,
+    listarNiveis,
     atualizar,
     deletar
 };
