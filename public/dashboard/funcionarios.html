@@ -104,7 +104,6 @@
                         <div class="coluna">Nome</div>
                         <div class="coluna">Cargo</div>
                         <div class="coluna">E-mail</div>
-                        <div class="coluna">Número</div>
                         <div class="coluna"></div>
                     </div>
 
@@ -160,12 +159,11 @@
                             lista.innerHTML += `
                     <div class="linha informacao">
                         <div class="coluna check"><input type="checkbox"></div>
-                        <div class="coluna">${funcionario.nome} ${funcionario.sobrenome}</div>
+                        <div class="coluna">${funcionario.nome}</div>
                         <div class="coluna">
                             <span id="lista_${i}" class="nivel"></span>
                         </div>
                         <div class="coluna">${funcionario.email}</div>
-                        <div class="coluna">${funcionario.telefone}</div>
                         <div class="coluna">
                             <button class="btn-editar onclick="editar()"">Editar</button>
                         </div>
@@ -179,7 +177,7 @@
                                 },
                                 body: JSON.stringify({
                                     id_empresa: funcionario.fkEmpresa,
-                                    id_funcionario: funcionario.idFuncionario
+                                    id_usuario: funcionario.idUsuario
                                 })
                             })
                                 .then(resultado => {

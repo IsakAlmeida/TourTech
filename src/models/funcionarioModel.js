@@ -3,31 +3,30 @@ var database = require("../database/config");
 // Listar Funcionario 
 function listar(id_empresa) {
     var instrucaoSql = `
-        SELECT
-            idFuncionario,
+        SELECT 
+            idUsuario,
             nome,
-            sobrenome,
             email,
-            telefone,
-            senha,
-            fkEmpresa
-        FROM funcionario
-        WHERE fKEmpresa = ${id_empresa};
+            fkEmpresa,
+            fkNivelAcesso
+        FROM usuario
+        WHERE fkEmpresa = ${id_empresa};
     `;
-    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+
+    console.log("Executando SQL:\n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-
 // Nivel Acesso
-function buscarNiveisAcesso(id_empresa, id_funcionario) {
+function buscarNiveisAcesso(id_empresa, id_usuario) {
     var instrucaoSql = `
-        SELECT
+        SELECT 
             na.nivel
-        FROM acessoFuncionario af
-        JOIN nivelAcesso na
-            ON af.fkNivelAcesso = na.idNivelAcesso
-        WHERE af.fKEmpresa = ${id_empresa} AND af.fkFuncionario = ${id_funcionario};
+        FROM usuario u
+        JOIN nivelAcesso na 
+            ON u.fkNivelAcesso = na.idNivelAcesso
+        WHERE u.fkEmpresa = ${id_empresa}
+        AND u.idUsuario = ${id_usuario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -35,25 +34,21 @@ function buscarNiveisAcesso(id_empresa, id_funcionario) {
 
 
 // Cadastrar Funcionario
-function cadastrar(nome, sobrenome, email, telefone, senha, fkEmpresa) {
-
+function cadastrar(nome, email, senha, fkNivelAcesso, fkEmpresa) {
     var instrucao = `
-        INSERT INTO funcionario ( nome, sobrenome, email, telefone, senha, fkEmpresa)
-        VALUES ('${nome}', '${sobrenome}', '${email}', '${telefone}', '${senha}', ${fkEmpresa});
-    `;
-
-    console.log("Model: Executando SQL:", instrucao);
-
-    return database.executar(instrucao);
-}
-
-
-// Cadastrar nivel de acesso
-function cadastrarAcessoFuncionario(fkFuncionario, fkEmpresa, fkNivelAcesso) {
-
-    var instrucao = `
-        INSERT INTO acessoFuncionario ( fkFuncionario, fkEmpresa, fkNivelAcesso)
-        VALUES ('${fkFuncionario}', ${fkEmpresa}, ${fkNivelAcesso});
+        INSERT INTO usuario (
+            nome,
+            email,
+            senha,
+            fkNivelAcesso,
+            fkEmpresa
+        ) VALUES (
+            '${nome}',
+            '${email}',
+            '${senha}',
+            ${fkNivelAcesso},
+            ${fkEmpresa}
+        );
     `;
 
     console.log("Model: Executando SQL:", instrucao);
@@ -63,21 +58,31 @@ function cadastrarAcessoFuncionario(fkFuncionario, fkEmpresa, fkNivelAcesso) {
 
 
 // Atualizar
-function atualizar(id_funcionario, id_empresa, senha) {
-    var instrucao = `
-        UPDATE funcionario SET senha = '${senha}'
-        WHERE idFuncionario = ${id_funcionario} AND fkEmpresa = ${id_empresa};
+function atualizar(id_usuario, id_empresa, senha) {
+    var instrucaoSql = `
+        UPDATE usuario SET senha = '${senha}'
+        WHERE idUsuario = ${id_usuario}
+        AND fkEmpresa = ${id_empresa};
     `;
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
-    console.log("Model: Executando SQL:", instrucao);
-
-    return database.executar(instrucao);
+// Deletar
+function deletar(id_usuario, id_empresa) {
+    var instrucaoSql = `
+        DELETE FROM usuario
+        WHERE idUsuario = ${id_usuario}
+        AND fkEmpresa = ${id_empresa};
+    `;
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
     listar,
     buscarNiveisAcesso,
     cadastrar,
-    cadastrarAcessoFuncionario,
-    atualizar
+    atualizar,
+    deletar
 }

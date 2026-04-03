@@ -21,9 +21,9 @@ function listar(req, res) {
 // Nivel Acesso
 function buscarNiveisAcesso(req, res) {
     let id_empresa = req.body.id_empresa
-    let id_funcionario = req.body.id_funcionario
+    let id_usuario = req.body.id_usuario;
 
-    funcionarioModel.buscarNiveisAcesso(id_empresa, id_funcionario).then(function (resultado) {
+    funcionarioModel.buscarNiveisAcesso(id_empresa, id_usuario).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -42,19 +42,20 @@ function cadastrar(req, res) {
     var nome = req.body.nome;
     var sobrenome = req.body.sobrenome;
     var email = req.body.email;
-    var telefone = req.body.telefone;
     var senha = req.body.senha;
     var fkEmpresa = req.body.fkEmpresa;
 
-    if (!nome || !sobrenome || !email || !telefone || !senha || !fkEmpresa) {
+    var nomeCompleto = nome + " " + sobrenome;
+
+    if (!nome || !sobrenome || !email || !senha || !fkNivelAcesso || !fkEmpresa) {
         return res.status(400).json({
             erro: "Controller: Todos os campos são obrigatórios"
         });
     }
-    console.log("Cadastrando funcionário:", { nome, sobrenome, email, telefone, senha, fkEmpresa });
+    console.log("Controller: Cadastrando funcionário:", { nomeCompleto, email, senha, fkNivelAcesso, fkEmpresa });
 
 
-    funcionarioModel.cadastrar(nome, sobrenome, email, telefone, senha, fkEmpresa)
+    funcionarioModel.cadastrar(nomeCompleto, email, senha, fkNivelAcesso, fkEmpresa)
         .then(function (resultado) {
             res.status(201).json({
                 mensagem: "Controller: Funcionário cadastrado com sucesso", resultado
@@ -69,34 +70,17 @@ function cadastrar(req, res) {
 }
 
 
-// Cadastrar nivel de acesso
-function cadastrarAcessoFuncionario(req, res) {
-    var fkFuncionario = req.body.id_funcionario;
-    var fkEmpresa = req.body.id_empresa;
-    var fkNivelAcesso = req.body.id_nivel_acesso;
 
-    funcionarioModel.cadastrarAcessoFuncionario(fkFuncionario, fkEmpresa, fkNivelAcesso)
-        .then(function (resultado) {
-            res.status(201).json({ mensagem: "Controller: Nível de acesso do funcionário cadastrado com sucesso", resultado });
-        })
-        .catch(function (erro) {
-            console.error("Controller: Erro ao cadastrar nível de acesso do funcionário:", erro);
-            res.status(500).json({
-                erro: "Controller: Erro interno ao cadastrar nível de acesso do funcionário"
-            });
-        });
-}
-
-// Atualizar
+// Atualizar Senha
 function atualizar(req, res) {
-    var id_funcionario = req.body.idFuncionarioServer
-    var id_empresa = req.body.idEmpresaServer
-    var senha = req.body.senhaServer
+    var id_usuario = req.body.idUsuario;
+    var id_empresa = req.body.idEmpresa;
+    var senha = req.body.senha;
 
-    funcionarioModel.atualizar(id_funcionario, id_empresa, senha)
+    funcionarioModel.atualizar(id_usuario, id_empresa, senha)
         .then(function (resultado) {
             res.status(200).json({
-                mensagem: "Atualizado com sucesso", resultado
+                mensagem: "Controller: Atualizado com sucesso", resultado
             });
         })
         .catch(
@@ -109,10 +93,33 @@ function atualizar(req, res) {
 }
 
 
+// Deletar usuario
+function deletar(req, res) {
+    var id_usuario = req.body.idUsuario;
+    var id_empresa = req.body.idEmpresa;
+
+    funcionarioModel.deletar(id_usuario, id_empresa)
+        .then(function (resultado) {
+            res.status(200).json({
+                mensagem: "Controller: Deletado com sucesso", resultado
+
+            });
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Controller: Houve um erro ao deletar o perfil: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+
+
 module.exports = {
     listar,
     buscarNiveisAcesso,
     cadastrar,
-    cadastrarAcessoFuncionario,
-    atualizar
+    atualizar,
+    deletar
 };
