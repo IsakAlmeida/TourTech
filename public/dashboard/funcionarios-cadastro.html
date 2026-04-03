@@ -26,8 +26,6 @@
 </head>
 
 
-<!-- <body onload=" atualizarFeed()"> -->
-
 <body>
     <!--Menu-->
     <div class="janela">
@@ -46,7 +44,7 @@
             </div>
 
             <div class="btn-nav">
-                 <a href="./funcionarios.html"></a>
+                <a href="./funcionarios.html"></a>
                 <h3>Funcionarios</h3>
                 </a>
             </div>
@@ -74,8 +72,67 @@
 
         </div>
         <!--Final Menu-->
+
+        
         <main>
-            </main>
-    
+            <!--Cadastro-->
+            <div class="caixa-cadastro">
+                <h1>Cadastrar Funcionários</h1>
+                <p>Digite os dados dos funcionários abaixo</p>
+
+                <div class="formato-linha">
+                    <div class="campo">
+                        <label>Nome</label>
+                        <input type="text" placeholder="Digite o nome">
+                        <span class="error" id="errorNome"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label>Sobrenome</label>
+                        <input type="text" placeholder="Digite o sobrenome">
+                        <span class="error" id="errorSobrenome"></span>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label>Email</label>
+                    <input type="email" placeholder="Digite o email">
+                    <span class="error" id="errorEmail"></span>
+                </div>
+
+                <div class="campo">
+                    <label>Telefone</label>
+                    <input type="text" placeholder="Digite o telefone">
+                    <span class="error" id="errorTelefone"></span>
+                </div>
+
+                <div class="campo">
+                    <label>Cargo</label>
+                    <select>
+                        <option>Selecione um cargo</option>
+                        <option>Gerente</option>
+                        <option>Funcionário</option>
+                    </select>
+                    <span class="error" id="errorCargo"></span>
+                </div>
+
+                <div class="campo">
+                    <label>Senha</label>
+                    <input type="password" placeholder="Digite a senha">
+                    <span class="error" id="errorSenha"></span>
+                </div>
+
+                <div class="campo">
+                    <label>Confirmar Senha</label>
+                    <input type="password" placeholder="Confirme a senha">
+                    <span class="error" id="errorConfirmacaoSenha"></span>
+                </div>
+                <div
+
+                <button class="btn-cadastrar">Cadastrar</button>
+            </div>
+        </main>
+
 </body>
+
 </html>
