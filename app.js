@@ -15,21 +15,31 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
+// ROTAS DO SISTEMA
 var indexRouter = require("./src/routes/index");
 var autenticacaoRouter = require("./src/routes/autenticacao");
+var funcionariosRouter  = require("./src/routes/funcionarios");
 
+// CONFIGURAÇÕES DO EXPRESS
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-
 app.use(cors());
 
+// USO DAS ROTAS
 app.use("/", indexRouter);
 app.use("/autenticacao", autenticacaoRouter);
+app.use("/funcionarios", funcionariosRouter);
 
-
+// INICIANDO SERVIDOR
 app.listen(PORTA_APP, function () {
     console.log(`
+  _____               _____         _     
+ |_   _|__  _   _ _ _|_   _|__  ___| |__  
+   | |/ _ \| | | | '__|| |/ _ \/ __| '_ \ 
+   | | (_) | |_| | |   | |  __/ (__| | | |
+   |_|\___/ \__,_|_|   |_|\___|\___|_| |_|
+   \n\n                                   
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
     ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##         ##  
     ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##        ##   

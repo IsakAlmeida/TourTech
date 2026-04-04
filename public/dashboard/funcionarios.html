@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourTech | Funcionarios</title>
+
+
+    <link rel="stylesheet" href="./../css/funcionarios.css">
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- scripts do Chart.js - 2022-1 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!--FONT AWESOME-->
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body onload="listarFuncionarios()"> 
+
+    <!--Menu-->
+    <div class="janela">
+
+        <div class="header-left">
+            <h1>TourTech</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav">
+                <h3>Funcionarios</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Estabelecimento</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Pacotes</h3>
+                </a>
+            </div>
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Suporte</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+        <!--Final Menu-->
+        <main>
+
+            <div class="dash">
+
+                <div class="topo">
+                    <h2>Funcionários</h2>
+                    <div></div>
+
+                    <!-- Ações tabela -->
+                    <div class="separacao">
+
+                        <div class="buscar">
+                            <input type="text" placeholder="Pesquisa">
+                        </div>
+
+                        <div class="acoes">
+                            <button class="btn-adicionar" onclick="adicionar()">+ Adicionar</button>
+                            <button class="btn-excluir" onclick="excluir()">Excluir</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tabela -->
+                <div class="tabela">
+
+                    <div class="linha descricao">
+                        <div class="coluna check"><input type="checkbox"></div>
+                        <div class="coluna">Nome</div>
+                        <div class="coluna">Cargo</div>
+                        <div class="coluna">E-mail</div>
+                        <div class="coluna"></div>
+                    </div>
+
+                    <!--Lista-->
+                    <div id="lista-funcionarios"></div>
+
+                    
+                    <div class="linha informacao">
+                        <div class="coluna check"><input type="checkbox"></div>
+                        <div class="coluna">Clara C</div>
+                        <div class="coluna"><span class="nivel">ADM</span></div>
+                        <div class="coluna">email@email.com</div>
+                        <div class="coluna"><button class="btn-editar">Editar</button></div>
+                    </div>
+                    <div class="linha informacao">
+                        <div class="coluna check"><input type="checkbox"></div>
+                        <div class="coluna">Matheus M</div>
+                        <div class="coluna"><span class="nivel">Funcionario</span></div>
+                        <div class="coluna">email@email.com</div>
+                        <div class="coluna"><button class="btn-editar">Editar</button></div>
+                    </div>
+                     
+                </div>
+
+            </div>
+
+        </main>
+
+        <script>
+             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+             
+            function adicionar() {
+                window.location = "./funcionarios-cadastro.html";
+            }
+
+            function listarFuncionarios() {
+                const idEmpresa = sessionStorage.getItem('ID_EMPRESA');
+
+                fetch(`/funcionarios/listar/${idEmpresa}`)
+                    .then(resposta => {
+                        if (!resposta.ok) {
+                            throw new Error("Erro ao listar funcionários");
+                        }
+                        return resposta.json();
+                    })
+                    .then(vt_funcionarios => {
+
+                        const lista = document.getElementById('lista-funcionarios');
+                        lista.innerHTML = "";
+
+                        vt_funcionarios.forEach((funcionario) => {
+
+                            lista.innerHTML += `
+                    <div class="linha informacao">
+                        <div class="coluna check"><input type="checkbox" value="${funcionario.idUsuario}"></div>
+                        <div class="coluna">${funcionario.nome}</div>
+                        <div class="coluna">
+                            <span class="nivel">${funcionario.nivel}</span>
+                        </div>
+                        <div class="coluna">${funcionario.email}</div>
+                        <div class="coluna">
+                            <button class="btn-editar" onclick="editar()">Editar</button>
+                        </div>
+                    </div>
+                `;
+
+                        });
+                    })
+                    .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+
+            }
+
+        </script>
+
+</body>
+
+</html>

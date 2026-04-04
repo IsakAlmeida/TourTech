@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourTech | Cadastro de Funcionarios</title>
+
+
+    <link rel="stylesheet" href="./../css/funcionarios.css">
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- scripts do Chart.js - 2022-1 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!--FONT AWESOME-->
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body onload="listarNiveis()">
+    <!--Menu-->
+    <div class="janela">
+
+        <div class="header-left">
+            <h1>TourTech</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav">
+                <a href="./funcionarios.html"></a>
+                <h3>Funcionarios</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Estabelecimento</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Pacotes</h3>
+                </a>
+            </div>
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Suporte</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+        <!--Final Menu-->
+
+
+        <main>
+            <!--Cadastro-->
+            <div class="caixa-cadastro">
+                <h1>Cadastrar Funcionários</h1>
+                <p>Digite os dados dos funcionários abaixo</p>
+
+                <div class="formato-linha">
+                    <div class="campo">
+                        <label>Nome</label>
+                        <input id="iptNome" type="text" placeholder="Digite o nome">
+                        <span class="error" id="errorNome"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label>Sobrenome</label>
+                        <input id="iptSobrenome" type="text" placeholder="Digite o sobrenome">
+                        <span class="error" id="errorSobrenome"></span>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label>Email</label>
+                    <input id="iptEmail" type="email" placeholder="Digite o email">
+                    <span class="error" id="errorEmail"></span>
+                </div>
+
+                <div class="campo">
+                    <label>Cargo</label>
+                    <select id="iptCargo">
+                        <option>Carregando cargos...</option>
+                    </select>
+                    <span class="error" id="errorCargo"></span>
+                </div>
+
+                <div class="campo">
+                    <label>Senha</label>
+                    <input id="iptSenha" type="password" placeholder="Digite a senha">
+                    <span class="error" id="errorSenha"></span>
+                </div>
+
+                <div class="campo">
+                    <label>Confirmar Senha</label>
+                    <input id="iptConfirmacaoSenha" type="password" placeholder="Confirme a senha">
+                    <span class="error" id="errorConfirmacaoSenha"></span>
+                </div>
+
+                <span id="loading" class="loading"></span>
+                <button class="btn-cadastrar" onclick="cadastrar()">Cadastrar</button>
+
+            </div>
+        </main>
+
+        <script>
+             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+            var errorNome = document.getElementById("errorNome");
+            var errorEmail = document.getElementById("errorEmail");
+            var errorCargo = document.getElementById("errorCargo");
+            var errorSenha = document.getElementById("errorSenha");
+            var errorConfirmacaoSenha = document.getElementById("errorConfirmacaoSenha");
+
+            function listarNiveis() {
+                fetch("/funcionarios/listarNiveis")
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                         console.log("ESTOU NO THEN select funcionarios(cadastro)");
+
+                        var select = document.getElementById("iptCargo");
+                        select.innerHTML = `<option value="">Selecione um cargo</option>`;
+
+                        for (var i = 0; i < dados.length; i++) {
+                            select.innerHTML += `
+                        <option value="${dados[i].idNivelAcesso}">
+                            ${dados[i].nivel}
+                        </option>
+                    `;
+                        }
+                        console.log("Niveis carregado com sucesso");
+                    })
+                    .catch(function (erro) {
+                        console.log("Erro ao carregar níveis:", erro);
+                    });
+            }
+
+            function cadastrar() {
+
+                errorNome.innerHTML = "";
+                errorEmail.innerHTML = "";
+                errorCargo.innerHTML = "";
+                errorSenha.innerHTML = "";
+                errorConfirmacaoSenha.innerHTML = "";
+
+                var nome = iptNome.value;
+                var sobrenome = iptSobrenome.value;
+                var email = iptEmail.value;
+                var cargo = iptCargo.value;
+                var senha = iptSenha.value;
+                var confirmacaoSenha = iptConfirmacaoSenha.value;
+                var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+                var erro = false;
+
+                if (nome == "") { 
+                    errorNome.innerHTML = "Preencha o nome"; erro = true; 
+                }
+                if (email == "") { 
+                    errorEmail.innerHTML = "Preencha o email"; erro = true; 
+                }
+                if (cargo == "") { 
+                    errorCargo.innerHTML = "Selecione um cargo"; erro = true;
+                 }
+                if (senha == "") { 
+                    errorSenha.innerHTML = "Preencha a senha"; erro = true;
+                 }
+                if (confirmacaoSenha != senha) { 
+                    errorConfirmacaoSenha.innerHTML = "Senhas diferentes"; erro = true;
+                 }
+
+                if (erro){
+
+                fetch("/funcionarios/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        nome: nome,
+                        sobrenome: sobrenome,
+                        email: email,
+                        senha: senha,
+                        fkEmpresa: fkEmpresa,
+                        fkNivelAcesso: cargo
+                    })
+                })
+                    .then(function (resposta) {
+                        console.log("ESTOU NO THEN cadastrar FUNCIONARIOS");
+
+                        if (resposta.ok) {
+                            console.log("Funcionário cadastrado!");
+                            window.location = "./funcionarios.html";
+                        } else if (resposta.status == 409) {
+                            errorEmail.innerHTML = "Email já existe";
+                        } else {
+                           console.log("Erro ao cadastrar");
+                        }
+                    })
+                    .catch(function (erro) {
+                        console.log(erro);
+                        console.log("Erro ao cadastrar!");
+                    });
+            }
+        }
+        </script>
+
+</body>
+
+</html>
