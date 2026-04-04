@@ -9,7 +9,7 @@
     <title>TourTech | Funcionarios</title>
 
 
-    <link rel="stylesheet" href="./../css/funcionarios.css">
+    <link rel="stylesheet" href="./../css/estabelecimento.css">
     <script src="../js/sessao.js"></script>
     <script src="./../js/alerta.js"></script>
 
@@ -44,12 +44,13 @@
                 </a>
             </div>
 
-            <div class="btn-nav">
-                <h3>Funcionarios</h3>
+             <div class="btn-nav-white">
+                <a href="./funcionarios.html">
+                    <h3>Funcionario</h3>
                 </a>
             </div>
 
-             <div class="btn-nav-white">
+            <div class="btn-nav">
                 <a href="./estabelecimento.html">
                     <h3>Estabelecimento</h3>
                 </a>
@@ -100,28 +101,28 @@
 
                     <div class="linha descricao">
                         <div class="coluna check"><input type="checkbox"></div>
-                        <div class="coluna">Nome</div>
-                        <div class="coluna">Cargo</div>
-                        <div class="coluna">E-mail</div>
+                        <div class="coluna">Razão Social</div>
+                        <div class="coluna">Nome Fantasia</div>
+                        <div class="coluna">CNPJ</div>
                         <div class="coluna"></div>
                     </div>
 
                     <!--Lista-->
-                    <div id="lista-funcionarios"></div>
+                    <div id="lista-empresa"></div>
 
                     
                     <div class="linha informacao">
                         <div class="coluna check"><input type="checkbox"></div>
-                        <div class="coluna">Clara C</div>
-                        <div class="coluna"><span class="nivel">ADM</span></div>
-                        <div class="coluna">email@email.com</div>
+                        <div class="coluna">Hotelaria Wick Ltda</div>
+                        <div class="coluna">Continental</div>
+                        <div class="coluna">26.922.889/0001-58</div>
                         <div class="coluna"><button class="btn-editar">Editar</button></div>
                     </div>
                     <div class="linha informacao">
                         <div class="coluna check"><input type="checkbox"></div>
-                        <div class="coluna">Matheus M</div>
-                        <div class="coluna"><span class="nivel">Funcionario</span></div>
-                        <div class="coluna">email@email.com</div>
+                        <div class="coluna">Alimentos Story Ltda</div>
+                        <div class="coluna"> Pizza Planet</div>
+                        <div class="coluna">28.466.829/0001-01</div>
                         <div class="coluna"><button class="btn-editar">Editar</button></div>
                     </div>
                      
@@ -131,52 +132,6 @@
 
         </main>
 
-        <script>
-             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-             
-            function adicionar() {
-                window.location = "./funcionarios-cadastro.html";
-            }
-
-            function listarFuncionarios() {
-                const idEmpresa = sessionStorage.getItem('ID_EMPRESA');
-
-                fetch(`/funcionarios/listar/${idEmpresa}`)
-                    .then(resposta => {
-                        if (!resposta.ok) {
-                            throw new Error("Erro ao listar funcionários");
-                        }
-                        return resposta.json();
-                    })
-                    .then(vt_funcionarios => {
-
-                        const lista = document.getElementById('lista-funcionarios');
-                        lista.innerHTML = "";
-
-                        vt_funcionarios.forEach((funcionario) => {
-
-                            lista.innerHTML += `
-                    <div class="linha informacao">
-                        <div class="coluna check"><input type="checkbox" value="${funcionario.idUsuario}"></div>
-                        <div class="coluna">${funcionario.nome}</div>
-                        <div class="coluna">
-                            <span class="nivel">${funcionario.nivel}</span>
-                        </div>
-                        <div class="coluna">${funcionario.email}</div>
-                        <div class="coluna">
-                            <button class="btn-editar" onclick="editar()">Editar</button>
-                        </div>
-                    </div>
-                `;
-
-                        });
-                    })
-                    .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
-
-            }
-
-        </script>
-
-</body>
+    </body>
 
 </html>
