@@ -26,9 +26,8 @@
 </head>
 
 
-<!-- <body onload="listarFuncionarios()"> -->
+<body onload="listarFuncionarios()"> 
 
-<body>
     <!--Menu-->
     <div class="janela">
 
@@ -110,13 +109,12 @@
                     <!--Lista-->
                     <div id="lista-funcionarios"></div>
 
-                    <!-- 
+                    
                     <div class="linha informacao">
                         <div class="coluna check"><input type="checkbox"></div>
                         <div class="coluna">Clara C</div>
                         <div class="coluna"><span class="nivel">ADM</span></div>
                         <div class="coluna">email@email.com</div>
-                        <div class="coluna">(11)912345-6789</div>
                         <div class="coluna"><button class="btn-editar">Editar</button></div>
                     </div>
                     <div class="linha informacao">
@@ -124,10 +122,9 @@
                         <div class="coluna">Matheus M</div>
                         <div class="coluna"><span class="nivel">Funcionario</span></div>
                         <div class="coluna">email@email.com</div>
-                        <div class="coluna">(11)912345-6789</div>
                         <div class="coluna"><button class="btn-editar">Editar</button></div>
                     </div>
-                     -->
+                     
                 </div>
 
             </div>
@@ -135,6 +132,8 @@
         </main>
 
         <script>
+             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+             
             function adicionar() {
                 window.location = "./funcionarios-cadastro.html";
             }
@@ -165,7 +164,7 @@
                         </div>
                         <div class="coluna">${funcionario.email}</div>
                         <div class="coluna">
-                            <button class="btn-editar onclick="editar()">Editar</button>
+                            <button class="btn-editar" onclick="editar()">Editar</button>
                         </div>
                     </div>
                 `;

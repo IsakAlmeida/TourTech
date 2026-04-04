@@ -210,7 +210,7 @@ main {
 
 .linha {
     display: grid;
-    grid-template-columns: 10% 10% 15% 30% 20% 10%;
+    grid-template-columns: 10% 15% 15% 40% 20%;
     padding: 12px;
     border-bottom: 1px solid #eee;
     align-items: center;

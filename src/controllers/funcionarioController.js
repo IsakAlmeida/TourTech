@@ -4,7 +4,8 @@ var funcionarioModel = require("../models/funcionarioModel");
 function listar(req, res) {
     let id_empresa = req.params.id_empresa
 
-    funcionarioModel.listar(id_empresa).then(function (resultado) {
+    funcionarioModel.listar(id_empresa)
+    .then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -24,6 +25,7 @@ function cadastrar(req, res) {
     var sobrenome = req.body.sobrenome;
     var email = req.body.email;
     var senha = req.body.senha;
+    var fkNivelAcesso = req.body.fkNivelAcesso;
     var fkEmpresa = req.body.fkEmpresa;
 
     var nomeCompleto = nome + " " + sobrenome;
@@ -43,10 +45,13 @@ function cadastrar(req, res) {
             });
         })
         .catch(function (erro) {
-            console.log("Controller: Erro ao cadastrar funcionário:", erro);
-            res.status(500).json({
-                erro: "Controller: Erro interno ao cadastrar funcionário"
-            });
+            console.log(erro);
+
+            if (erro.code == "ER_DUP_ENTRY") {
+                res.status(409).send("Email duplicado");
+            } else {
+                res.status(500).send("Erro no servidor");
+            }
         });
 }
 
@@ -54,7 +59,7 @@ function cadastrar(req, res) {
 // Niveis
 function listarNiveis(req, res) {
     funcionarioModel.listarNiveis()
-    .then(function (resultado) {
+        .then(function (resultado) {
             res.status(200).json({
                 mensagem: "Controller: Nivel listado com sucesso", resultado
             });
