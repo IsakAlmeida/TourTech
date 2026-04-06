@@ -1,6 +1,6 @@
 -- SCRIPT DE CRIAÇÃO DAS TABELAS
 
-CREATE DATABASE TourTech;
+DROP DATABASE TourTech;
 USE TourTech;
 
 -- TABELA DE NÍVEL DE ACESSO
@@ -8,6 +8,14 @@ CREATE TABLE nivelAcesso(
 idNivelAcesso INT PRIMARY KEY AUTO_INCREMENT,
 nivel VARCHAR(15) NOT NULL,
 descricao VARCHAR(50) NOT NULL);
+
+-- TABELA DAS EMPRESAS
+CREATE TABLE empresa(
+idempresa INT PRIMARY KEY AUTO_INCREMENT,
+razaoSocial VARCHAR(100) NOT NULL,
+nomeFantasia VARCHAR(100),
+cnpj CHAR(14) NOT NULL UNIQUE
+);
 
 -- TABELA DE USUÁRIO
 CREATE TABLE usuario(
@@ -17,19 +25,12 @@ email VARCHAR(45) NOT NULL UNIQUE,
 senha VARCHAR(12) NOT NULL,
 fkNivelAcesso INT,
 FOREIGN KEY (fkNivelAcesso)
-REFERENCES nivelAcesso(idNivelAcesso)
+REFERENCES nivelAcesso(idNivelAcesso),
+fkEmpresa INT,
+FOREIGN KEY (fkEmpresa)
+REFERENCES empresa(idEmpresa)
 );
 
--- TABELA DAS EMPRESAS
-CREATE TABLE empresa(
-idempresa INT PRIMARY KEY AUTO_INCREMENT,
-razaoSocial VARCHAR(100) NOT NULL,
-nomeFantasia VARCHAR(100),
-cnpj CHAR(14) NOT NULL UNIQUE,
-fkUsuario INT,
-FOREIGN KEY (fkUsuario)
-REFERENCES usuario(idUsuario)
-);
 
 -- TABELA DOS LOGS NO SISTEMA
 CREATE TABLE logSistema(
