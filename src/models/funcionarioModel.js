@@ -1,18 +1,19 @@
 var database = require("../database/config");
 
 // Listar Funcionario 
-function listar(id_empresa) {
+function listar(id_usuario) {
     var instrucaoSql = `
         SELECT 
             u.idUsuario,
             u.nome,
             u.email,
-            u.fkEmpresa,
-            na.nivel
+			na.nivel
         FROM usuario u
         JOIN nivelAcesso na 
             ON u.fkNivelAcesso = na.idNivelAcesso
-        WHERE u.fkEmpresa = ${id_empresa};
+            JOIN usuario f
+            ON u.fkEmpresa = f.fkEmpresa 
+        WHERE f.idUsuario = ${id_usuario};
     `;
 
     console.log("Executando SQL:\n" + instrucaoSql);
@@ -53,22 +54,20 @@ function listarNiveis() {
 }
 
 // Atualizar
-function atualizar(id_usuario, id_empresa, senha) {
+function atualizar(id_usuario, senha) {
     var instrucaoSql = `
         UPDATE usuario SET senha = '${senha}'
-        WHERE idUsuario = ${id_usuario}
-        AND fkEmpresa = ${id_empresa};
+        WHERE idUsuario = ${id_usuario};
     `;
     console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 // Deletar
-function deletar(id_usuario, id_empresa) {
+function deletar(id_usuario) {
     var instrucaoSql = `
         DELETE FROM usuario
-        WHERE idUsuario = ${id_usuario}
-        AND fkEmpresa = ${id_empresa};
+        WHERE idUsuario = ${id_usuario};
     `;
     console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
