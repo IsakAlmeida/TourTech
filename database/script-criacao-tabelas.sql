@@ -75,6 +75,7 @@ idHospedagem INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(100) NOT NULL,
 categoria VARCHAR(45) NOT NULL,
 qtdQuartos INT,
+multiligue boolean,
 fkMunicipio INT,
 FOREIGN KEY (fkMunicipio)
 REFERENCES municipio(idMunicipio)
