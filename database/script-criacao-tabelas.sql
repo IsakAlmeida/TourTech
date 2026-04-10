@@ -1,17 +1,18 @@
 -- SCRIPT DE CRIAÇÃO DAS TABELAS
 
-DROP DATABASE TourTech;
+CREATE DATABASE TourTech;
 USE TourTech;
 
 -- TABELA DE NÍVEL DE ACESSO
 CREATE TABLE nivelAcesso(
 idNivelAcesso INT PRIMARY KEY AUTO_INCREMENT,
 nivel VARCHAR(15) NOT NULL,
-descricao VARCHAR(50) NOT NULL);
+descricao VARCHAR(50) NOT NULL
+);
 
 -- TABELA DAS EMPRESAS
 CREATE TABLE empresa(
-idempresa INT PRIMARY KEY AUTO_INCREMENT,
+idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 razaoSocial VARCHAR(100) NOT NULL,
 nomeFantasia VARCHAR(100),
 cnpj CHAR(14) NOT NULL UNIQUE
@@ -19,24 +20,23 @@ cnpj CHAR(14) NOT NULL UNIQUE
 
 -- TABELA DE USUÁRIO
 CREATE TABLE usuario(
-idusuario INT PRIMARY KEY AUTO_INCREMENT,
+idUsuario INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(200) NOT NULL,
 email VARCHAR(45) NOT NULL UNIQUE,
 senha VARCHAR(12) NOT NULL,
 fkNivelAcesso INT,
+fkEmpresa INT,
 FOREIGN KEY (fkNivelAcesso)
 REFERENCES nivelAcesso(idNivelAcesso),
-fkEmpresa INT,
 FOREIGN KEY (fkEmpresa)
 REFERENCES empresa(idEmpresa)
 );
-
 
 -- TABELA DOS LOGS NO SISTEMA
 CREATE TABLE logSistema(
 idLog INT PRIMARY KEY AUTO_INCREMENT,
 evento VARCHAR(50) NOT NULL,
-date DATE NOT NULL,
+data DATE NOT NULL,
 hora TIME NOT NULL,
 fkUsuario INT,
 FOREIGN KEY (fkUsuario)
@@ -47,7 +47,8 @@ REFERENCES usuario(idUsuario)
 CREATE TABLE estado(
 idEstado INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45) NOT NULL UNIQUE,
-sigla CHAR(2) NOT NULL UNIQUE);
+sigla CHAR(2) NOT NULL UNIQUE
+);
 
 -- TABELA DOS MUNICÍPIOS
 CREATE TABLE municipio(
@@ -55,7 +56,8 @@ idMunicipio INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(100) NOT NULL,
 fkEstado INT,
 FOREIGN KEY (fkEstado)
-REFERENCES estado(idEstado));
+REFERENCES estado(idEstado)
+);
 
 -- TABELA DOS ATRATIVOS TURÍSTICOS
 CREATE TABLE atrativoTuristico(
@@ -64,7 +66,8 @@ nome VARCHAR(100) NOT NULL,
 categoria VARCHAR(45) NOT NULL,
 fkMunicipio INT,
 FOREIGN KEY (fkMunicipio)
-REFERENCES municipio(idMunicipio));
+REFERENCES municipio(idMunicipio)
+);
 
 -- TABELA DAS HOSPEDAGENS
 CREATE TABLE hospedagem(
@@ -74,36 +77,65 @@ categoria VARCHAR(45) NOT NULL,
 qtdQuartos INT,
 fkMunicipio INT,
 FOREIGN KEY (fkMunicipio)
-REFERENCES municipio(idMunicipio));
+REFERENCES municipio(idMunicipio)
+);
 
 -- TABELA DAS AVALIAÇÕES
 CREATE TABLE avaliacao(
 idAvaliacao INT PRIMARY KEY AUTO_INCREMENT,
-nota CHAR(1) NOT NULL,
-precoMedio VARCHAR(7) NOT NULL,
+nota INT NOT NULL,
+precoMedio DECIMAL(10,2) NOT NULL,
 fkHospedagem INT,
+fkAtrativo INT,
 FOREIGN KEY (fkHospedagem)
-REFERENCES hospedagem(idHospedagem));
+REFERENCES hospedagem(idHospedagem),
+FOREIGN KEY (fkAtrativo)
+REFERENCES atrativoTuristico(idAtrativo)
+);
+
+
+-- MÓDULO ANALÍTICO
+
+-- TABELA DE TEMPO
+CREATE TABLE tempo(
+idTempo INT PRIMARY KEY AUTO_INCREMENT,
+mes INT NOT NULL,
+nomeMes VARCHAR(15) NOT NULL,
+ano INT NOT NULL
+);
 
 -- TABELA DOS PAÍSES DE ORIGEM
 CREATE TABLE paisOrigem(
 idPais INT PRIMARY KEY AUTO_INCREMENT,
-nomePais VARCHAR(45) NOT NULL);
+nomePais VARCHAR(45) NOT NULL
+);
 
--- TABELA DA CHEGADA DE TURISTAS
+-- TABELA DE FATO - VISITAÇÃO DE ATRATIVOS
+CREATE TABLE fatoVisitaAtrativo(
+idFatoVisita INT PRIMARY KEY AUTO_INCREMENT,
+quantidade INT NOT NULL,
+fkTempo INT,
+fkAtrativo INT,
+fkPaisOrigem INT,
+FOREIGN KEY (fkTempo)
+REFERENCES tempo(idTempo),
+FOREIGN KEY (fkAtrativo)
+REFERENCES atrativoTuristico(idAtrativo),
+FOREIGN KEY (fkPaisOrigem)
+REFERENCES paisOrigem(idPais)
+);
+
+-- TABELA DE CHEGADA DE TURISTAS (GERAL)
 CREATE TABLE chegadaTurismo(
 idChegadaTurista INT PRIMARY KEY AUTO_INCREMENT,
-mes VARCHAR(15) NOT NULL,
 quantidade INT NOT NULL,
-fkPais INT,
-FOREIGN KEY (fkPais)
-REFERENCES paisOrigem(idPais),
 fkMunicipio INT,
+fkTempo INT,
 FOREIGN KEY (fkMunicipio)
 REFERENCES municipio(idMunicipio),
-fkEstado INT,
-FOREIGN KEY (fkEstado)
-REFERENCES estado(idEstado));
+FOREIGN KEY (fkTempo)
+REFERENCES tempo(idTempo)
+);
 
 -- TABELA DOS TOKENS DE CADASTRO
 CREATE TABLE tokenCadastro(
@@ -111,11 +143,12 @@ idToken INT PRIMARY KEY AUTO_INCREMENT,
 codigoToken VARCHAR(6) NOT NULL,
 dataCriacao DATE NOT NULL,
 fkEmpresa INT,
+fkNivelAcesso INT,
 FOREIGN KEY (fkEmpresa)
 REFERENCES empresa(idEmpresa),
-fkNivelAcesso INT,
 FOREIGN KEY (fkNivelAcesso)
-REFERENCES nivelAcesso(idNivelAcesso));
+REFERENCES nivelAcesso(idNivelAcesso)
+);
 
 -- TABELA DOS CHAMADOS DE SUPORTE
 CREATE TABLE chamadoSuporte(
@@ -128,4 +161,5 @@ dataAbertura DATE NOT NULL,
 horaAbertura TIME NOT NULL,
 fkUsuario INT,
 FOREIGN KEY (fkUsuario)
-REFERENCES usuario(idUsuario));
+REFERENCES usuario(idUsuario)
+);
