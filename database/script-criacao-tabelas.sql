@@ -74,8 +74,24 @@ CREATE TABLE hospedagem(
 idHospedagem INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(100) NOT NULL,
 categoria VARCHAR(45) NOT NULL,
-qtdQuartos INT,
-multiligue boolean,
+endereco VARCHAR(400) NOT NULL, 
+multilingue boolean,
+contato VARCHAR(15) NOT NULL,
+emailComercial VARCHAR(100) NOT NULL,
+fkMunicipio INT,
+FOREIGN KEY (fkMunicipio)
+REFERENCES municipio(idMunicipio)
+);
+
+-- TABELA DOS ESTABELECIMENTOS
+CREATE TABLE estabelecimentoAlimenticio(
+idEstabelecimento INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(100) NOT NULL,
+categoria VARCHAR(45) NOT NULL,
+endereco VARCHAR(400) NOT NULL, 
+multilingue boolean NOT NULL,
+contato VARCHAR(15) NOT NULL,
+emailComercial VARCHAR(100) NOT NULL,
 fkMunicipio INT,
 FOREIGN KEY (fkMunicipio)
 REFERENCES municipio(idMunicipio)
@@ -93,9 +109,6 @@ REFERENCES hospedagem(idHospedagem),
 FOREIGN KEY (fkAtrativo)
 REFERENCES atrativoTuristico(idAtrativo)
 );
-
-
--- MÓDULO ANALÍTICO
 
 -- TABELA DE TEMPO
 CREATE TABLE tempo(
@@ -163,4 +176,13 @@ horaAbertura TIME NOT NULL,
 fkUsuario INT,
 FOREIGN KEY (fkUsuario)
 REFERENCES usuario(idUsuario)
+);
+
+-- TABELA DE LOGS GERAIS
+CREATE TABLE logsGerais(
+idLogsGerais INT PRIMARY KEY AUTO_INCREMENT,
+dataHora DATETIME NOT NULL,
+evento VARCHAR(100) NOT NULL,
+status VARCHAR(15) NOT NULL,
+objeto VARCHAR(30) NOT NULL
 );
