@@ -74,12 +74,15 @@ function atualizar(req, res) {
 }
 
 
-// Deletar usuario
+// Deletar Estabelecimento
 function deletar(req, res) {
-    var cnpj = req.body.cnpj;
-    var id_empresa = req.body.idEmpresa;
+    var id_hospedagem = req.body.idHospedagem;
+     
+    if (!id_hospedagem) {
+        return res.status(400).send("ID não informado");
+    }
 
-    estabelecimentoModel.deletar(cnpj, id_empresa)
+    estabelecimentoModel.deletar(id_hospedagem)
         .then(function (resultado) {
             res.status(200).json({
                 mensagem: "Controller: Deletado com sucesso", resultado

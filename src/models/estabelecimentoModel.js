@@ -4,6 +4,7 @@ var database = require("../database/config");
 function listar() {
     var instrucaoSql = `
        SELECT 
+            h.idHospedagem,
             h.nome,
             h.categoria,
             a.nota,
@@ -53,12 +54,18 @@ function atualizar(id_hospedagem, nome) {
 
 // Deletar
 function deletar(id_hospedagem) {
-    var instrucaoSql = `
-        DELETE FROM hospedagem
-        WHERE idHospedagem = ${id_hospedagem};
+    var deletarAvaliacao = `
+        DELETE FROM avaliacao WHERE fkHospedagem = ${id_hospedagem};
     `;
-    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+
+    var deletarHospedagem = `
+        DELETE FROM hospedagem WHERE idHospedagem = ${id_hospedagem};
+    `;
+    
+    console.log("Model: Executando a instrução SQL: \n" + deletarAvaliacao);
+    console.log("Model: Executando a instrução SQL: \n" + deletarHospedagem);
+    return database.executar(deletarAvaliacao)
+        .then(() => database.executar(deletarHospedagem));
 }
 
 module.exports = {

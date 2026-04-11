@@ -26,7 +26,7 @@
 </head>
 
 
-<body onload="listarEstabelecimento()"> 
+<body onload="listarEstabelecimento()">
 
     <!--Menu-->
     <div class="janela">
@@ -44,7 +44,7 @@
                 </a>
             </div>
 
-             <div class="btn-nav-white">
+            <div class="btn-nav-white">
                 <a href="./funcionarios.html">
                     <h3>Funcionario</h3>
                 </a>
@@ -100,7 +100,9 @@
                 <div class="tabela">
 
                     <div class="linha descricao">
-                        <div class="coluna check"><input type="checkbox"></div>
+                        <div class="coluna check">
+                            <input type="checkbox" disabled>
+                        </div>
                         <div class="coluna">Nome</div>
                         <div class="coluna">Categoria</div>
                         <div class="coluna">Nota</div>
@@ -109,9 +111,11 @@
                     </div>
 
                     <!--Lista-->
-                    <div id="lista-empresa"></div>
+                    <div id="lista-empresa">
+                        <div id="lista"></div>
+                    </div>
 
-                    
+                    <!--
                     <div class="linha informacao">
                         <div class="coluna check"><input type="checkbox"></div>
                         <div class="coluna">Hotelaria Wick Ltda</div>
@@ -128,18 +132,20 @@
                         <div class="coluna">R$400</div>
                         <div class="coluna"><button class="btn-editar">Editar</button></div>
                     </div>
-                     
+                    -->
                 </div>
 
             </div>
 
         </main>
-<script>
-             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-             
+        <script>
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
             function adicionar() {
                 window.location = "./estabelecimento-cadastro.html";
             }
+
+            //LISTAR
 
             function listarEstabelecimento() {
 
@@ -174,7 +180,43 @@
 
             }
 
+            //EXCLUIR
+
+            function excluir() {
+                const checkboxes = document.querySelectorAll('#lista-empresa input[type="checkbox"]:checked');
+
+                if (checkboxes.length == 0) {
+                    console.log("Nenhum estabelecimento foi selecionado");
+                    return;
+                }
+
+                checkboxes.forEach((checkbox) => {
+                    const id_hospedagem = checkbox.value;
+
+                    fetch("/estabelecimento/deletar", {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            idHospedagem: id_hospedagem
+                        })
+                    })
+                        .then(res => {
+                            if (!res.ok) {
+                                throw new Error("Erro ao deletar");
+                            }
+                            return res.json();
+                        })
+                        .then(() => {
+                            console.log("Estabelecimento Deletado:", id_hospedagem);
+                            listarEstabelecimento();
+                        })
+                        .catch(err => console.log("Erro em deletar estabelecimento:", err));
+                });
+            }
+
         </script>
-    </body>
+</body>
 
 </html>
