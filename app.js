@@ -19,6 +19,7 @@ var app = express();
 var indexRouter = require("./src/routes/index");
 var autenticacaoRouter = require("./src/routes/autenticacao");
 var funcionariosRouter  = require("./src/routes/funcionarios");
+var estabelecimentoRouter  = require("./src/routes/estabelecimento");
 
 // CONFIGURAÇÕES DO EXPRESS
 app.use(express.json());
@@ -30,6 +31,7 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/autenticacao", autenticacaoRouter);
 app.use("/funcionarios", funcionariosRouter);
+app.use("/estabelecimento", estabelecimentoRouter);
 
 // INICIANDO SERVIDOR
 app.listen(PORTA_APP, function () {

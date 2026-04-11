@@ -4,7 +4,7 @@ var router = express.Router();
 var estabelecimentoController = require("../controllers/estabelecimentoController");
 
 // estabelecimento da empresa
-router.get("/listar/:id_empresa", function (req, res) {
+router.get("/listar", function (req, res) {
     estabelecimentoController.listar(req, res);
 });
 

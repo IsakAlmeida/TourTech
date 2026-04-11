@@ -2,9 +2,7 @@ var estabelecimentoModel = require("../models/estabelecimentoModel");
 
 // Listar estabelecimento
 function listar(req, res) {
-    let id_empresa = req.params.id_empresa
-
-    estabelecimentoModel.listar(id_empresa)
+    estabelecimentoModel.listar()
     .then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);

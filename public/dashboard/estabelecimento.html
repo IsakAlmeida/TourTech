@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TourTech | Funcionarios</title>
+    <title>TourTech | Estabelecimento</title>
 
 
     <link rel="stylesheet" href="./../css/estabelecimento.css">
@@ -26,7 +26,7 @@
 </head>
 
 
-<body onload="listarFuncionarios()"> 
+<body onload="listarEstabelecimento()"> 
 
     <!--Menu-->
     <div class="janela">
@@ -101,9 +101,10 @@
 
                     <div class="linha descricao">
                         <div class="coluna check"><input type="checkbox"></div>
-                        <div class="coluna">Razão Social</div>
-                        <div class="coluna">Nome Fantasia</div>
-                        <div class="coluna">CNPJ</div>
+                        <div class="coluna">Nome</div>
+                        <div class="coluna">Categoria</div>
+                        <div class="coluna">Nota</div>
+                        <div class="coluna">Preço Medio</div>
                         <div class="coluna"></div>
                     </div>
 
@@ -115,14 +116,16 @@
                         <div class="coluna check"><input type="checkbox"></div>
                         <div class="coluna">Hotelaria Wick Ltda</div>
                         <div class="coluna">Continental</div>
-                        <div class="coluna">26.922.889/0001-58</div>
+                        <div class="coluna">5</div>
+                        <div class="coluna">R$300</div>
                         <div class="coluna"><button class="btn-editar">Editar</button></div>
                     </div>
                     <div class="linha informacao">
                         <div class="coluna check"><input type="checkbox"></div>
                         <div class="coluna">Alimentos Story Ltda</div>
                         <div class="coluna"> Pizza Planet</div>
-                        <div class="coluna">28.466.829/0001-01</div>
+                        <div class="coluna">5</div>
+                        <div class="coluna">R$400</div>
                         <div class="coluna"><button class="btn-editar">Editar</button></div>
                     </div>
                      
@@ -131,7 +134,47 @@
             </div>
 
         </main>
+<script>
+             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+             
+            function adicionar() {
+                window.location = "./estabelecimento-cadastro.html";
+            }
 
+            function listarEstabelecimento() {
+
+                fetch(`/estabelecimento/listar`)
+                    .then(resposta => {
+                        if (!resposta.ok) {
+                            throw new Error("Erro ao listar Estabelecimento");
+                        }
+                        return resposta.json();
+                    })
+                    .then(vt_estabelecimento => {
+
+                        const lista = document.getElementById('lista-empresa');
+                        lista.innerHTML = "";
+
+                        vt_estabelecimento.forEach((estabelecimento) => {
+
+                            lista.innerHTML += `
+                     <div class="linha informacao">
+                        <div class="coluna check"><input type="checkbox" value="${estabelecimento.idHospedagem}"></div>
+                        <div class="coluna">${estabelecimento.nome}</div>
+                        <div class="coluna">${estabelecimento.categoria}</div>
+                        <div class="coluna">${estabelecimento.nota}</div>
+                        <div class="coluna">R$${estabelecimento.precoMedio}</div>
+                        <div class="coluna"><button class="btn-editar">Editar</button></div>
+                    </div>
+                `;
+
+                        });
+                    })
+                    .catch(erro => console.log("Erro em gerar lista de estabelecimento:", erro));
+
+            }
+
+        </script>
     </body>
 
 </html>
