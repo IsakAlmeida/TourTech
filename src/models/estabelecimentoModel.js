@@ -61,21 +61,62 @@ function cadastrar(nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio) {
 // Municipio
 function listarMunicipio() {
     var instrucaoSql = `
-        SELECT idMunicipio, nome FROM municipio;
+        SELECT 
+        idMunicipio, 
+        nome 
+        FROM municipio;
     `;
     console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
+// Buscar
+function buscarEstabelecimento(idHospedagem) {
+    var instrucao = `
+          SELECT 
+            h.idHospedagem,
+            h.nome,
+            h.categoria,
+            h.qtdQuartos,
+            m.idMunicipio,
+            a.nota, 
+            a.precoMedio
+        FROM hospedagem h
+        JOIN avaliacao a 
+        ON h.idHospedagem = a.fkHospedagem
+        JOIN municipio m
+        ON m.idMunicipio = h.fkMunicipio
+        WHERE h.idHospedagem = ${idHospedagem};
+    `;
+
+    console.log("Model: Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
 
 // Atualizar
-function atualizar(id_hospedagem, nome) {
-    var instrucaoSql = `
-        UPDATE hospedagem SET nome = '${nome}'
-        WHERE idHospedagem = ${id_hospedagem};
+function atualizar(idHospedagem, nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio) {
+
+    var atualizarHospedagem = `
+        UPDATE hospedagem SET
+            nome = '${nome}',
+            categoria = '${categoria}',
+            qtdQuartos = ${QtQuarto},
+            fkMunicipio = ${fkMunicipio}
+        WHERE idHospedagem = ${idHospedagem};
     `;
-    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+
+    var atualizarAvaliacao = `
+        UPDATE avaliacao SET
+            nota = '${nota}',
+            precoMedio = '${precoMedio}'
+        WHERE fkHospedagem = ${idHospedagem};
+    `;
+
+    console.log("Model: Executando a instrução SQL: \n" + atualizarHospedagem);
+    console.log("Model: Executando a instrução SQL: \n" + atualizarAvaliacao);
+
+    return database.executar(atualizarHospedagem)
+        .then(() => database.executar(atualizarAvaliacao));
 }
 
 // Deletar
@@ -98,6 +139,7 @@ module.exports = {
     listar,
     cadastrar,
     listarMunicipio,
+    buscarEstabelecimento,
     atualizar,
     deletar
 }

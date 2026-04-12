@@ -18,6 +18,10 @@ router.get("/listarMunicipio", function (req, res){
     estabelecimentoController.listarMunicipio(req, res);
 });
 
+// buscar Estabeçecimento
+router.get("/buscarEstabelecimento/:idHospedagem", function (req, res) {
+    estabelecimentoController.buscarEstabelecimento(req, res);
+});
 
 // atualizar
 router.put("/atualizar", function (req, res) {

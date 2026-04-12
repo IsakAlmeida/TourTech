@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourTech | Editar Estabelecimento</title>
+
+
+    <link rel="stylesheet" href="./../css/estabelecimento.css">
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- scripts do Chart.js - 2022-1 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!--FONT AWESOME-->
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body onload="iniciar()">
+    <!--Menu-->
+    <div class="janela">
+
+        <div class="header-left">
+            <h1>TourTech</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./funcionarios.html"></a>
+                <h3>Funcionarios</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./estabelecimento.html">
+                    <h3>Estabelecimento</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Pacotes</h3>
+                </a>
+            </div>
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Suporte</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+        <!--Final Menu-->
+
+
+        <main>
+            <!--ATUALIZAR-->
+            <div class="caixa-cadastro">
+                <h1>Editar Estabelecimento</h1>
+                <p>Digite os dados do estabelecimento abaixo</p>
+
+                <div class="campo">
+                    <label>Nome</label>
+                    <input id="iptNome" type="text" placeholder="Digite o Nome do Estabelecimento">
+                    <span class="error" id="errorNome"></span>
+                </div>
+
+                <div class="campo">
+                    <label>Categoria</label>
+                    <input id="iptCategoria" type="text" placeholder="Ex.: Hotel">
+                    <span class="error" id="errorCategoria"></span>
+                </div>
+                <div class="formato-linha">
+                    <div class="campo">
+                        <label>Quantia de quartos</label>
+                        <input id="iptQtQuarto" type="number" placeholder="Ex.: 3">
+                        <span class="error" id="errorQtQuarto"></span>
+                    </div>
+                    <div class="campo">
+                        <label>Municipio</label>
+                        <select id="iptMunicipio">
+                            <option>Carregando Municipio...</option>
+                        </select>
+                        <span class="error" id="errorMunicipio"></span>
+                    </div>
+                </div>
+                <div class="formato-linha">
+                    <div class="campo">
+                        <label>Nota</label>
+                        <input id="iptNota" type="number" min="0" max="5" placeholder="Ex.: 5">
+                        <span class="error" id="errorNota"></span>
+                    </div>
+                    <div class="campo">
+                        <label>Preço Médio</label>
+                        <input id="iptPreco" type="number" min="0" placeholder="300">
+                        <span class="error" id="errorPreco"></span>
+                    </div>
+                </div>
+
+                <span id="loading" class="loading"></span>
+                <button class="btn-cadastrar" onclick="atualizar()">Atualizar</button>
+            </div>
+
+        </main>
+        <script>
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+            var errorNome = document.getElementById("errorNome");
+            var errorCategoria = document.getElementById("errorCategoria");
+            var errorQtQuarto = document.getElementById("errorQtQuarto");
+            var errorMunicipio = document.getElementById("errorMunicipio");
+
+            function iniciar() {
+                listarMunicipio().then(() => {
+                    carregarEstabelecimento();
+                });
+            }
+
+            function listarMunicipio() {
+               return fetch("/estabelecimento/listarMunicipio")
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        console.log("ESTOU NO THEN select estabelecimento (municipio select)");
+
+                        var select = document.getElementById("iptMunicipio");
+                        select.innerHTML = `<option value="">Selecione um Municipio</option>`;
+
+                        for (var i = 0; i < dados.length; i++) {
+                            select.innerHTML += `
+                        <option value="${dados[i].idMunicipio}">
+                            ${dados[i].nome}
+                        </option>
+                    `;
+                        }
+                        console.log("Municipio carregado com sucesso");
+                    })
+                    .catch(function (erro) {
+                        console.log("Erro ao carregar Municipio:", erro);
+                    });
+            }
+
+            //BUSCAR
+
+            function carregarEstabelecimento() {
+                var idHospedagem = sessionStorage.ID_HOSPEDAGEM_EDITAR;
+
+                fetch(`/estabelecimento/buscarEstabelecimento/${idHospedagem}`)
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        console.log("ESTOU NO THEN buscar Estabelecimento");
+
+                        var estabelecimento = dados[0];
+
+                        iptNome.value = estabelecimento.nome;
+                        iptCategoria.value = estabelecimento.categoria;
+                        iptQtQuarto.value = estabelecimento.qtdQuartos;
+                        iptMunicipio.value = estabelecimento.idMunicipio;
+                        iptNota.value = estabelecimento.nota;
+                        iptPreco.value = estabelecimento.precoMedio;
+                    })
+                    .catch(function (erro) {
+                        console.log(erro);
+                        console.log("Erro ao buscar estabelecimento!");
+                    });
+            }
+
+
+
+            // ATUALIZAR
+            function atualizar() {
+
+                errorNome.innerHTML = "";
+                errorCategoria.innerHTML = "";
+                errorQtQuarto.innerHTML = "";
+                errorMunicipio.innerHTML = "";
+                errorNota.innerHTML = "";
+                errorPreco.innerHTML = "";
+
+                var nome = iptNome.value;
+                var categoria = iptCategoria.value;
+                var QtQuarto = iptQtQuarto.value;
+                var municipio = iptMunicipio.value;
+                var nota = iptNota.value;
+                var precoMedio = iptPreco.value;
+
+                var erro = false;
+
+                if (nome == "") {
+                    errorNome.innerHTML = "Preencha o nome";
+                    erro = true;
+                }
+
+                if (categoria == "") {
+                    errorCategoria.innerHTML = "Preencha a categoria";
+                    erro = true;
+                }
+
+                if (QtQuarto == "" || QtQuarto <= 0) {
+                    errorQtQuarto.innerHTML = "Quantidade inválida";
+                    erro = true;
+                }
+
+                if (municipio == "") {
+                    errorMunicipio.innerHTML = "Selecione o município";
+                    erro = true;
+                }
+                if (nota == "" || nota < 0) {
+                    errorNota.innerHTML = "A nota precisa ser entre 0 até 5";
+                    erro = true;
+                }
+
+                if (precoMedio == "" || precoMedio < 0) {
+                    errorPreco.innerHTML = "Preencha um valor válido";
+                    erro = true;
+                }
+
+
+                if (!erro) {
+
+                    fetch("/estabelecimento/atualizar", {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            idHospedagem: sessionStorage.ID_HOSPEDAGEM_EDITAR,
+                            nome: nome,
+                            categoria: categoria,
+                            QtQuarto: QtQuarto,
+                            fkMunicipio: municipio,
+                            nota: nota,
+                            precoMedio: precoMedio
+                        })
+                    })
+                        .then(function (resposta) {
+                            console.log("ESTOU NO THEN atualizar Estabelecimento");
+
+                            if (resposta.ok) {
+                                console.log("Estabelecimento atualizado!");
+                                window.location = "./estabelecimento.html";
+                            } else {
+                                console.log("Erro ao atualizar estabelecimento");
+                            }
+                        })
+                        .catch(function (erro) {
+                            console.log(erro);
+                            console.log("Erro ao atualizar estabelecimento!");
+                        });
+                }
+            }
+        </script>
+
+</body>
+
+</html>
