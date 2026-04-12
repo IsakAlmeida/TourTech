@@ -21,24 +21,50 @@ function listar() {
 
 
 // Cadastrar Estabelecimento
-function cadastrar(nome, categoria, qtdQuartos, fkMunicipio) {
+function cadastrar(nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio) {
     var instrucao = `
         INSERT INTO hospedagem (
-            nome,
-            categoria,
-            qtdQuartos,
-            fkMunicipio
-        ) VALUES (
+        nome, 
+        categoria, 
+        qtdQuartos,
+        fkMunicipio
+        ) VALUES(
             '${nome}',
             '${categoria}',
-            '${qtdQuartos}',
+            '${QtQuarto}',
             ${fkMunicipio}
         );
     `;
 
     console.log("Model: Executando SQL:", instrucao);
 
-    return database.executar(instrucao);
+    return database.executar(instrucao)
+        .then(resultado => {
+
+            var idHospedagem = resultado.insertId;
+            var instrucaoSql = `
+                INSERT INTO avaliacao (
+                nota, 
+                precoMedio, 
+                fkHospedagem)
+                VALUES (
+                '${nota}', 
+                '${precoMedio}', 
+                ${idHospedagem});
+            `;
+            console.log("Model: Executando SQL:", instrucaoSql);
+
+            return database.executar(instrucaoSql);
+        });
+}
+
+// Municipio
+function listarMunicipio() {
+    var instrucaoSql = `
+        SELECT idMunicipio, nome FROM municipio;
+    `;
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 
@@ -61,7 +87,7 @@ function deletar(id_hospedagem) {
     var deletarHospedagem = `
         DELETE FROM hospedagem WHERE idHospedagem = ${id_hospedagem};
     `;
-    
+
     console.log("Model: Executando a instrução SQL: \n" + deletarAvaliacao);
     console.log("Model: Executando a instrução SQL: \n" + deletarHospedagem);
     return database.executar(deletarAvaliacao)
@@ -71,6 +97,7 @@ function deletar(id_hospedagem) {
 module.exports = {
     listar,
     cadastrar,
+    listarMunicipio,
     atualizar,
     deletar
 }

@@ -13,6 +13,11 @@ router.post("/cadastrar", function (req, res) {
     estabelecimentoController.cadastrar(req, res);
 });
 
+// listar municipio
+router.get("/listarMunicipio", function (req, res){
+    estabelecimentoController.listarMunicipio(req, res);
+});
+
 
 // atualizar
 router.put("/atualizar", function (req, res) {

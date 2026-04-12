@@ -19,21 +19,23 @@ function listar(req, res) {
 
 // Cadastrar Estabelecimento
 function cadastrar(req, res) {
-    var nomeSocial = req.body.nomeSocial;
-    var nomeFantasia = req.body.nomeFantasia;
-    var cnpj = req.body.cnpj;
-    var fkEmpresa = req.body.fkEmpresa;
+    var nome = req.body.nome;
+    var categoria = req.body.categoria;
+    var QtQuarto = req.body.QtQuarto;
+    var fkMunicipio = req.body.fkMunicipio;
+    var nota = req.body.nota;
+    var precoMedio = req.body.precoMedio;
 
 
-    if (!nomeSocial || !nomeFantasia || !cnpj || !fkEmpresa) {
+    if (!nome || !categoria || !QtQuarto || !fkMunicipio || !nota || !precoMedio) {
         return res.status(400).json({
             erro: "Controller: Todos os campos são obrigatórios"
         });
     }
-    console.log("Controller: Cadastrando Estabelecimento:", { nomeSocial, nomeFantasia, cnpj, fkEmpresa });
+    
+    console.log("Controller: Cadastrando Estabelecimento:", { nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio });
 
-
-    estabelecimentoModel.cadastrar(nomeSocial, nomeFantasia, cnpj, fkEmpresa)
+    estabelecimentoModel.cadastrar( nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio)
         .then(function (resultado) {
             res.status(201).json({
                 mensagem: "Controller: Estabelecimento cadastrado com sucesso", resultado
@@ -41,15 +43,26 @@ function cadastrar(req, res) {
         })
         .catch(function (erro) {
             console.log(erro);
-
-            if (erro.code == "ER_DUP_ENTRY") {
-                res.status(409).send("CNPJ duplicado");
-            } else {
                 res.status(500).send("Erro no servidor");
-            }
+            
         });
 }
 
+// Municipio
+function listarMunicipio (req, res) {
+    estabelecimentoModel.listarMunicipio()
+        .then(function (resultado) {
+             console.log("Controller: Municipio listado com sucesso ", resultado);
+            res.status(200).json(resultado);
+        })
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Controller: Houve um erro ao listar Municipio: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
 
 // Atualizar Estabelecimento
 function atualizar(req, res) {
@@ -103,6 +116,7 @@ function deletar(req, res) {
 module.exports = {
     listar,
     cadastrar,
+    listarMunicipio,
     atualizar,
     deletar
 };

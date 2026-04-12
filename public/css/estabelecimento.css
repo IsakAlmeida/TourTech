@@ -270,6 +270,11 @@ main {
     color: #555;
 }
 
+.formato-linha {
+    display: flex;
+    gap: 15px;
+}
+
 .campo {
     display: flex;
     flex-direction: column;

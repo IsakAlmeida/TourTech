@@ -210,6 +210,7 @@
                         })
                         .then(() => {
                             console.log("Estabelecimento Deletado:", id_hospedagem);
+                            alert("Estabelecimento Deletado com Sucesso!")
                             listarEstabelecimento();
                         })
                         .catch(err => console.log("Erro em deletar estabelecimento:", err));
