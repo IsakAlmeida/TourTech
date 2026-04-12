@@ -2,9 +2,9 @@ var funcionarioModel = require("../models/funcionarioModel");
 
 // Listar Funcionario
 function listar(req, res) {
-    let id_empresa = req.params.id_empresa
+    let id_usuario = req.params.id_usuario
 
-    funcionarioModel.listar(id_empresa)
+    funcionarioModel.listar(id_usuario)
     .then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);

@@ -1,0 +1,312 @@
+/* pagina mural */
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.label-captura {
+  display: flex;
+  justify-content: center;
+}
+
+.janela {
+  display: flex;
+  /* width: 100vw; */
+}
+
+/* ------------ MENU ------------ */
+.header-left a {
+  text-decoration: none;
+  color: white;
+}
+
+.header-left {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  height: 100vh;
+  width: 15vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-right: 3px solid #ffff;
+  /* background-color: #212124; */
+  background: linear-gradient(90deg, #EBC14D,#ffecc9);
+}
+
+.dash-right {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  background-color: #161618;
+  position: relative;
+  top: 0;
+  left: 25%;
+  height: 100vh;
+  overflow: auto;
+}
+
+.header-left h1 {
+  color: #ffff;
+}
+
+.hello {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hello h3 {
+  color: #ffffff;
+  font-weight: 200;
+  font-size: 1.0rem;
+}
+
+.hello h3 span {
+  font-weight: 800;
+}
+
+.btn-nav {
+  width: 40%;
+  color: white;
+  background-color: #D5E293;
+  border-radius: 5px;
+  text-align: center;
+  padding: 2% 5%;
+}
+
+.btn-nav-white {
+  width: 40%;
+  background-color: white;
+  border: 3px solid #D5E293;
+  border-radius: 5px;
+  text-align: center;
+  padding: 2% 5%;
+}
+
+.btn-nav-white h3 {
+  color: #D5E293;
+  padding: 0;
+  margin: 0;
+  font-size: 1.0rem;
+}
+
+.btn-nav h3,
+.btn-logout h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.0rem;
+}
+
+.btn-logout {
+  margin: 0;
+  padding: 0;
+  width: 20%;
+  background-color: #D5E293;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px 15px;
+  margin-bottom: 100px;
+  cursor: pointer;
+}
+
+.superior {
+  display: flex;
+  flex-direction: row;
+  /* align-items: flex-end; */
+  align-items: stretch;
+  justify-content: space-between;
+  border: 3px solid #32b9cd;
+  border-radius: 20px;
+  margin: 10vh;
+  height: 40vh;
+  padding: 2rem;
+  
+  
+}
+
+.bar {
+  flex: 1; 
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  position: relative;
+}
+
+.doughnut {
+  flex: 1; 
+  align-items: center;
+  justify-content: center;
+  border-left: 3px solid #32b9cd;
+  height: 100%;
+
+}
+
+/* ------------ FINAL MENU ------------ */
+
+/* ------------ AREA TRABALHO ------------ */
+main {
+    margin-left: 15vw;
+    width: 85vw;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ------------ TOPO ------------ */
+.topo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.separacao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buscar {
+    margin: 15px 0;
+}
+
+.buscar input {
+    width: 300px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.acoes button {
+    margin-left: 10px;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 6px;
+    background-color: #D5E293;
+    cursor: pointer;
+}
+
+.acoes button:hover {
+    background-color: #eee; /* amarelo */
+}
+
+/* ------------ FIM TOPO ------------ */
+/* ------------ TABELA ------------ */
+.tabela {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.linha {
+    display: grid;
+    grid-template-columns: 10% 25% 20% 15% 15% 15%;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.linha.descricao {
+    background-color: #f3f4f6;
+    font-weight: bold;
+}
+
+.linha.informacao:hover {
+    background-color: #F4D587;
+}
+
+.coluna {
+    padding: 5px;
+}
+
+.check {
+    display: flex;
+    justify-content: center;
+}
+
+.nivel {
+    background-color: #bec0c4;
+    padding: 5px 20px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.linha .btn-editar {
+    padding: 6px 20px;
+    background-color: #eee;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* ------------ FIM TABELA ------------ */
+/* ------------ CADASTRAR ESTABELECIMENTO ------------ */
+
+.caixa-cadastro {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px 30px 70px 30px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+.caixa-cadastro h1 {
+    margin-bottom: 5px;
+}
+
+.caixa-cadastro p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.formato-linha {
+    display: flex;
+    gap: 15px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.campo label {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.campo input,
+.campo select {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ddd;
+}
+
+.btn-cadastrar {
+    margin-top: 15px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    float: right;
+}
+
+.btn-cadastrar:hover {
+    background-color: #f1c40f;
+    color: black;
+}

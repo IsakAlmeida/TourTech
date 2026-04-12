@@ -49,8 +49,8 @@
                 </a>
             </div>
 
-            <div class="btn-nav-white">
-                <a href="./mural.html">
+             <div class="btn-nav-white">
+                <a href="./estabelecimento.html">
                     <h3>Estabelecimento</h3>
                 </a>
             </div>
@@ -107,9 +107,12 @@
                     </div>
 
                     <!--Lista-->
-                    <div id="lista-funcionarios"></div>
+                    <div id="lista-funcionarios">
+                        <div id="lista"></div>
 
-                    
+                    </div>
+
+                    <!--
                     <div class="linha informacao">
                         <div class="coluna check"><input type="checkbox"></div>
                         <div class="coluna">Clara C</div>
@@ -124,7 +127,7 @@
                         <div class="coluna">email@email.com</div>
                         <div class="coluna"><button class="btn-editar">Editar</button></div>
                     </div>
-                     
+                     -->
                 </div>
 
             </div>
@@ -139,9 +142,9 @@
             }
 
             function listarFuncionarios() {
-                const idEmpresa = sessionStorage.getItem('ID_EMPRESA');
+                const id_usuario = sessionStorage.getItem('ID_USUARIO');
 
-                fetch(`/funcionarios/listar/${idEmpresa}`)
+                fetch(`/funcionarios/listar/${id_usuario}`)
                     .then(resposta => {
                         if (!resposta.ok) {
                             throw new Error("Erro ao listar funcionários");
