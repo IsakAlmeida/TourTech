@@ -78,6 +78,21 @@
             <div class="tituloDash">
                 <h1>Dashboards</h1>
             </div>
+
+            <div class="kpis">
+                <div class="kpi">
+                    KPI1
+                </div>
+                <div class="kpi">
+                    KPI2
+                </div>
+                <div class="kpi">
+                    KPI3
+                </div>
+                <div class="kpi">
+                    KPI4
+                </div>
+            </div>
             <div class="superior">
                 <div class="bar">
                     <canvas id="myChart"></canvas>
@@ -106,7 +121,7 @@
     let proximaAtualizacao;
 
     const ctx1 = document.getElementById('myChart');
-new Chart(ctx1, {
+    new Chart(ctx1, {
         type: 'bar',
         data: {
             labels: ['São Paulo', 'Minas Gerais', 'Espírito Santos', 'Goias', 'Distrito Federal', 'Outros'],
@@ -140,43 +155,43 @@ new Chart(ctx1, {
 
     const ctx2 = document.getElementById('myChart2');
 
- new Chart(ctx2, {
-    type: 'doughnut',
-    data: {
-        labels: ['Brasil', 'Estados Unidos', 'X', 'Y', 'Z', 'Outros'],
-        datasets: [{
-            label: 'estrangeiros X brasileiros',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            title: {
-                display: true,
-                text: 'Número de turistas por país',
-                color: '#000',
-                padding: {
-                    top: 10,
-                    bottom: 25 // Espaço entre o texto e a linha
-                },
-                font: {
-                    size: 20,
-                    weight: 'bold'
-                }
-            },
-           
+    new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Brasil', 'Estados Unidos', 'X', 'Y', 'Z', 'Outros'],
+            datasets: [{
+                label: 'estrangeiros X brasileiros',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
         },
-        scales: {
-            y: {
-                beginAtZero: true,
-                display: false 
-                        }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Número de turistas por país',
+                    color: '#000',
+                    padding: {
+                        top: 10,
+                        bottom: 25 // Espaço entre o texto e a linha
+                    },
+                    font: {
+                        size: 20,
+                        weight: 'bold'
+                    }
+                },
+
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    display: false
+                }
+            }
         }
-    }
-});
+    });
 
 
     const ctx3 = document.getElementById('myChart3');
@@ -186,16 +201,16 @@ new Chart(ctx1, {
         data: {
             labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             datasets: [
-              {
-                label: '2024',
-                data: [12, 19, 23, 25, 22, 13, 15, 10, 20, 40, 50, 30],
-                borderWidth: 1
-            },
-            {
-                label: '2025',
-                data: [15, 25, 18, 30, 28, 20, 22, 18, 25, 45, 55, 35],
-                borderWidth: 1
-            }
+                {
+                    label: '2024',
+                    data: [12, 19, 23, 25, 22, 13, 15, 10, 20, 40, 50, 30],
+                    borderWidth: 1
+                },
+                {
+                    label: '2025',
+                    data: [15, 25, 18, 30, 28, 20, 22, 18, 25, 45, 55, 35],
+                    borderWidth: 1
+                }
             ]
         },
         options: {

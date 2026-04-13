@@ -236,7 +236,30 @@ canvas {
 }
 
 .tituloDash{
-  margin: 10vh;
+  margin: 3vw 10vh;
+}
+
+.kpis {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  border: 3px solid #32b9cd;
+  border-radius: 20px;
+  margin: 3vw 10vh;
+  height: 10vh;
+  padding: 2rem;
+}
+
+.kpi {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #32b9cd;
+  border-radius: 20px;
+  height: 8vh;
+  width: 10%;
 }
 
 .superior {
@@ -247,7 +270,7 @@ canvas {
   justify-content: space-between;
   border: 3px solid #32b9cd;
   border-radius: 20px;
-  margin: 10vh;
+  margin: 3vw 10vh;
   height: 40vh;
   padding: 2rem;
 }
