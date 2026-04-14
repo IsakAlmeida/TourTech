@@ -13,6 +13,37 @@ public class LeitorExcel {
 
     private List<Log> logs = new ArrayList<>();
 
+    //PAÍSES
+    public List<Pais> extrairPaises(String nomeArquivo) {
+        List<Pais> lista = new ArrayList<>();
+
+        try (
+                InputStream arquivo = new FileInputStream(nomeArquivo);
+                Workbook workbook = new XSSFWorkbook(arquivo)
+        ) {
+
+            logs.add(new Log("INICIO LEITURA EXCEL PAISES", "INFO", "ARQUIVO"));
+
+            Sheet sheet = workbook.getSheetAt(0);
+
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) continue;
+
+                String nome = row.getCell(1).getStringCellValue();
+
+                lista.add(new Pais(nome));
+            }
+
+            logs.add(new Log("LEITURA PAISES FINALIZADA", "SUCESSO", "ARQUIVO"));
+
+        } catch (Exception e) {
+            logs.add(new Log("ERRO LEITURA EXCEL PAISES", "ERRO", "ARQUIVO"));
+            System.out.println(e.getMessage());
+        }
+
+        return lista;
+    }
+
     //HOSPEDAGEM
     public List<Hospedagem> extrairHospedagens(String nomeArquivo) {
         List<Hospedagem> lista = new ArrayList<>();
@@ -227,6 +258,108 @@ public class LeitorExcel {
 
         } catch (Exception e) {
             logs.add(new Log("ERRO LEITURA EXCEL TURISMO INTERNACIONAL POR ATRATIVOS", "ERRO", "ARQUIVO"));
+            System.out.println(e.getMessage());
+        }
+
+        return lista;
+    }
+
+    public List<TurismoNacionalEstado> extrairTurismoNacionalEstado(String nomeArquivo) {
+        List<TurismoNacionalEstado> lista = new ArrayList<>();
+
+        try (
+                InputStream arquivo = new FileInputStream(nomeArquivo);
+                Workbook workbook = new XSSFWorkbook(arquivo)
+        ) {
+
+            logs.add(new Log("INICIO LEITURA EXCEL TURISMO NACIONAL POR ESTADO", "INFO", "ARQUIVO"));
+
+            Sheet sheet = workbook.getSheetAt(1);
+
+            Row header = sheet.getRow(0);
+
+            for (Row row : sheet) {
+
+                // pula o header
+                if (row.getRowNum() == 0) continue;
+
+                try {
+                    String estado = row.getCell(1).getStringCellValue();
+                    Integer ano = 2024;
+
+                    // percorre os meses
+                    for (int i = 2; i <= 13; i++) {
+                        Cell cellQuantidade = row.getCell(i);
+                        if (cellQuantidade == null) continue;
+
+                        Integer quantidade = (int) cellQuantidade.getNumericCellValue();
+                        String mes = header.getCell(i).getStringCellValue(); // pega o mês direto do header
+
+                        TurismoNacionalEstado turismo = new TurismoNacionalEstado(quantidade, mes, ano, estado);
+
+                        lista.add(turismo);
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("ERRO NA LINHA " + row.getRowNum() + ": " + e.getMessage());
+                }
+            }
+
+            logs.add(new Log("LEITURA TURISMO NACIONAL POR ESTADO FINALIZADA", "SUCESSO", "ARQUIVO"));
+
+        } catch (Exception e) {
+            logs.add(new Log("ERRO LEITURA EXCEL TURISMO NACIONAL POR ESTADO", "ERRO", "ARQUIVO"));
+            System.out.println(e.getMessage());
+        }
+
+        return lista;
+    }
+
+    public List<TurismoInternacionalPais> extrairTurismoInternacionalPais(String nomeArquivo) {
+        List<TurismoInternacionalPais> lista = new ArrayList<>();
+
+        try (
+                InputStream arquivo = new FileInputStream(nomeArquivo);
+                Workbook workbook = new XSSFWorkbook(arquivo)
+        ) {
+
+            logs.add(new Log("INICIO LEITURA EXCEL TURISMO INTERNACIONAL POR PAIS", "INFO", "ARQUIVO"));
+
+            Sheet sheet = workbook.getSheetAt(0);
+
+            Row header = sheet.getRow(0);
+
+            for (Row row : sheet) {
+
+                // pula o header
+                if (row.getRowNum() == 0) continue;
+
+                try {
+                    String pais = row.getCell(1).getStringCellValue();
+                    Integer ano = 2024;
+
+                    // percorre os meses
+                    for (int i = 2; i <= 13; i++) {
+                        Cell cellQuantidade = row.getCell(i);
+                        if (cellQuantidade == null) continue;
+
+                        Integer quantidade = (int) cellQuantidade.getNumericCellValue();
+                        String mes = header.getCell(i).getStringCellValue(); // pega o mês direto do header
+
+                        TurismoInternacionalPais turismo = new TurismoInternacionalPais(quantidade, mes, ano, pais);
+
+                        lista.add(turismo);
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("ERRO NA LINHA " + row.getRowNum() + ": " + e.getMessage());
+                }
+            }
+
+            logs.add(new Log("LEITURA TURISMO INTERNACIONAL POR PAIS FINALIZADA", "SUCESSO", "ARQUIVO"));
+
+        } catch (Exception e) {
+            logs.add(new Log("ERRO LEITURA EXCEL TURISMO INTERNACIONAL POR PAIS", "ERRO", "ARQUIVO"));
             System.out.println(e.getMessage());
         }
 

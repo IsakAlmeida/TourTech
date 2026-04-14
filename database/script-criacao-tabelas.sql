@@ -52,7 +52,10 @@ nomePais VARCHAR(45) NOT NULL
 CREATE TABLE estado(
 idEstado INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45) NOT NULL UNIQUE,
-sigla CHAR(2) NOT NULL UNIQUE
+sigla CHAR(2) NOT NULL UNIQUE,
+fkPais INT,
+FOREIGN KEY (fkPais)
+REFERENCES paisOrigem (idPais)
 );
 
 -- TABELA DOS MUNICÍPIOS
@@ -129,12 +132,12 @@ idChegadaTurista INT PRIMARY KEY AUTO_INCREMENT,
 quantidade INT NOT NULL,
 fkEstado INT,
 fkTempo INT,
-fkPaisOrigem INT,
+fkPais INT,
 FOREIGN KEY (fkEstado)
 REFERENCES estado(idEstado),
 FOREIGN KEY (fkTempo)
 REFERENCES tempo(idTempo),
-FOREIGN KEY (fkPaisOrigem)
+FOREIGN KEY (fkPais)
 REFERENCES paisOrigem(idPais)
 );
 
