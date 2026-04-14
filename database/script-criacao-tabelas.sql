@@ -43,6 +43,11 @@ FOREIGN KEY (fkUsuario)
 REFERENCES usuario(idUsuario)
 );
 
+-- TABELA DOS PAÍSES DE ORIGEM
+CREATE TABLE paisOrigem(
+idPais INT PRIMARY KEY AUTO_INCREMENT,
+nomePais VARCHAR(45) NOT NULL
+);
 -- TABELA DOS ESTADOS
 CREATE TABLE estado(
 idEstado INT PRIMARY KEY AUTO_INCREMENT,
@@ -97,19 +102,6 @@ FOREIGN KEY (fkMunicipio)
 REFERENCES municipio(idMunicipio)
 );
 
--- TABELA DAS AVALIAÇÕES
-CREATE TABLE avaliacao(
-idAvaliacao INT PRIMARY KEY AUTO_INCREMENT,
-nota INT NOT NULL,
-precoMedio DECIMAL(10,2) NOT NULL,
-fkHospedagem INT,
-fkAtrativo INT,
-FOREIGN KEY (fkHospedagem)
-REFERENCES hospedagem(idHospedagem),
-FOREIGN KEY (fkAtrativo)
-REFERENCES atrativoTuristico(idAtrativo)
-);
-
 -- TABELA DE TEMPO
 CREATE TABLE tempo(
 idTempo INT PRIMARY KEY AUTO_INCREMENT,
@@ -118,37 +110,32 @@ nomeMes VARCHAR(15) NOT NULL,
 ano INT NOT NULL
 );
 
--- TABELA DOS PAÍSES DE ORIGEM
-CREATE TABLE paisOrigem(
-idPais INT PRIMARY KEY AUTO_INCREMENT,
-nomePais VARCHAR(45) NOT NULL
-);
-
 -- TABELA DE FATO - VISITAÇÃO DE ATRATIVOS
 CREATE TABLE fatoVisitaAtrativo(
 idFatoVisita INT PRIMARY KEY AUTO_INCREMENT,
 quantidade INT NOT NULL,
+estrangeiro BOOLEAN NOT NULL,
 fkTempo INT,
 fkAtrativo INT,
-fkPaisOrigem INT,
 FOREIGN KEY (fkTempo)
 REFERENCES tempo(idTempo),
 FOREIGN KEY (fkAtrativo)
-REFERENCES atrativoTuristico(idAtrativo),
-FOREIGN KEY (fkPaisOrigem)
-REFERENCES paisOrigem(idPais)
+REFERENCES atrativoTuristico(idAtrativo)
 );
 
 -- TABELA DE CHEGADA DE TURISTAS (GERAL)
 CREATE TABLE chegadaTurismo(
 idChegadaTurista INT PRIMARY KEY AUTO_INCREMENT,
 quantidade INT NOT NULL,
-fkMunicipio INT,
+fkEstado INT,
 fkTempo INT,
-FOREIGN KEY (fkMunicipio)
-REFERENCES municipio(idMunicipio),
+fkPaisOrigem INT,
+FOREIGN KEY (fkEstado)
+REFERENCES estado(idEstado),
 FOREIGN KEY (fkTempo)
-REFERENCES tempo(idTempo)
+REFERENCES tempo(idTempo),
+FOREIGN KEY (fkPaisOrigem)
+REFERENCES paisOrigem(idPais)
 );
 
 -- TABELA DOS TOKENS DE CADASTRO

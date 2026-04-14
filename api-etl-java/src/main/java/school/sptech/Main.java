@@ -2,9 +2,7 @@ package school.sptech;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import school.sptech.database.Conexao;
-import school.sptech.model.EstabelecimentoAlimenticio;
-import school.sptech.model.Hospedagem;
-import school.sptech.model.Log;
+import school.sptech.model.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,18 +29,27 @@ public class Main {
 
         System.out.println("Bem vindo ao sistema de leitura e inserção de dados da TourTech");
         do {
-            System.out.println("Escolha uma opção: ");
+            System.out.println("Escolha uma opção para ler e inserir dados no banco de dados: ");
             System.out.println("================================================================");
-            System.out.println("1 - Ler e Inserir dados de hospedagem");
-            System.out.println("2 - Ler e Inserir dados de Estabelecimentos Alimenticios");
-            System.out.println("3 - Ler e Inserir dados de Atrativos Turisticos");
-            System.out.println("4 - Sair");
+            System.out.println("1 - Hospedagem");
+            System.out.println("2 - Estabelecimentos Alimenticios");
+            System.out.println("3 - Atrativos Turisticos");
+            System.out.println("4 - Visitas Nacionais por Atrativos Turisticos");
+            System.out.println("5 - Visitas Internacionais por Atrativos Turisticos");
+            System.out.println("6 - Chegadas Nacionais ao Rio de Janeiro");
+            System.out.println("7 - Chegadas Interacionais ao Rio de Janeiro");
+            System.out.println("8 - Sair");
             System.out.println("================================================================");
             op = sc.nextInt();
 
-            if(op < 1 || op > 4){
+            if(op < 1 || op > 8){
                 System.out.println("Digite uma opção válida!!");
                 System.out.println();
+            }
+
+            if(op == 8){
+                System.out.println("Até mais!");
+                break;
             }
 
             // HOSPEDAGEM
@@ -79,15 +86,15 @@ public class Main {
 
                         try {
                             stmtBusca.setString(1, hospedagem.getMunicipio().trim());
-                            ResultSet rs = stmtBusca.executeQuery();
+                            ResultSet resultSet = stmtBusca.executeQuery();
 
-                            if (!rs.next()) {
+                            if (!resultSet.next()) {
                                 System.out.println("Município NÃO encontrado: " + hospedagem.getMunicipio());
                                 logs.add(new Log("HOSPEDAGEM: Município não encontrado: " + hospedagem.getMunicipio(), "FALHA", "BANCO"));
                                 continue;
                             }
 
-                            int fkMunicipio = rs.getInt("idMunicipio");
+                            int fkMunicipio = resultSet.getInt("idMunicipio");
 
                             stmtInsert.setString(1, hospedagem.getNome());
                             stmtInsert.setString(2, hospedagem.getCategoria());
@@ -144,7 +151,7 @@ public class Main {
 
             // ESTABELECIMENTOS
             if(op == 2){
-                String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
+                    String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
                 String sqlInsertEstabelecimento = "INSERT INTO estabelecimentoAlimenticio(nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                 // LEITURA DO EXCEL
@@ -238,6 +245,257 @@ public class Main {
                 System.out.println("==============================================");
                 System.out.println();
             }
-        } while(op != 4);
+
+            // ATRATIVOS
+            if(op == 3){
+                String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
+                String sqlInsertAtrativos = "INSERT INTO atrativoTuristico(nome, categoria, fkMunicipio) VALUES (?, ?, ?)";
+
+                // LEITURA DO EXCEL
+                System.out.println("Lendo Excel...");
+                log = new Log("INICIO LEITURA EXCEL ATRATIVOS", "SUCESSO", "ARQUIVO");
+                logs.add(log);
+
+                String nomeArquivoAtrativos = "atrativos-turisticos.xlsx";
+                LeitorExcel leitor = new LeitorExcel();
+                List<Atrativos> lista = leitor.extrairAtrativos(nomeArquivoAtrativos);
+
+                log = new Log("LEITURA ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO");
+                logs.add(log);
+
+                // INSERÇÃO NO BANCO
+                System.out.println("Inserindo no banco...");
+                log = new Log("INICIO INSERT ATRATIVOS", "SUCESSO", "BANCO");
+                logs.add(log);
+
+                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                     PreparedStatement stmtBusca = conn.prepareStatement(sqlBuscaMunicipio);
+                     PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertAtrativos)) {
+
+                    conn.setAutoCommit(false);
+
+                    for (int i = 0; i < lista.size(); i++) {
+
+                        Atrativos atrativos = lista.get(i);
+
+                        try {
+                            stmtBusca.setString(1, atrativos.getMunicipio().trim());
+                            ResultSet resultSet = stmtBusca.executeQuery();
+
+                            if (!resultSet.next()) {
+                                System.out.println("Município NÃO encontrado: " + atrativos.getMunicipio());
+                                logs.add(new Log("ATRATIVOS: Município não encontrado: " + atrativos.getMunicipio(), "FALHA", "BANCO"));
+                                continue;
+                            }
+
+                            int fkMunicipio = resultSet.getInt("idMunicipio");
+
+                            stmtInsert.setString(1, atrativos.getNome());
+                            stmtInsert.setString(2, atrativos.getCategoria());
+                            stmtInsert.setInt(3, fkMunicipio);
+
+                            stmtInsert.addBatch();
+
+                            System.out.println("Preparado para inserir: " + atrativos.getNome());
+
+                        } catch (Exception e) {
+                            System.out.println("Erro: " + e.getMessage());
+                        }
+                    }
+
+                    stmtInsert.executeBatch();
+                    conn.commit();
+
+                    log = new Log("INSERT ATRATIVOS FINALIZADO", "SUCESSO", "BANCO");
+                    logs.add(log);
+
+                } catch (Exception e) {
+                    log = new Log("ATRATIVOS: ERRO GERAL NO BANCO", "FALHA", "BANCO");
+                    logs.add(log);
+                    System.out.println(e.getMessage());
+                }
+
+                // INSERINDO LOGS NO BANCO
+                System.out.println("Inserindo logs...");
+
+                String queryLogs = "INSERT INTO logsGerais (dataHora, evento, status, objeto) VALUES ";
+
+                for (int i = 0; i < logs.size(); i++) {
+
+                    if (i != 0) queryLogs += ",\n";
+
+                    queryLogs += "('" + logs.get(i).getDataHora() + "', '" +
+                            logs.get(i).getEvento() + "', '" +
+                            logs.get(i).getStatus() + "', '" +
+                            logs.get(i).getObjeto() + "')";
+                }
+
+                queryLogs += ";";
+
+                template.update(queryLogs);
+
+                System.out.println("Processo de atrativos finalizado.");
+                System.out.println("==============================================");
+                System.out.println();
+            }
+
+            // TURISMO NACIONAL POR ATRATIVOS
+            if(op == 4){
+
+                String sqlBuscafkTempo = "SELECT idTempo FROM tempo WHERE nomeMes = ? AND ano = ?";
+                String sqlBuscafkAtrativo = "SELECT idAtrativo FROM atrativoTuristico WHERE nome = ?";
+                String sqlInsert = "INSERT INTO fatoVisitaAtrativo (quantidade, estrangeiro, fkTempo, fkAtrativo) VALUES (?, 0, ?, ?)";
+
+                System.out.println("Lendo Excel...");
+                logs.add(new Log("INICIO LEITURA EXCEL TURISMO NACIONAL ATRATIVOS", "SUCESSO", "ARQUIVO"));
+
+                LeitorExcel leitor = new LeitorExcel();
+                List<TurismoNacionalAtrativo> lista = leitor.extrairTurismoNacionalAtrativo("atrativos-turisticos.xlsx");
+
+                logs.add(new Log("LEITURA TURISMO NACIONAL ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO"));
+
+                System.out.println("Inserindo no banco...");
+                logs.add(new Log("INICIO INSERT TURISMO NACIONAL ATRATIVOS", "SUCESSO", "BANCO"));
+
+                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                     PreparedStatement stmtTempo = conn.prepareStatement(sqlBuscafkTempo);
+                     PreparedStatement stmtAtrativo = conn.prepareStatement(sqlBuscafkAtrativo);
+                     PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
+
+                    conn.setAutoCommit(false);
+
+                    for (TurismoNacionalAtrativo turismo : lista) {
+
+                        try {
+                            stmtTempo.setString(1, turismo.getMes());
+                            stmtTempo.setInt(2, turismo.getAno());
+
+                            ResultSet resultSetTempo = stmtTempo.executeQuery();
+
+                            if (!resultSetTempo.next()) {
+                                System.out.println("Tempo não encontrado: " + turismo.getMes());
+                                logs.add(new Log("TURISMO NACIONAL ATRATIVOS: Tempo não encontrado: " + turismo.getMes(), "FALHA", "BANCO"));
+                                continue;
+                            }
+
+                            int fkTempo = resultSetTempo.getInt("idTempo");
+
+                            stmtAtrativo.setString(1, turismo.getAtrativo());
+
+                            ResultSet resultSetAtrativo = stmtAtrativo.executeQuery();
+
+                            if (!resultSetAtrativo.next()) {
+                                System.out.println("Atrativo não encontrado: " + turismo.getAtrativo());
+                                logs.add(new Log("TURISMO NACIONAL ATRATIVOS: Atrativo não encontrado: " + turismo.getAtrativo(), "FALHA", "BANCO"));
+                                continue;
+                            }
+
+                            int fkAtrativo = resultSetAtrativo.getInt("idAtrativo");
+
+                            stmtInsert.setInt(1, turismo.getQuantidade());
+                            stmtInsert.setInt(2, fkTempo);
+                            stmtInsert.setInt(3, fkAtrativo);
+
+                            stmtInsert.addBatch();
+
+                        } catch (Exception e) {
+                            System.out.println("Erro: " + e.getMessage());
+                        }
+                    }
+
+                    stmtInsert.executeBatch();
+                    conn.commit();
+
+                    logs.add(new Log("INSERT TURISMO NACIONAL ATRATIVOS FINALIZADO", "SUCESSO", "BANCO"));
+
+                } catch (Exception e) {
+                    logs.add(new Log("ERRO GERAL TURISMO NACIONAL ATRATIVOS", "FALHA", "BANCO"));
+                    System.out.println(e.getMessage());
+                }
+
+                System.out.println("Processo turismo nacional por atrativo finalizado.");
+                System.out.println("==============================================");
+                System.out.println();
+            }
+
+            // TURISMO INTERNACIONAL POR ATRATIVOS
+            if(op == 5){
+
+                String sqlBuscafkTempo = "SELECT idTempo FROM tempo WHERE nomeMes = ? AND ano = ?";
+                String sqlBuscafkAtrativo = "SELECT idAtrativo FROM atrativoTuristico WHERE nome = ?";
+                String sqlInsert = "INSERT INTO fatoVisitaAtrativo (quantidade, estrangeiro, fkTempo, fkAtrativo) VALUES (?, 1, ?, ?)";
+
+                System.out.println("Lendo Excel...");
+                logs.add(new Log("INICIO LEITURA EXCEL TURISMO INTERNACIONAL ATRATIVOS", "SUCESSO", "ARQUIVO"));
+
+                LeitorExcel leitor = new LeitorExcel();
+                List<TurismoInternacionalAtrativo> lista = leitor.extrairTurismoInternacionalAtrativo("atrativos-turisticos.xlsx");
+
+                logs.add(new Log("LEITURA TURISMO INTERNACIONAL ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO"));
+
+                System.out.println("Inserindo no banco...");
+                logs.add(new Log("INICIO INSERT TURISMO INTERNACIONAL ATRATIVOS", "SUCESSO", "BANCO"));
+
+                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                     PreparedStatement stmtTempo = conn.prepareStatement(sqlBuscafkTempo);
+                     PreparedStatement stmtAtrativo = conn.prepareStatement(sqlBuscafkAtrativo);
+                     PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
+
+                    conn.setAutoCommit(false);
+
+                    for (TurismoInternacionalAtrativo turismo : lista) {
+
+                        try {
+                            stmtTempo.setString(1, turismo.getMes());
+                            stmtTempo.setInt(2, turismo.getAno());
+
+                            ResultSet resultSetTempo = stmtTempo.executeQuery();
+
+                            if (!resultSetTempo.next()) {
+                                System.out.println("Tempo não encontrado: " + turismo.getMes());
+                                logs.add(new Log("TURISMO INTERNACIONAL ATRATIVOS: Tempo não encontrado: " + turismo.getMes(), "FALHA", "BANCO"));
+                                continue;
+                            }
+
+                            int fkTempo = resultSetTempo.getInt("idTempo");
+
+                            stmtAtrativo.setString(1, turismo.getAtrativo());
+
+                            ResultSet resultSetAtrativo = stmtAtrativo.executeQuery();
+
+                            if (!resultSetAtrativo.next()) {
+                                System.out.println("Atrativo não encontrado: " + turismo.getAtrativo());
+                                logs.add(new Log("TURISMO INTERNACIONAL ATRATIVOS: Atrativo não encontrado: " + turismo.getAtrativo(), "FALHA", "BANCO"));
+                                continue;
+                            }
+
+                            int fkAtrativo = resultSetAtrativo.getInt("idAtrativo");
+
+                            stmtInsert.setInt(1, turismo.getQuantidade());
+                            stmtInsert.setInt(2, fkTempo);
+                            stmtInsert.setInt(3, fkAtrativo);
+
+                            stmtInsert.addBatch();
+
+                        } catch (Exception e) {
+                            System.out.println("Erro: " + e.getMessage());
+                        }
+                    }
+
+                    stmtInsert.executeBatch();
+                    conn.commit();
+
+                    logs.add(new Log("INSERT TURISMO NACIONAL ATRATIVOS FINALIZADO", "SUCESSO", "BANCO"));
+
+                } catch (Exception e) {
+                    logs.add(new Log("ERRO GERAL TURISMO NACIONAL ATRATIVOS", "FALHA", "BANCO"));
+                    System.out.println(e.getMessage());
+                }
+
+                System.out.println("Processo turismo nacional por atrativo finalizado.");
+                System.out.println("==============================================");
+                System.out.println();
+            }
+        } while(op != 8);
     }
 }
