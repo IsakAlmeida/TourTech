@@ -31,6 +31,7 @@ public class Main {
         do {
             System.out.println("Escolha uma opção para ler e inserir dados no banco de dados: ");
             System.out.println("================================================================");
+            System.out.println("0 - Países");
             System.out.println("1 - Hospedagem");
             System.out.println("2 - Estabelecimentos Alimenticios");
             System.out.println("3 - Atrativos Turisticos");
@@ -42,7 +43,7 @@ public class Main {
             System.out.println("================================================================");
             op = sc.nextInt();
 
-            if(op < 1 || op > 8){
+            if(op < 0 || op > 8){
                 System.out.println("Digite uma opção válida!!");
                 System.out.println();
             }
@@ -50,6 +51,93 @@ public class Main {
             if(op == 8){
                 System.out.println("Até mais!");
                 break;
+            }
+
+            //PAÍSES
+            if(op == 0){
+                String sqlBuscaPais = "SELECT idPais FROM paisOrigem WHERE nomePais = ?";
+                String sqlInsertPais = "INSERT INTO paisOrigem(nomePais) VALUES (?)";
+
+                // LEITURA DO EXCEL
+                System.out.println("Lendo Excel...");
+                log = new Log("INICIO LEITURA EXCEL PAÍSES", "SUCESSO", "ARQUIVO");
+                logs.add(log);
+
+                String nomeArquivoHospedagem = "turismo-rio-de-janeiro.xlsx";
+                LeitorExcel leitor = new LeitorExcel();
+                List<Pais> lista = leitor.extrairPaises(nomeArquivoHospedagem);
+
+                log = new Log("LEITURA PAÍSES FINALIZADA", "SUCESSO", "ARQUIVO");
+                logs.add(log);
+
+                // INSERÇÃO NO BANCO
+                System.out.println("Inserindo no banco...");
+                log = new Log("INICIO INSERT PAÍSES", "SUCESSO", "BANCO");
+                logs.add(log);
+
+                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                     PreparedStatement stmtBuscaPais = conn.prepareStatement(sqlBuscaPais);
+                     PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertPais)) {
+
+                    conn.setAutoCommit(false);
+
+                    for (int i = 0; i < lista.size(); i++) {
+
+                        Pais pais = lista.get(i);
+
+                        try {
+                            stmtBuscaPais.setString(1, pais.getNome().trim());
+                            ResultSet resultSet = stmtBuscaPais.executeQuery();
+
+                            if (resultSet.next()) {
+                                System.out.println("País já no banco de dados: " + pais.getNome());
+                                logs.add(new Log("PAÍSES: País já no banco de dados: " + pais.getNome(), "FALHA", "BANCO"));
+                                continue;
+                            }
+
+                            stmtInsert.setString(1, pais.getNome());
+                            stmtInsert.addBatch();
+                            System.out.println("Preparado para inserir: " + pais.getNome());
+
+                        } catch (Exception e) {
+                            System.out.println("Erro: " + e.getMessage());
+                        }
+                    }
+
+                    stmtInsert.executeBatch();
+                    conn.commit();
+
+                    log = new Log("INSERT PAISES FINALIZADO", "SUCESSO", "BANCO");
+                    logs.add(log);
+
+                } catch (Exception e) {
+                    log = new Log("PAISES: ERRO GERAL NO BANCO", "FALHA", "BANCO");
+                    logs.add(log);
+                    System.out.println(e.getMessage());
+                }
+
+                // INSERINDO LOGS NO BANCO
+                System.out.println("Inserindo logs...");
+
+                String queryLogs = "INSERT INTO logsGerais (dataHora, evento, status, objeto) VALUES ";
+
+                for (int i = 0; i < logs.size(); i++) {
+
+                    if (i != 0) queryLogs += ",\n";
+
+                    queryLogs += "('" + logs.get(i).getDataHora() + "', '" +
+                            logs.get(i).getEvento() + "', '" +
+                            logs.get(i).getStatus() + "', '" +
+                            logs.get(i).getObjeto() + "')";
+                }
+
+                queryLogs += ";";
+
+                template.update(queryLogs);
+
+                System.out.println("Processo de países finalizado.");
+                System.out.println("==============================================");
+                System.out.println();
             }
 
             // HOSPEDAGEM
@@ -485,14 +573,166 @@ public class Main {
                     stmtInsert.executeBatch();
                     conn.commit();
 
-                    logs.add(new Log("INSERT TURISMO NACIONAL ATRATIVOS FINALIZADO", "SUCESSO", "BANCO"));
+                    logs.add(new Log("INSERT TURISMO INTERNACIONAL ATRATIVOS FINALIZADO", "SUCESSO", "BANCO"));
 
                 } catch (Exception e) {
-                    logs.add(new Log("ERRO GERAL TURISMO NACIONAL ATRATIVOS", "FALHA", "BANCO"));
+                    logs.add(new Log("ERRO GERAL TURISMO INTERNACIONAL ATRATIVOS", "FALHA", "BANCO"));
                     System.out.println(e.getMessage());
                 }
 
-                System.out.println("Processo turismo nacional por atrativo finalizado.");
+                System.out.println("Processo turismo internacional por atrativo finalizado.");
+                System.out.println("==============================================");
+                System.out.println();
+            }
+
+            // TURISMO NACIONAL POR ESTADO
+            if(op == 6){
+
+                String sqlBuscafkTempo = "SELECT idTempo FROM tempo WHERE nomeMes = ? AND ano = ?";
+                String sqlBuscafkEstado = "SELECT idEstado FROM estado WHERE nome = ?";
+                String sqlInsert = "INSERT INTO chegadaTurismo (quantidade, fkTempo, fkEstado) VALUES (?, ?, ?)";
+
+                System.out.println("Lendo Excel...");
+                logs.add(new Log("INICIO LEITURA EXCEL TURISMO NACIONAL ESTADO", "SUCESSO", "ARQUIVO"));
+
+                LeitorExcel leitor = new LeitorExcel();
+                List<TurismoNacionalEstado> lista = leitor.extrairTurismoNacionalEstado("turismo-rio-de-janeiro.xlsx");
+
+                logs.add(new Log("LEITURA TURISMO NACIONAL ESTADO FINALIZADA", "SUCESSO", "ARQUIVO"));
+
+                System.out.println("Inserindo no banco...");
+                logs.add(new Log("INICIO INSERT TURISMO NACIONAL ESTADO", "SUCESSO", "BANCO"));
+
+                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                     PreparedStatement stmtTempo = conn.prepareStatement(sqlBuscafkTempo);
+                     PreparedStatement stmtBuscafkEstado = conn.prepareStatement(sqlBuscafkEstado);
+                     PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
+
+                    conn.setAutoCommit(false);
+
+                    for (TurismoNacionalEstado turismo : lista) {
+
+                        try {
+                            stmtTempo.setString(1, turismo.getMes());
+                            stmtTempo.setInt(2, turismo.getAno());
+                            stmtBuscafkEstado.setString(1, turismo.getEstado().trim());
+                            ResultSet resultSetEstado = stmtBuscafkEstado.executeQuery();
+
+                            ResultSet resultSetTempo = stmtTempo.executeQuery();
+
+                            if (!resultSetTempo.next()) {
+                                System.out.println("Tempo não encontrado: " + turismo.getMes());
+                                logs.add(new Log("TURISMO NACIONAL ESTADO: Tempo não encontrado: " + turismo.getMes(), "FALHA", "BANCO"));
+                                continue;
+                            }
+                            if (!resultSetEstado.next()) {
+                                System.out.println("Estado NÃO encontrado: " + turismo.getEstado());
+                                logs.add(new Log("TURISMO NACIONAL ESTADO: Município não encontrado: " + turismo.getEstado(), "FALHA", "BANCO"));
+                                continue;
+                            }
+
+                            int fkTempo = resultSetTempo.getInt("idTempo");
+                            int fkEstado = resultSetEstado.getInt("idEstado");
+
+                            stmtInsert.setInt(1, turismo.getQuantidade());
+                            stmtInsert.setInt(2, fkTempo);
+                            stmtInsert.setInt(3, fkEstado);
+
+
+                            stmtInsert.addBatch();
+
+                        } catch (Exception e) {
+                            System.out.println("Erro: " + e.getMessage());
+                        }
+                    }
+
+                    stmtInsert.executeBatch();
+                    conn.commit();
+
+                    logs.add(new Log("INSERT TURISMO NACIONAL ESTADO FINALIZADO", "SUCESSO", "BANCO"));
+
+                } catch (Exception e) {
+                    logs.add(new Log("ERRO GERAL TURISMO NACIONAL ESTADO", "FALHA", "BANCO"));
+                    System.out.println(e.getMessage());
+                }
+
+                System.out.println("Processo turismo nacional por estado finalizado.");
+                System.out.println("==============================================");
+                System.out.println();
+            }
+
+            // TURISMO INTERNACIONAL POR PAIS
+            if(op == 7){
+
+                String sqlBuscafkTempo = "SELECT idTempo FROM tempo WHERE nomeMes = ? AND ano = ?";
+                String sqlBuscafkPais = "SELECT idPais FROM paisOrigem WHERE nomePais = ?";
+                String sqlInsert = "INSERT INTO chegadaTurismo (quantidade, fkTempo, fkPais) VALUES (?, ?, ?)";
+
+                System.out.println("Lendo Excel...");
+                logs.add(new Log("INICIO LEITURA EXCEL TURISMO INTERNACIONAL PAIS", "SUCESSO", "ARQUIVO"));
+
+                LeitorExcel leitor = new LeitorExcel();
+                List<TurismoInternacionalPais> lista = leitor.extrairTurismoInternacionalPais("turismo-rio-de-janeiro.xlsx");
+
+                logs.add(new Log("LEITURA TURISMO INTERNACIONAL PAIS FINALIZADA", "SUCESSO", "ARQUIVO"));
+
+                System.out.println("Inserindo no banco...");
+                logs.add(new Log("INICIO INSERT TURISMO INTERNACIONAL PAIS", "SUCESSO", "BANCO"));
+
+                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                     PreparedStatement stmtTempo = conn.prepareStatement(sqlBuscafkTempo);
+                     PreparedStatement stmtBuscafkPais = conn.prepareStatement(sqlBuscafkPais);
+                     PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
+
+                    conn.setAutoCommit(false);
+
+                    for (TurismoInternacionalPais turismo : lista) {
+
+                        try {
+                            stmtTempo.setString(1, turismo.getMes());
+                            stmtTempo.setInt(2, turismo.getAno());
+                            stmtBuscafkPais.setString(1, turismo.getPais().trim());
+                            ResultSet resultSetPais = stmtBuscafkPais.executeQuery();
+
+                            ResultSet resultSetTempo = stmtTempo.executeQuery();
+
+                            if (!resultSetTempo.next()) {
+                                System.out.println("Tempo não encontrado: " + turismo.getMes());
+                                logs.add(new Log("TURISMO INTERNACIONAL PAIS: Tempo não encontrado: " + turismo.getMes(), "FALHA", "BANCO"));
+                                continue;
+                            }
+                            if (!resultSetPais.next()) {
+                                System.out.println("País NÃO encontrado: " + turismo.getPais());
+                                logs.add(new Log("TURISMO INTERNACIONAL PAIS: País não encontrado: " + turismo.getPais(), "FALHA", "BANCO"));
+                                continue;
+                            }
+
+                            int fkTempo = resultSetTempo.getInt("idTempo");
+                            int fkPais = resultSetPais.getInt("idPais");
+
+                            stmtInsert.setInt(1, turismo.getQuantidade());
+                            stmtInsert.setInt(2, fkTempo);
+                            stmtInsert.setInt(3, fkPais);
+
+
+                            stmtInsert.addBatch();
+
+                        } catch (Exception e) {
+                            System.out.println("Erro: " + e.getMessage());
+                        }
+                    }
+
+                    stmtInsert.executeBatch();
+                    conn.commit();
+
+                    logs.add(new Log("INSERT TURISMO INTERNACIONAL PAIS FINALIZADO", "SUCESSO", "BANCO"));
+
+                } catch (Exception e) {
+                    logs.add(new Log("ERRO GERAL TURISMO INTERNACIONAL PAIS", "FALHA", "BANCO"));
+                    System.out.println(e.getMessage());
+                }
+
+                System.out.println("Processo turismo internacional por pais finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
             }

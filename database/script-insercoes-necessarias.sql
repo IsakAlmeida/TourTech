@@ -4,35 +4,40 @@ SELECT * FROM logsGerais;
 SELECT * FROM estabelecimentoAlimenticio;
 SELECT * FROM atrativoTuristico JOIN fatoVisitaAtrativo ON idAtrativo = fkAtrativo JOIN tempo ON idTempo = fkTempo;
 SELECT * FROM fatoVisitaAtrativo;
+SELECT * FROM chegadaTurismo;
+SELECT * FROM paisOrigem;
+SELECT * FROM estado;
 
+INSERT INTO paisOrigem (nomePais) VALUES ("Brasil");
 
-INSERT INTO estado (nome, sigla) VALUES ("Rio de Janeiro", "RJ"),
-('São Paulo', 'SP'),
-('Minas Gerais', 'MG'),
-('Espírito Santo', 'ES'),
-('Paraná', 'PR'),
-('Bahia', 'BA'),
-('Santa Catarina', 'SC'),
-('Rio Grande do Sul', 'RS'),
-('Distrito Federal', 'DF'),
-('Ceará', 'CE'),
-('Pernambuco', 'PE'),
-('Goiás', 'GO'),
-('Paraíba', 'PB'),
-('Pará', 'PA'),
-('Rio Grande do Norte', 'RN'),
-('Maranhão', 'MA'),
-('Amazonas', 'AM'),
-('Mato Grosso', 'MT'),
-('Mato Grosso do Sul', 'MS'),
-('Alagoas', 'AL'),
-('Sergipe', 'SE'),
-('Piauí', 'PI'),
-('Tocantins', 'TO'),
-('Rondônia', 'RO'),
-('Roraima', 'RR'),
-('Acre', 'AC'),
-('Amapá', 'AP');
+INSERT INTO estado (nome, sigla, fkPais) VALUES ("Rio de Janeiro", "RJ", 1),
+('São Paulo', 'SP', 1),
+('Minas Gerais', 'MG', 1),
+('Espírito Santo', 'ES', 1),
+('Paraná', 'PR', 1),
+('Bahia', 'BA', 1),
+('Santa Catarina', 'SC', 1),
+('Rio Grande do Sul', 'RS', 1),
+('Distrito Federal', 'DF', 1),
+('Ceará', 'CE', 1),
+('Pernambuco', 'PE', 1),
+('Goiás', 'GO', 1),
+('Paraíba', 'PB', 1),
+('Pará', 'PA', 1),
+('Rio Grande do Norte', 'RN', 1),
+('Maranhão', 'MA', 1),
+('Amazonas', 'AM', 1),
+('Mato Grosso', 'MT', 1),
+('Mato Grosso do Sul', 'MS', 1),
+('Alagoas', 'AL', 1),
+('Sergipe', 'SE', 1),
+('Piauí', 'PI', 1),
+('Tocantins', 'TO', 1),
+('Rondônia', 'RO', 1),
+('Roraima', 'RR', 1),
+('Acre', 'AC', 1),
+('Amapá', 'AP', 1);
+
 
 INSERT INTO Municipio (nome, fkEstado) VALUES ("Rio de Janeiro", 1),
 ('Angra dos Reis', 1), ('Aperibé', 1), ('Araruama', 1), ('Areal', 1), ('Armação dos Búzios', 1),
@@ -66,3 +71,4 @@ INSERT INTO tempo (mes, nomeMes, ano) VALUES (1, "JAN", 2024),
 (10, "OUT", 2024),
 (11, "NOV", 2024),
 (12, "DEZ", 2024);
+
