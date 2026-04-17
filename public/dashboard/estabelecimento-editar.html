@@ -77,8 +77,8 @@
         <main>
             <!--ATUALIZAR-->
             <div class="caixa-cadastro">
-                <h1>Editar Estabelecimento</h1>
-                <p>Digite os dados do estabelecimento abaixo</p>
+                <h1>Atualizar Estabelecimento</h1>
+                <p>Digite os dados que deseja atualizar do estabelecimento abaixo</p>
 
                 <div class="campo">
                     <label>Nome</label>
@@ -86,16 +86,26 @@
                     <span class="error" id="errorNome"></span>
                 </div>
 
-                <div class="campo">
-                    <label>Categoria</label>
-                    <input id="iptCategoria" type="text" placeholder="Ex.: Hotel">
-                    <span class="error" id="errorCategoria"></span>
-                </div>
                 <div class="formato-linha">
                     <div class="campo">
-                        <label>Quantia de quartos</label>
-                        <input id="iptQtQuarto" type="number" placeholder="Ex.: 3">
-                        <span class="error" id="errorQtQuarto"></span>
+                        <label>Categoria</label>
+                        <input id="iptCategoria" placeholder="Categoria">
+                        <span class="error" id="errorCategoria"></span>
+                    </div>
+                    <div class="campo">
+                        <label>Tipo</label>
+                        <select id="iptTipo">
+                            <option value="hospedagem">Hospedagem</option>
+                            <option value="alimenticio">Alimentício</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="formato-linha">
+                    <div class="campo">
+                        <label>Numero de Contato</label>
+                        <input id="iptContato" placeholder="(01)2345-6789">
+                        <span class="error" id="errorContato"></span>
                     </div>
                     <div class="campo">
                         <label>Municipio</label>
@@ -105,16 +115,25 @@
                         <span class="error" id="errorMunicipio"></span>
                     </div>
                 </div>
+
+                <div class="campo">
+                    <label>Endereço</label>
+                    <input id="iptEndereco" placeholder="Endereço completo">
+                    <span class="error" id="errorEndereco"></span>
+                </div>
+
                 <div class="formato-linha">
                     <div class="campo">
-                        <label>Nota</label>
-                        <input id="iptNota" type="number" min="0" max="5" placeholder="Ex.: 5">
-                        <span class="error" id="errorNota"></span>
+                        <label>Email</label>
+                        <input id="iptEmail" placeholder="exemplo@email.com">
+                        <span class="error" id="errorEmail"></span>
                     </div>
                     <div class="campo">
-                        <label>Preço Médio</label>
-                        <input id="iptPreco" type="number" min="0" placeholder="300">
-                        <span class="error" id="errorPreco"></span>
+                        <label>Multi Linguagem</label>
+                        <select id="iptMultilingue">
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
                     </div>
                 </div>
 
@@ -138,7 +157,7 @@
             }
 
             function listarMunicipio() {
-               return fetch("/estabelecimento/listarMunicipio")
+                return fetch("/estabelecimento/listarMunicipio")
                     .then(function (resposta) {
                         return resposta.json();
                     })
@@ -165,9 +184,10 @@
             //BUSCAR
 
             function carregarEstabelecimento() {
-                var idHospedagem = sessionStorage.ID_HOSPEDAGEM_EDITAR;
+                var id = sessionStorage.ID_EDITAR;
+                var tipo = sessionStorage.TIPO_EDITAR;
 
-                fetch(`/estabelecimento/buscarEstabelecimento/${idHospedagem}`)
+                fetch(`/estabelecimento/buscarEstabelecimento/${id}/${tipo}`)
                     .then(function (resposta) {
                         return resposta.json();
                     })
@@ -178,10 +198,13 @@
 
                         iptNome.value = estabelecimento.nome;
                         iptCategoria.value = estabelecimento.categoria;
-                        iptQtQuarto.value = estabelecimento.qtdQuartos;
-                        iptMunicipio.value = estabelecimento.idMunicipio;
-                        iptNota.value = estabelecimento.nota;
-                        iptPreco.value = estabelecimento.precoMedio;
+                        iptTipo.value = tipo;
+                        iptEndereco.value = estabelecimento.endereco;
+                        iptContato.value = estabelecimento.contato;
+                        iptEmail.value = estabelecimento.emailComercial;
+                        iptMultilingue.value = estabelecimento.multilingue;
+                        iptMunicipio.value = estabelecimento.idMunicipio;;
+
                     })
                     .catch(function (erro) {
                         console.log(erro);
@@ -196,17 +219,19 @@
 
                 errorNome.innerHTML = "";
                 errorCategoria.innerHTML = "";
-                errorQtQuarto.innerHTML = "";
+                errorContato.innerHTML = "";
+                errorEndereco.innerHTML = "";
+                errorEmail.innerHTML = "";
                 errorMunicipio.innerHTML = "";
-                errorNota.innerHTML = "";
-                errorPreco.innerHTML = "";
 
                 var nome = iptNome.value;
                 var categoria = iptCategoria.value;
-                var QtQuarto = iptQtQuarto.value;
+                var tipo = iptTipo.value;
+                var endereco = iptEndereco.value;
+                var contato = iptContato.value;
+                var emailComercial = iptEmail.value;
+                var multilingue = iptMultilingue.value;
                 var municipio = iptMunicipio.value;
-                var nota = iptNota.value;
-                var precoMedio = iptPreco.value;
 
                 var erro = false;
 
@@ -216,29 +241,39 @@
                 }
 
                 if (categoria == "") {
-                    errorCategoria.innerHTML = "Preencha a categoria";
+                    errorNumeroContato.innerHTML = "Preencha a categoria";
                     erro = true;
                 }
 
-                if (QtQuarto == "" || QtQuarto <= 0) {
-                    errorQtQuarto.innerHTML = "Quantidade inválida";
+                if (contato == "") {
+                    errorNumeroContato.innerHTML = "Preencha o contato";
                     erro = true;
                 }
+
+                if (contato.length > 15) {
+                    errorNumeroContato.innerHTML = "Numero de contato inválido";
+                    erro = true;
+                }
+
+                if (endereco == "") {
+                    errorEndereco.innerHTML = "Preencha o endereço";
+                    erro = true;
+                }
+
+                if (email == "") {
+                    errorEmail.innerHTML = "Preencha o email";
+                    erro = true;
+                }
+
+                 if (!email.includes("@") || !email.includes(".")){
+                    errorEmail.innerHTML = "O email deve conter '@' e '.'";
+                    erro = true;
+                 }
 
                 if (municipio == "") {
                     errorMunicipio.innerHTML = "Selecione o município";
                     erro = true;
                 }
-                if (nota == "" || nota < 0) {
-                    errorNota.innerHTML = "A nota precisa ser entre 0 até 5";
-                    erro = true;
-                }
-
-                if (precoMedio == "" || precoMedio < 0) {
-                    errorPreco.innerHTML = "Preencha um valor válido";
-                    erro = true;
-                }
-
 
                 if (!erro) {
 
@@ -248,13 +283,15 @@
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            idHospedagem: sessionStorage.ID_HOSPEDAGEM_EDITAR,
+                            id: sessionStorage.ID_EDITAR,
+                            tipo: tipo,
                             nome: nome,
                             categoria: categoria,
-                            QtQuarto: QtQuarto,
-                            fkMunicipio: municipio,
-                            nota: nota,
-                            precoMedio: precoMedio
+                            endereco: endereco,
+                            multilingue: multilingue,
+                            contato: contato,
+                            emailComercial: emailComercial,
+                            fkMunicipio: municipio
                         })
                     })
                         .then(function (resposta) {
