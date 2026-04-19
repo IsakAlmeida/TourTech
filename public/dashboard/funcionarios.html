@@ -141,6 +141,8 @@
                 window.location = "./funcionarios-cadastro.html";
             }
 
+            //LISTAR
+
             function listarFuncionarios() {
                 const id_usuario = sessionStorage.getItem('ID_USUARIO');
 
@@ -176,6 +178,45 @@
                     })
                     .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
 
+            }
+
+            //EXCLUIR
+
+            function excluir() {
+                const checkboxes = document.querySelectorAll('#lista-funcionarios input[type="checkbox"]:checked');
+
+                if (checkboxes.length == 0) {
+                    console.log("Nenhum funcionario foi selecionado");
+                    return;
+                }
+
+                checkboxes.forEach((checkbox) => {
+                    const idUsuario = checkbox.value;
+
+
+                    fetch("/funcionarios/deletar", {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            id_usuario: idUsuario,
+                            idEmpresa: sessionStorage.ID_EMPRESA
+                        })
+                    })
+                        .then(res => {
+                            if (!res.ok) {
+                                throw new Error("Erro ao deletar");
+                            }
+                            return res.json();
+                        })
+                        .then(() => {
+                            console.log("Funcionario Deletado:", idUsuario);
+                            alert("Funcionario Deletado com Sucesso!")
+                            listarFuncionarios();
+                        })
+                        .catch(err => console.log("Erro em deletar funcionario:", err));
+                });
             }
 
         </script>

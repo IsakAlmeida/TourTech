@@ -127,13 +127,16 @@
         </main>
 
         <script>
-             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
             var errorNome = document.getElementById("errorNome");
+            var errorSobrenome = document.getElementById("errorSobrenome");
             var errorEmail = document.getElementById("errorEmail");
             var errorCargo = document.getElementById("errorCargo");
             var errorSenha = document.getElementById("errorSenha");
             var errorConfirmacaoSenha = document.getElementById("errorConfirmacaoSenha");
+
+            //LISTAR Niveis
 
             function listarNiveis() {
                 fetch("/funcionarios/listarNiveis")
@@ -141,7 +144,7 @@
                         return resposta.json();
                     })
                     .then(function (dados) {
-                         console.log("ESTOU NO THEN select funcionarios(cadastro)");
+                        console.log("ESTOU NO THEN select funcionarios(cadastro)");
 
                         var select = document.getElementById("iptCargo");
                         select.innerHTML = `<option value="">Selecione um cargo</option>`;
@@ -160,9 +163,12 @@
                     });
             }
 
+            // CADASTRAR
+
             function cadastrar() {
 
                 errorNome.innerHTML = "";
+                errorSobrenome.innerHTML = "";
                 errorEmail.innerHTML = "";
                 errorCargo.innerHTML = "";
                 errorSenha.innerHTML = "";
@@ -178,56 +184,66 @@
 
                 var erro = false;
 
-                if (nome == "") { 
-                    errorNome.innerHTML = "Preencha o nome"; erro = true; 
+                if (nome == "") {
+                    errorNome.innerHTML = "Preencha o nome"; erro = true;
                 }
-                if (email == "") { 
-                    errorEmail.innerHTML = "Preencha o email"; erro = true; 
+                if (sobrenome == "") {
+                    errorSobrenome.innerHTML = "Preencha o sobrenome"; erro = true;
                 }
-                if (cargo == "") { 
+                if (email == "") {
+                    errorEmail.innerHTML = "Preencha o email"; erro = true;
+                }
+                if (!email.includes("@") || !email.includes(".")) {
+                    errorEmail.innerHTML = "Email inválido"; erro = true;
+                }
+                if (cargo == "") {
                     errorCargo.innerHTML = "Selecione um cargo"; erro = true;
-                 }
-                if (senha == "") { 
+                }
+                if (senha == "") {
                     errorSenha.innerHTML = "Preencha a senha"; erro = true;
-                 }
-                if (confirmacaoSenha != senha) { 
+                }
+                if (senha.length < 6) {
+                    errorSenha.innerHTML = "Senha deve ter pelo menos 6 caracteres"; erro = true;
+                }
+                if (confirmacaoSenha != senha) {
                     errorConfirmacaoSenha.innerHTML = "Senhas diferentes"; erro = true;
-                 }
+                }
 
-                if (erro){
+                if (!erro) {
 
-                fetch("/funcionarios/cadastrar", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        nome: nome,
-                        sobrenome: sobrenome,
-                        email: email,
-                        senha: senha,
-                        fkEmpresa: fkEmpresa,
-                        fkNivelAcesso: cargo
+                    fetch("/funcionarios/cadastrar", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            nome: nome,
+                            sobrenome: sobrenome,
+                            email: email,
+                            senha: senha,
+                            fkEmpresa: fkEmpresa,
+                            fkNivelAcesso: cargo
+                        })
                     })
-                })
-                    .then(function (resposta) {
-                        console.log("ESTOU NO THEN cadastrar FUNCIONARIOS");
+                        .then(function (resposta) {
+                            console.log("ESTOU NO THEN cadastrar FUNCIONARIOS");
 
-                        if (resposta.ok) {
-                            console.log("Funcionário cadastrado!");
-                            window.location = "./funcionarios.html";
-                        } else if (resposta.status == 409) {
-                            errorEmail.innerHTML = "Email já existe";
-                        } else {
-                           console.log("Erro ao cadastrar");
-                        }
-                    })
-                    .catch(function (erro) {
-                        console.log(erro);
-                        console.log("Erro ao cadastrar!");
-                    });
+                            if (resposta.ok) {
+                                console.log("Funcionário cadastrado!");
+                                alert("Funcionário");
+                                window.location = "./funcionarios.html";
+                            } else if (resposta.status == 409) {
+                                errorEmail.innerHTML = "Email já existe";
+                            } else {
+                                console.log("Erro ao cadastrar");
+                            }
+                        })
+                        .catch(function (erro) {
+                            console.log(erro);
+                            console.log("Erro ao cadastrar!");
+                        });
+                }
             }
-        }
         </script>
 
 </body>

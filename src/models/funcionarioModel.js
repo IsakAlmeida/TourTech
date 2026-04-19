@@ -44,10 +44,13 @@ function cadastrar(nome, email, senha, fkNivelAcesso, fkEmpresa) {
     return database.executar(instrucao);
 }
 
-
+// Niveis
 function listarNiveis() {
     var instrucaoSql = `
-        SELECT idNivelAcesso, nivel FROM nivelAcesso;
+        SELECT 
+        idNivelAcesso, 
+        nivel 
+        FROM nivelAcesso;
     `;
     console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -65,12 +68,31 @@ function atualizar(id_usuario, senha) {
 
 // Deletar
 function deletar(id_usuario) {
-    var instrucaoSql = `
-        DELETE FROM usuario
-        WHERE idUsuario = ${id_usuario};
+    var deletarChamado = `
+        DELETE FROM chamadoSuporte 
+        WHERE fkUsuario = ${id_usuario};
     `;
-    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    var deletarLog = `
+        DELETE FROM logSistema 
+        WHERE fkUsuario = ${id_usuario};
+    `;
+    var deletarUsuario = `
+            DELETE FROM usuario 
+            WHERE idUsuario = ${id_usuario};
+        `
+    console.log("Model: Executando a instrução  deletar chamado: \n" + deletarChamado);
+    console.log("Model: Executando a instrução SQL deletar log: \n" + deletarLog);
+    console.log("Model: Executando a instrução SQL deletar funcionario: \n" + deletarUsuario);
+    return database.executar(deletarChamado)
+        .then(() => {
+            console.log("Log deletado");
+            return database.executar(deletarLog);
+        })
+        .then(() => {
+            console.log("Usuário deletado");
+            return database.executar(deletarUsuario);
+        });
+
 }
 
 module.exports = {

@@ -5,17 +5,17 @@ function listar(req, res) {
     let id_usuario = req.params.id_usuario
 
     funcionarioModel.listar(id_usuario)
-    .then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Controller: Nenhum funcionario encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Controller: Houve um erro ao buscar os funcionários: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Controller: Nenhum funcionario encontrado!")
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Controller: Houve um erro ao buscar os funcionários: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
 }
 
 
@@ -60,16 +60,16 @@ function cadastrar(req, res) {
 function listarNiveis(req, res) {
     funcionarioModel.listarNiveis()
         .then(function (resultado) {
-            res.status(200).json({
-                mensagem: "Controller: Nivel listado com sucesso", resultado
-            });
-        })
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Controller: Houve um erro ao listar os niveis: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Controller: Nenhum Nivel encontrado!")
             }
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Controller: Houve um erro ao listar os niveis: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }
         );
 }
 
@@ -98,7 +98,7 @@ function atualizar(req, res) {
 
 // Deletar usuario
 function deletar(req, res) {
-    var id_usuario = req.body.idUsuario;
+    var id_usuario = req.body.id_usuario;
     var id_empresa = req.body.idEmpresa;
 
     funcionarioModel.deletar(id_usuario, id_empresa)
