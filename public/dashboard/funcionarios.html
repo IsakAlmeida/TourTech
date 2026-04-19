@@ -45,6 +45,7 @@
             </div>
 
             <div class="btn-nav">
+                <a href="./funcionarios.html">
                 <h3>Funcionarios</h3>
                 </a>
             </div>
@@ -99,7 +100,7 @@
                 <div class="tabela">
 
                     <div class="linha descricao">
-                        <div class="coluna check"><input type="checkbox"></div>
+                        <div class="coluna check"><input type="checkbox" disabled></div>
                         <div class="coluna">Nome</div>
                         <div class="coluna">Cargo</div>
                         <div class="coluna">E-mail</div>
@@ -169,7 +170,7 @@
                         </div>
                         <div class="coluna">${funcionario.email}</div>
                         <div class="coluna">
-                            <button class="btn-editar" onclick="editar()">Editar</button>
+                            <button class="btn-editar" onclick="editar(${funcionario.idUsuario})">Editar</button>
                         </div>
                     </div>
                 `;
@@ -217,6 +218,12 @@
                         })
                         .catch(err => console.log("Erro em deletar funcionario:", err));
                 });
+            }
+
+            //EDITAR
+            function editar(idUsuario) {
+                sessionStorage.ID_FUNCIONARIO = idUsuario;
+                window.location = "./funcionarios-editar.html";
             }
 
         </script>

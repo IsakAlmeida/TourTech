@@ -73,14 +73,37 @@ function listarNiveis(req, res) {
         );
 }
 
+// Buscar funcionario
+function buscarFuncionario(req, res) {
+    var idUsuario = req.params.idUsuario;
+
+    funcionarioModel.buscarFuncionario(idUsuario)
+        .then(function (resultado) {
+            console.log("Controller: Funcionario buscado com sucesso ", resultado);
+            res.status(200).json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).send("Erro no servidor buscar funcionario");
+
+        });
+}
 
 // Atualizar Senha
 function atualizar(req, res) {
-    var id_usuario = req.body.idUsuario;
-    var id_empresa = req.body.idEmpresa;
+    var idUsuario = req.body.idUsuario;
+    var nome = req.body.nome;
+    var email = req.body.email;
+    var fkNivelAcesso = req.body.fkNivelAcesso;
     var senha = req.body.senha;
 
-    funcionarioModel.atualizar(id_usuario, id_empresa, senha)
+    if (!idUsuario || !nome || !email || !fkNivelAcesso) {
+        return res.status(400).json({
+            erro: "Controller: Todos os campos são obrigatórios"
+        });
+    }
+
+    funcionarioModel.atualizar(idUsuario, nome, email, fkNivelAcesso, senha)
         .then(function (resultado) {
             res.status(200).json({
                 mensagem: "Controller: Atualizado com sucesso", resultado
@@ -123,6 +146,7 @@ module.exports = {
     listar,
     cadastrar,
     listarNiveis,
+    buscarFuncionario,
     atualizar,
     deletar
 };

@@ -7,6 +7,7 @@ function listar(id_usuario) {
             u.idUsuario,
             u.nome,
             u.email,
+            u.fkEmpresa,
 			na.nivel
         FROM usuario u
         JOIN nivelAcesso na 
@@ -56,11 +57,31 @@ function listarNiveis() {
     return database.executar(instrucaoSql);
 }
 
+// Buscar
+function buscarFuncionario(idUsuario) {
+
+    var instrucao = `
+            SELECT 
+            u.idUsuario,
+            u.nome,
+            u.email,
+            u.fkNivelAcesso AS idNivelAcesso
+        FROM usuario u
+        WHERE u.idUsuario = ${idUsuario};
+    `;
+    console.log("Model: Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 // Atualizar
-function atualizar(id_usuario, senha) {
+function atualizar(idUsuario, nome, email, fkNivelAcesso, senha){
     var instrucaoSql = `
-        UPDATE usuario SET senha = '${senha}'
-        WHERE idUsuario = ${id_usuario};
+        UPDATE usuario SET
+            nome = '${nome}',
+            email = '${email}',
+            fkNivelAcesso = ${fkNivelAcesso},
+            senha = '${senha}'
+        WHERE idUsuario = ${idUsuario};
     `;
     console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -99,6 +120,7 @@ module.exports = {
     listar,
     cadastrar,
     listarNiveis,
+    buscarFuncionario,
     atualizar,
     deletar
 }
