@@ -19,23 +19,25 @@ function listar(req, res) {
 
 // Cadastrar Estabelecimento
 function cadastrar(req, res) {
+    var tipo = req.body.tipo;
     var nome = req.body.nome;
     var categoria = req.body.categoria;
-    var QtQuarto = req.body.QtQuarto;
+    var endereco = req.body.endereco;
+    var multilingue = req.body.multilingue;
+    var contato = req.body.contato;
+    var emailComercial = req.body.emailComercial;
     var fkMunicipio = req.body.fkMunicipio;
-    var nota = req.body.nota;
-    var precoMedio = req.body.precoMedio;
 
 
-    if (!nome || !categoria || !QtQuarto || !fkMunicipio || !nota || !precoMedio) {
+    if (!tipo || !nome || !categoria || !endereco || !multilingue || !contato || !emailComercial || !fkMunicipio) {
         return res.status(400).json({
             erro: "Controller: Todos os campos são obrigatórios"
         });
     }
 
-    console.log("Controller: Cadastrando Estabelecimento:", { nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio });
+    console.log("Controller: Cadastrando Estabelecimento:", {tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio});
 
-    estabelecimentoModel.cadastrar(nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio)
+    estabelecimentoModel.cadastrar(tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio)
         .then(function (resultado) {
             res.status(201).json({
                 mensagem: "Controller: Estabelecimento cadastrado com sucesso", resultado
@@ -66,9 +68,10 @@ function listarMunicipio(req, res) {
 
 // Buscar Estabelecimento
 function buscarEstabelecimento(req, res) {
-    var idHospedagem = req.params.idHospedagem;
+    var id = req.params.id;
+    var tipo = req.params.tipo;
 
-    estabelecimentoModel.buscarEstabelecimento(idHospedagem)
+    estabelecimentoModel.buscarEstabelecimento(id, tipo)
         .then(function (resultado) {
             console.log("Controller: Estabelecimento buscado com sucesso ", resultado);
             res.status(200).json(resultado);
@@ -82,21 +85,23 @@ function buscarEstabelecimento(req, res) {
 
 // Atualizar Estabelecimento
 function atualizar(req, res) {
-    var idHospedagem = req.body.idHospedagem;
+    var id = req.body.id;
+    var tipo = req.body.tipo;
     var nome = req.body.nome;
     var categoria = req.body.categoria;
-    var QtQuarto = req.body.QtQuarto;
+    var endereco = req.body.endereco;
+    var multilingue = req.body.multilingue;
+    var contato = req.body.contato;
+    var emailComercial = req.body.emailComercial;
     var fkMunicipio = req.body.fkMunicipio;
-    var nota = req.body.nota;
-    var precoMedio = req.body.precoMedio;
 
-    if (!idHospedagem || !nome || !categoria || !QtQuarto || !fkMunicipio || !nota || !precoMedio) {
+    if (!id || !tipo || !nome || !categoria || !endereco || !multilingue || !contato || !emailComercial || !fkMunicipio) {
         return res.status(400).json({
             erro: "Controller: Todos os campos para atualização são obrigatórios"
         });
     }
 
-    estabelecimentoModel.atualizar(idHospedagem, nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio)
+    estabelecimentoModel.atualizar(id, tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio)
         .then(function (resultado) {
             res.status(200).json({
                 mensagem: "Controller: Atualizado com sucesso", resultado
@@ -114,13 +119,14 @@ function atualizar(req, res) {
 
 // Deletar Estabelecimento
 function deletar(req, res) {
-    var id_hospedagem = req.body.idHospedagem;
+    var id = req.body.id;
+    var tipo = req.body.tipo;
 
-    if (!id_hospedagem) {
-        return res.status(400).send("ID não informado");
+    if (!id || !tipo) {
+        return res.status(400).send("ID e Tipo não informado");
     }
 
-    estabelecimentoModel.deletar(id_hospedagem)
+    estabelecimentoModel.deletar(id, tipo)
         .then(function (resultado) {
             res.status(200).json({
                 mensagem: "Controller: Deletado com sucesso", resultado

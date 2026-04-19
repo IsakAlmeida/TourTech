@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TourTech | Cadastro de Funcionarios</title>
+    <title>TourTech | Editar Funcionarios</title>
 
 
     <link rel="stylesheet" href="./../css/funcionarios.css">
@@ -26,7 +26,7 @@
 </head>
 
 
-<body onload="listarNiveis()">
+<body onload="iniciar()">
     <!--Menu-->
     <div class="janela">
 
@@ -77,21 +77,13 @@
         <main>
             <!--Cadastro-->
             <div class="caixa-cadastro">
-                <h1>Cadastrar Funcionários</h1>
-                <p>Digite os dados dos funcionários abaixo</p>
+                <h1>Atualizar Funcionários</h1>
+                <p>Atualize os dados dos funcionários abaixo</p>
 
-                <div class="formato-linha">
-                    <div class="campo">
-                        <label>Nome</label>
-                        <input id="iptNome" type="text" placeholder="Digite o nome">
-                        <span class="error" id="errorNome"></span>
-                    </div>
-
-                    <div class="campo">
-                        <label>Sobrenome</label>
-                        <input id="iptSobrenome" type="text" placeholder="Digite o sobrenome">
-                        <span class="error" id="errorSobrenome"></span>
-                    </div>
+                <div class="campo">
+                    <label>Nome</label>
+                    <input id="iptNome" type="text" placeholder="Digite o nome">
+                    <span class="error" id="errorNome"></span>
                 </div>
 
                 <div class="campo">
@@ -109,7 +101,7 @@
                 </div>
 
                 <div class="campo">
-                    <label>Senha</label>
+                    <label>Nova Senha</label>
                     <input id="iptSenha" type="password" placeholder="Digite a senha">
                     <span class="error" id="errorSenha"></span>
                 </div>
@@ -121,7 +113,7 @@
                 </div>
 
                 <span id="loading" class="loading"></span>
-                <button class="btn-cadastrar" onclick="cadastrar()">Cadastrar</button>
+                <button class="btn-cadastrar" onclick="atualizar()">Atualizar</button>
 
             </div>
         </main>
@@ -130,16 +122,22 @@
             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
             var errorNome = document.getElementById("errorNome");
-            var errorSobrenome = document.getElementById("errorSobrenome");
             var errorEmail = document.getElementById("errorEmail");
             var errorCargo = document.getElementById("errorCargo");
             var errorSenha = document.getElementById("errorSenha");
             var errorConfirmacaoSenha = document.getElementById("errorConfirmacaoSenha");
 
+
+            function iniciar() {
+                listarNiveis().then(() => {
+                    carregarFuncionarios();
+                });
+            }
+
             //LISTAR Niveis
 
             function listarNiveis() {
-                fetch("/funcionarios/listarNiveis")
+                return fetch("/funcionarios/listarNiveis")
                     .then(function (resposta) {
                         return resposta.json();
                     })
@@ -163,32 +161,54 @@
                     });
             }
 
-            // CADASTRAR
+            //BUSCAR
 
-            function cadastrar() {
+            function carregarFuncionarios() {
+                var idUsuario = sessionStorage.ID_FUNCIONARIO;
+                console.log("ID FUNCIONARIO:", idUsuario);
+
+                fetch(`/funcionarios/buscarFuncionario/${idUsuario}`)
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        console.log("ESTOU NO THEN buscar Funcionario");
+
+                        var funcionario = dados[0];
+
+
+                        iptNome.value = funcionario.nome;
+                        iptEmail.value = funcionario.email;
+                        iptCargo.value = funcionario.idNivelAcesso;
+
+
+                    })
+                    .catch(function (erro) {
+                        console.log(erro);
+                        console.log("Erro ao buscar funcionario!");
+                    });
+            }
+
+            // ATUALIZAR
+
+            function atualizar() {
 
                 errorNome.innerHTML = "";
-                errorSobrenome.innerHTML = "";
                 errorEmail.innerHTML = "";
                 errorCargo.innerHTML = "";
                 errorSenha.innerHTML = "";
                 errorConfirmacaoSenha.innerHTML = "";
 
                 var nome = iptNome.value;
-                var sobrenome = iptSobrenome.value;
                 var email = iptEmail.value;
                 var cargo = iptCargo.value;
                 var senha = iptSenha.value;
                 var confirmacaoSenha = iptConfirmacaoSenha.value;
-                var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
                 var erro = false;
 
                 if (nome == "") {
                     errorNome.innerHTML = "Preencha o nome"; erro = true;
-                }
-                if (sobrenome == "") {
-                    errorSobrenome.innerHTML = "Preencha o sobrenome"; erro = true;
                 }
                 if (email == "") {
                     errorEmail.innerHTML = "Preencha o email"; erro = true;
@@ -211,38 +231,36 @@
 
                 if (!erro) {
 
-                    fetch("/funcionarios/cadastrar", {
-                        method: "POST",
+                    fetch("/funcionarios/atualizar", {
+                        method: "PUT",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
+                            idUsuario: sessionStorage.ID_FUNCIONARIO,
                             nome: nome,
-                            sobrenome: sobrenome,
                             email: email,
-                            senha: senha,
-                            fkEmpresa: fkEmpresa,
-                            fkNivelAcesso: cargo
+                            fkNivelAcesso: cargo,
+                            senha: senha
                         })
                     })
                         .then(function (resposta) {
                             console.log("ESTOU NO THEN cadastrar FUNCIONARIOS");
 
                             if (resposta.ok) {
-                                console.log("Funcionário cadastrado!");
-                                alert("Funcionário Cadastrado com Sucesso");
+                                console.log("Funcionário Atualizado!");
+                                alert("Funcionário Atualizado com Sucesso");
                                 window.location = "./funcionarios.html";
-                            } else if (resposta.status == 409) {
-                                errorEmail.innerHTML = "Email já existe";
+
                             } else {
-                                console.log("Erro ao cadastrar");
-                                alert("ERRO ao cadastrar o Funcionario, por favor tente mais tarde");
+                                console.log("Erro ao atualizar");
+                                alert("ERRO ao atualizar o Funcionario, por favor tente mais tarde");
                             }
                         })
                         .catch(function (erro) {
                             console.log(erro);
-                            console.log("Erro ao cadastrar!");
-                            alert("ERRO ao cadastrar o Funcionario, por favor tente mais tarde");
+                            console.log("Erro ao atualizar!");
+                            alert("ERRO ao atualizar o Funcionario, por favor tente mais tarde");
                         });
                 }
             }

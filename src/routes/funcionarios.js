@@ -18,6 +18,11 @@ router.get("/listarNiveis", function (req, res){
     funcionarioController.listarNiveis(req, res);
 });
 
+// buscar funcionario
+router.get("/buscarFuncionario/:idUsuario", function (req, res) {
+    funcionarioController.buscarFuncionario(req, res);
+});
+
 // atualizar
 router.put("/atualizar", function (req, res) {
     funcionarioController.atualizar(req, res);

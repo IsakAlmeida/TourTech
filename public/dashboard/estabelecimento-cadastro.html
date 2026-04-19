@@ -86,16 +86,26 @@
                     <span class="error" id="errorNome"></span>
                 </div>
 
-                <div class="campo">
-                    <label>Categoria</label>
-                    <input id="iptCategoria" type="text" placeholder="Ex.: Hotel">
-                    <span class="error" id="errorCategoria"></span>
-                </div>
                 <div class="formato-linha">
                     <div class="campo">
-                        <label>Quantia de quartos</label>
-                        <input id="iptQtQuarto" type="number" placeholder="Ex.: 3">
-                        <span class="error" id="errorQtQuarto"></span>
+                        <label>Categoria</label>
+                        <input id="iptCategoria" placeholder="Categoria">
+                         <span class="error" id="errorCategoria"></span>
+                    </div>
+                    <div class="campo">
+                        <label>Tipo</label>
+                        <select id="iptTipo">
+                            <option value="hospedagem">Hospedagem</option>
+                            <option value="alimenticio">Alimentício</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="formato-linha">
+                    <div class="campo">
+                        <label>Numero de Contato</label>
+                        <input id="iptContato" placeholder="(01)2345-6789">
+                        <span class="error" id="errorContato"></span>
                     </div>
                     <div class="campo">
                         <label>Municipio</label>
@@ -105,17 +115,26 @@
                         <span class="error" id="errorMunicipio"></span>
                     </div>
                 </div>
-                 <div class="formato-linha">
+
                 <div class="campo">
-                    <label>Nota</label>
-                    <input id="iptNota" type="number"  min="0" max="5" placeholder="Ex.: 5">
-                    <span class="error" id="errorNota"></span>
+                    <label>Endereço</label>
+                    <input id="iptEndereco" placeholder="Endereço completo">
+                    <span class="error" id="errorEndereco"></span>
                 </div>
-                <div class="campo">
-                    <label>Preço Médio</label>
-                    <input id="iptPreco" type="number" min="0" placeholder="300">
-                    <span class="error" id="errorPreco"></span>
-                </div>
+
+                <div class="formato-linha">
+                    <div class="campo">
+                        <label>Email</label>
+                        <input id="iptEmail" placeholder="exemplo@email.com">
+                        <span class="error" id="errorEmail"></span>
+                    </div>
+                    <div class="campo">
+                        <label>Multi Linguagem</label>
+                        <select id="iptMultilingue">
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </div>
                 </div>
 
                 <span id="loading" class="loading"></span>
@@ -128,7 +147,8 @@
 
             var errorNome = document.getElementById("errorNome");
             var errorCategoria = document.getElementById("errorCategoria");
-            var errorQtQuarto = document.getElementById("errorQtQuarto");
+            var errorContato = document.getElementById("errorContato");
+            var errorEmail = document.getElementById("errorEmail");
             var errorMunicipio = document.getElementById("errorMunicipio");
 
 
@@ -161,17 +181,19 @@
 
                 errorNome.innerHTML = "";
                 errorCategoria.innerHTML = "";
-                errorQtQuarto.innerHTML = "";
+                errorContato.innerHTML = "";
+                errorEndereco.innerHTML = "";
+                errorEmail.innerHTML = "";
                 errorMunicipio.innerHTML = "";
-                errorNota.innerHTML = "";
-                errorPreco.innerHTML = "";
 
                 var nome = iptNome.value;
                 var categoria = iptCategoria.value;
-                var QtQuarto = iptQtQuarto.value;
+                var tipo = iptTipo.value;
+                var endereco = iptEndereco.value;
+                var contato = iptContato.value;
+                var email = iptEmail.value;
+                var multilingue = iptMultilingue.value;
                 var municipio = iptMunicipio.value;
-                var nota = iptNota.value;
-                var precoMedio = iptPreco.value;
 
                 var erro = false;
 
@@ -185,22 +207,33 @@
                     erro = true;
                 }
 
-                if (QtQuarto == "" || QtQuarto <= 0) {
-                    errorQtQuarto.innerHTML = "Quantidade inválida";
+                if (contato == "") {
+                    errorNumeroContato.innerHTML = "Preencha o contato";
                     erro = true;
                 }
+
+                if (contato.length > 15) {
+                    errorNumeroContato.innerHTML = "Numero de contato inválido";
+                    erro = true;
+                }
+
+                if (endereco == "") {
+                    errorEndereco.innerHTML = "Preencha o endereço";
+                    erro = true;
+                }
+
+                if (email == "") {
+                    errorEmail.innerHTML = "Preencha o email";
+                    erro = true;
+                }
+
+                 if (!email.includes("@") || !email.includes(".")){
+                    errorEmail.innerHTML = "O email deve conter '@' e '.'";
+                    erro = true;
+                 }
 
                 if (municipio == "") {
                     errorMunicipio.innerHTML = "Selecione o município";
-                    erro = true;
-                }
-                if (nota == "" || nota < 0) {
-                    errorNota.innerHTML = "A nota precisa ser entre 0 até 5";
-                    erro = true;
-                }
-
-                 if (precoMedio == "" || precoMedio < 0) {
-                    errorPreco.innerHTML = "Preencha um valor válido";
                     erro = true;
                 }
 
@@ -213,12 +246,14 @@
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
+                            tipo: tipo,
                             nome: nome,
                             categoria: categoria,
-                            QtQuarto: QtQuarto,
-                            fkMunicipio: municipio,
-                            nota: nota,
-                            precoMedio: precoMedio
+                            endereco: endereco,
+                            multilingue: multilingue,
+                            contato: contato,
+                            emailComercial: email,
+                            fkMunicipio: municipio
                         })
                     })
                         .then(function (resposta) {

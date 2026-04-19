@@ -2,137 +2,183 @@ var database = require("../database/config");
 
 // Listar Estabelecimento 
 function listar() {
-    var instrucaoSql = `
+    var instrucao = `
        SELECT 
-            h.idHospedagem,
-            h.nome,
-            h.categoria,
-            a.nota,
-            a.precoMedio
-        FROM hospedagem h
-        JOIN avaliacao a 
-            ON h.idHospedagem = a.fkHospedagem
-        ORDER BY a.nota DESC;
+            idHospedagem AS id,
+            nome,
+            categoria,
+            endereco,
+            contato,
+            emailComercial,
+            multilingue,
+            'hospedagem' AS tipo
+        FROM hospedagem
+        
+        UNION ALL
+
+        SELECT 
+            idEstabelecimento AS id,
+            nome,
+            categoria,
+            endereco,
+            contato,
+            emailComercial,
+            multilingue,
+            'alimenticio' AS tipo
+        FROM estabelecimentoAlimenticio;
+
     `;
 
-    console.log("Executando SQL:\n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    console.log("Model: Executando LISTAGEM SQL:\n" + instrucao);
+    return database.executar(instrucao);
 }
 
 
 // Cadastrar Estabelecimento
-function cadastrar(nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio) {
-    var instrucao = `
+function cadastrar(tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio) {
+    if (tipo == "hospedagem") {
+        var instrucaoSql = `
         INSERT INTO hospedagem (
-        nome, 
+        nome,
         categoria, 
-        qtdQuartos,
-        fkMunicipio
-        ) VALUES(
-            '${nome}',
-            '${categoria}',
-            '${QtQuarto}',
+        endereco,
+        multilingue, 
+        contato, 
+        emailComercial, 
+        fkMunicipio)
+            VALUES(
+            '${nome}', 
+            '${categoria}', 
+            '${endereco}', 
+            ${multilingue}, 
+            '${contato}', 
+            '${emailComercial}', 
             ${fkMunicipio}
         );
     `;
+    } else {
+        var instrucaoSql = `
+            INSERT INTO estabelecimentoAlimenticio (
+            nome,
+            categoria, 
+            endereco,
+            multilingue, 
+            contato, 
+            emailComercial, 
+            fkMunicipio)
+                VALUES(
+            '${nome}', 
+            '${categoria}', 
+            '${endereco}', 
+            ${multilingue}, 
+            '${contato}', 
+            '${emailComercial}', 
+            ${fkMunicipio}
+        );
+    `;
+    }
 
-    console.log("Model: Executando SQL:", instrucao);
-
-    return database.executar(instrucao)
-        .then(resultado => {
-
-            var idHospedagem = resultado.insertId;
-            var instrucaoSql = `
-                INSERT INTO avaliacao (
-                nota, 
-                precoMedio, 
-                fkHospedagem)
-                VALUES (
-                '${nota}', 
-                '${precoMedio}', 
-                ${idHospedagem});
-            `;
-            console.log("Model: Executando SQL:", instrucaoSql);
-
-            return database.executar(instrucaoSql);
-        });
+    console.log("Model: Executando CADASTRO SQL:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 // Municipio
 function listarMunicipio() {
-    var instrucaoSql = `
+    var instrucao = `
         SELECT 
         idMunicipio, 
         nome 
         FROM municipio;
     `;
-    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    console.log("Model: Executando Listagem MUNICIPIO SQL: \n" + instrucao);
+    return database.executar(instrucao);
 }
 
 // Buscar
-function buscarEstabelecimento(idHospedagem) {
-    var instrucao = `
+function buscarEstabelecimento(id, tipo) {
+    if (tipo == "hospedagem") {
+        var instrucao = `
           SELECT 
             h.idHospedagem,
             h.nome,
             h.categoria,
-            h.qtdQuartos,
-            m.idMunicipio,
-            a.nota, 
-            a.precoMedio
+            h.endereco,
+            h.multilingue,
+            h.contato,
+            h.emailComercial,
+            m.idMunicipio
         FROM hospedagem h
-        JOIN avaliacao a 
-        ON h.idHospedagem = a.fkHospedagem
         JOIN municipio m
         ON m.idMunicipio = h.fkMunicipio
-        WHERE h.idHospedagem = ${idHospedagem};
+        WHERE h.idHospedagem = ${id};
     `;
-
+    } else {
+        var instrucao = `
+          SELECT 
+            e.idEstabelecimento,
+            e.nome,
+            e.categoria,
+            e.endereco,
+            e.multilingue,
+            e.contato,
+            e.emailComercial,
+            m.idMunicipio
+        FROM estabelecimentoAlimenticio e
+        JOIN municipio m
+        ON m.idMunicipio = e.fkMunicipio
+        WHERE e.idEstabelecimento = ${id};
+    `;
+    }
     console.log("Model: Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 
 // Atualizar
-function atualizar(idHospedagem, nome, categoria, QtQuarto, fkMunicipio, nota, precoMedio) {
-
-    var atualizarHospedagem = `
+function atualizar(id, tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio) {
+    if (tipo == "hospedagem") {
+        var instrucaoSql = `
         UPDATE hospedagem SET
-            nome = '${nome}',
-            categoria = '${categoria}',
-            qtdQuartos = ${QtQuarto},
-            fkMunicipio = ${fkMunicipio}
-        WHERE idHospedagem = ${idHospedagem};
+          nome='${nome}',
+                categoria='${categoria}',
+                endereco='${endereco}',
+                multilingue=${multilingue},
+                contato='${contato}',
+                emailComercial='${emailComercial}',
+                fkMunicipio=${fkMunicipio}
+            WHERE idHospedagem=${id};
     `;
-
-    var atualizarAvaliacao = `
-        UPDATE avaliacao SET
-            nota = '${nota}',
-            precoMedio = '${precoMedio}'
-        WHERE fkHospedagem = ${idHospedagem};
+    } else {
+        var instrucaoSql = `
+        UPDATE estabelecimentoAlimenticio SET
+             nome='${nome}',
+                categoria='${categoria}',
+                endereco='${endereco}',
+                multilingue=${multilingue},
+                contato='${contato}',
+                emailComercial='${emailComercial}',
+                fkMunicipio=${fkMunicipio}
+            WHERE idEstabelecimento=${id};
     `;
-
-    console.log("Model: Executando a instrução SQL: \n" + atualizarHospedagem);
-    console.log("Model: Executando a instrução SQL: \n" + atualizarAvaliacao);
-
-    return database.executar(atualizarHospedagem)
-        .then(() => database.executar(atualizarAvaliacao));
+    }
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 // Deletar
-function deletar(id_hospedagem) {
-    var deletarAvaliacao = `
-        DELETE FROM avaliacao WHERE fkHospedagem = ${id_hospedagem};
+function deletar(id, tipo) {
+    if (tipo == "hospedagem") {
+        var instrucaoSql = `
+        DELETE FROM hospedagem WHERE idHospedagem = ${id};
     `;
-
-    var deletarHospedagem = `
-        DELETE FROM hospedagem WHERE idHospedagem = ${id_hospedagem};
+    } else {
+        var instrucaoSql = `
+        DELETE FROM estabelecimentoAlimenticio WHERE idEstabelecimento = ${id};
     `;
+    }
 
-    console.log("Model: Executando a instrução SQL: \n" + deletarAvaliacao);
-    console.log("Model: Executando a instrução SQL: \n" + deletarHospedagem);
-    return database.executar(deletarAvaliacao)
-        .then(() => database.executar(deletarHospedagem));
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql)
+
 }
 
 module.exports = {

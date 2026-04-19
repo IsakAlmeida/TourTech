@@ -82,11 +82,12 @@
                         sessionStorage.NOME_USUARIO = json[0].nome;
                         sessionStorage.ID_USUARIO = json[0].idUsuario;
                         sessionStorage.NIVEL_ACESSO = json[0].nivelAcesso;
+                        sessionStorage.ID_EMPRESA = json[0].empresaId;
 
                         loading.style.display = "flex";
                         loading.innerHTML = `<img src="assets/imgs/login/loading.gif">`;
                         setTimeout(function () {
-                            window.location = "./dashboard/cards.html";
+                            window.location = "./dashboard/dashboard.html";
                         }, 1000); // apenas para exibir o loading
 
                     });

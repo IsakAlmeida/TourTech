@@ -7,6 +7,7 @@ function listar(id_usuario) {
             u.idUsuario,
             u.nome,
             u.email,
+            u.fkEmpresa,
 			na.nivel
         FROM usuario u
         JOIN nivelAcesso na 
@@ -44,20 +45,43 @@ function cadastrar(nome, email, senha, fkNivelAcesso, fkEmpresa) {
     return database.executar(instrucao);
 }
 
-
+// Niveis
 function listarNiveis() {
     var instrucaoSql = `
-        SELECT idNivelAcesso, nivel FROM nivelAcesso;
+        SELECT 
+        idNivelAcesso, 
+        nivel 
+        FROM nivelAcesso;
     `;
     console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
+// Buscar
+function buscarFuncionario(idUsuario) {
+
+    var instrucao = `
+            SELECT 
+            u.idUsuario,
+            u.nome,
+            u.email,
+            u.fkNivelAcesso AS idNivelAcesso
+        FROM usuario u
+        WHERE u.idUsuario = ${idUsuario};
+    `;
+    console.log("Model: Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 // Atualizar
-function atualizar(id_usuario, senha) {
+function atualizar(idUsuario, nome, email, fkNivelAcesso, senha){
     var instrucaoSql = `
-        UPDATE usuario SET senha = '${senha}'
-        WHERE idUsuario = ${id_usuario};
+        UPDATE usuario SET
+            nome = '${nome}',
+            email = '${email}',
+            fkNivelAcesso = ${fkNivelAcesso},
+            senha = '${senha}'
+        WHERE idUsuario = ${idUsuario};
     `;
     console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -65,18 +89,38 @@ function atualizar(id_usuario, senha) {
 
 // Deletar
 function deletar(id_usuario) {
-    var instrucaoSql = `
-        DELETE FROM usuario
-        WHERE idUsuario = ${id_usuario};
+    var deletarChamado = `
+        DELETE FROM chamadoSuporte 
+        WHERE fkUsuario = ${id_usuario};
     `;
-    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    var deletarLog = `
+        DELETE FROM logSistema 
+        WHERE fkUsuario = ${id_usuario};
+    `;
+    var deletarUsuario = `
+            DELETE FROM usuario 
+            WHERE idUsuario = ${id_usuario};
+        `
+    console.log("Model: Executando a instrução  deletar chamado: \n" + deletarChamado);
+    console.log("Model: Executando a instrução SQL deletar log: \n" + deletarLog);
+    console.log("Model: Executando a instrução SQL deletar funcionario: \n" + deletarUsuario);
+    return database.executar(deletarChamado)
+        .then(() => {
+            console.log("Log deletado");
+            return database.executar(deletarLog);
+        })
+        .then(() => {
+            console.log("Usuário deletado");
+            return database.executar(deletarUsuario);
+        });
+
 }
 
 module.exports = {
     listar,
     cadastrar,
     listarNiveis,
+    buscarFuncionario,
     atualizar,
     deletar
 }
