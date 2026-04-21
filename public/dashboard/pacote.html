@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourTech | Pacotes</title>
+
+
+    <link rel="stylesheet" href="./../css/pacote.css">
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- scripts do Chart.js - 2022-1 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!--FONT AWESOME-->
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body onload="listarPacotes()">
+
+    <!--Menu-->
+    <div class="janela">
+
+        <div class="header-left">
+            <h1>TourTech</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./funcionarios.html">
+                    <h3>Funcionários</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav">
+                <a href="./estabelecimento.html">
+                    <h3>Estabelecimento</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./pacote.html">
+                    <h3>Pacotes</h3>
+                </a>
+            </div>
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Suporte</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+        <!--Final Menu-->
+        <main>
+
+            <div class="dash">
+
+                <div class="topo">
+                    <h2>Pacotes</h2>
+                    <div></div>
+
+                    <!-- Ações tabela -->
+                    <div class="separacao">
+
+                        <div class="buscar">
+                            <input id="iptBusca" type="text" placeholder="Pesquisa" oninput="buscarPacote()">
+                        </div>
+
+                        <div class="acoes">
+                            <button class="btn-adicionar" onclick="adicionar()">+ Adicionar</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="lista-pacote" class="grid-pacotes"></div>
+
+                <!-- Tabela -->
+                <div class="pacotes">
+                </div>
+
+            </div>
+
+        </main>
+        <script>
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO || "usuário";
+
+            var listaPacotes = [];
+
+            //VAI PARA TELA DE CADASTRO
+            function adicionar() {
+                window.location = "./pacote-cadastro.html";
+            }
+
+            //LISTAR
+
+            function listarPacotes() {
+
+                fetch(`/pacote/listarPacotes`)
+                    .then(resposta => {
+                        if (!resposta.ok) {
+                            throw new Error("Erro ao listar pacote");
+                        }
+                        return resposta.json();
+                    })
+                    .then(vt_pacote => {
+
+                        listaPacotes = vt_pacote;
+                        renderizarPacotes(listaPacotes);
+
+                        const lista = document.getElementById('lista-pacote');
+                        lista.innerHTML = "";;
+                    })
+                    .catch(erro => console.log("Erro em gerar lista de pacotes:", erro));
+                document.getElementById('lista-pacote').innerHTML = "<p>Erro ao carregar pacotes.</p>";
+
+            }
+
+            //CRIAR CARDS
+            function renderizarPacotes(pacotes) {
+                const lista = document.getElementById('lista-pacote');
+                lista.innerHTML = "";
+
+                pacotes.forEach((pacote) => {
+                    lista.innerHTML += `
+                        <div class="card-pacote">
+                            <p class="local">Local: ${pacote.fkMunicipio || 'Não informado'}</p>
+                            <h2>${pacote.nome}</h2>
+
+                            <p><strong>Hospedagem:</strong> ${pacote.fkHospedagem || 'Não informado'}</p>
+                            <p><strong>Alimentação:</strong> ${pacote.fkEstabelecimento || 'Não informado'}</p>
+
+                            <div class="acoes">
+                                <button class="btn-excluir" onclick="excluir(${pacote.idPacote})">Excluir</button>
+                                <button class="btn-editar" onclick="editar(${pacote.idPacote})">Editar</button>
+                            </div>
+                        </div>
+        `;
+                });
+            }
+
+            //BUSCAR PACOTE JÁ CRIADO
+            function buscarPacote() {
+                var termo = iptBusca.value.toLowerCase();
+
+                var filtrados = listaPacotes.filter(pacote => {
+                    return (
+                        pacote.nomePacote.toLowerCase().includes(termo) ||
+                        (pacote.local && pacote.local.toLowerCase().includes(termo)) ||
+                        (pacote.hospedagem && pacote.hospedagem.toLowerCase().includes(termo)) ||
+                        (pacote.alimentacao && pacote.alimentacao.toLowerCase().includes(termo))
+                    );
+                });
+
+                renderizarPacotes(filtrados);
+            }
+
+            //EXCLUIR
+
+            function excluir(idPacote) {
+
+                if (!confirm("Tem certeza que deseja excluir este pacote?")) {
+                    return;
+                }
+
+                fetch("/pacote/deletar/${idPacote}", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        idPacote: idPacote
+                    })
+                })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error("Erro ao deletar pacote");
+                        }
+                        return res.json();
+                    })
+                    .then(() => {
+                        console.log("Pacote deletado:", idPacote);
+                        alert("Pacote deletado com sucesso!");
+                        listarPacotes(); // atualiza a tela
+                    })
+                    .catch(erro => console.error("Erro ao deletar pacote:", erro));
+            }
+
+            //EDITAR
+            function editar(idPacote) {
+                sessionStorage.ID_PACOTE_EDITAR = idPacote;
+                window.location = "./pacote-editar.html";
+            }
+
+
+
+        </script>
+</body>
+
+</html>
