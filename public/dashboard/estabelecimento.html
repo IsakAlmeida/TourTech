@@ -157,6 +157,7 @@
                     </div>
                     -->
                 </div>
+                <div id="paginacao" style="margin-top: 10px;"></div>
 
             </div>
 
@@ -170,67 +171,81 @@
             }
 
             //LISTAR
+            let paginaAtual = 1;
 
-            function listarEstabelecimento() {
+            function listarEstabelecimento(pagina = 1) {
 
-                fetch(`/estabelecimento/listar`)
+                paginaAtual = pagina;
+
+                const busca = document.querySelector(".buscar input").value;
+
+                fetch(`/estabelecimento/listar?limite=10&pagina=${pagina}&busca=${busca}`)
+                    .then(res => res.json())
                     .then(resposta => {
-                        if (!resposta.ok) {
-                            throw new Error("Erro ao listar Estabelecimento");
-                        }
-                        return resposta.json();
-                    })
-                    .then(vt_estabelecimento => {
 
-                        const lista = document.getElementById('lista-empresa');
-                        lista.innerHTML = "";
+                        const { dados, total, limite } = resposta;
 
-                        vt_estabelecimento.forEach((estabelecimento) => {
+                        renderTabela(dados);
+                        renderPaginacao(total, limite);
+                    });
+            }
 
-                            lista.innerHTML += `
-                       <div class="linha informacao">
-                            <div class="coluna check">
-                                <input type="checkbox" value="${estabelecimento.id}" data-tipo="${estabelecimento.tipo}">
-                            </div>
+            // TABELA
+            function renderTabela(dados) {
 
-                            <div class="coluna">
-                                ${estabelecimento.nome}
-                            </div>
+                const lista = document.getElementById('lista-empresa');
 
-                            <div class="coluna">
-                                <spam class="nivel">
-                                    ${estabelecimento.tipo === 'hospedagem' ? 'Hospedagem' : 'Alimentício'}
-                                </spam>
-                            </div>
+                let html = "";
 
-                            <div class="coluna">
-                                ${estabelecimento.endereco}
-                            </div>
+                dados.forEach(estabelecimento => {
+                    html += `
+        <div class="linha informacao">
+            <div class="coluna check">
+                <input type="checkbox" value="${estabelecimento.id}" data-tipo="${estabelecimento.tipo}">
+            </div>
 
-                            <div class="coluna">
-                            ${estabelecimento.contato}
-                            </div>
+            <div class="coluna">${estabelecimento.nome}</div>
 
-                            <div class="coluna">
-                            ${estabelecimento.emailComercial}
-                            </div>
+            <div class="coluna">
+                ${estabelecimento.tipo === 'hospedagem' ? 'Hospedagem' : 'Alimentício'}
+            </div>
 
-                            <div class="coluna">
-                                ${estabelecimento.multilingue == 1 ? 'Sim' : 'Não'}
-                            </div>
+            <div class="coluna">${estabelecimento.endereco}</div>
+            <div class="coluna">${estabelecimento.contato}</div>
+            <div class="coluna">${estabelecimento.emailComercial}</div>
+            <div class="coluna">${estabelecimento.multilingue == 1 ? 'Sim' : 'Não'}</div>
 
-                            <div class="coluna">
-                                <button class="btn-editar" onclick="editar(${estabelecimento.id}, '${estabelecimento.tipo}')">
-                                    Editar
-                                </button>
-                            </div>
-                        </div>
-                     `;
+            <div class="coluna">
+                <button onclick="editar(${estabelecimento.id}, '${estabelecimento.tipo}')">Editar</button>
+            </div>
+        </div>
+        `;
+                });
 
-                        });
-                    })
-                    .catch(erro => console.log("Erro em gerar lista de estabelecimento:", erro));
+                lista.innerHTML = html;
+            }
 
+            // PAGINAÇÃO (SIMPLIFICADA)
+            function renderPaginacao(total, limite) {
+
+                const totalPaginas = Math.ceil(total / limite);
+                const container = document.getElementById("paginacao");
+
+                let html = "";
+
+                if (paginaAtual > 1) {
+                    html += `<button onclick="listarEstabelecimento(${paginaAtual - 1})">Anterior</button>`;
+                    html += `<button onclick="listarEstabelecimento(${paginaAtual - 1})">${paginaAtual - 1}</button>`;
+                }
+
+                html += `<button style="font-weight:bold;">${paginaAtual}</button>`;
+
+                if (paginaAtual < totalPaginas) {
+                    html += `<button onclick="listarEstabelecimento(${paginaAtual + 1})">${paginaAtual + 1}</button>`;
+                    html += `<button onclick="listarEstabelecimento(${paginaAtual + 1})">Próxima</button>`;
+                }
+
+                container.innerHTML = html;
             }
 
             //EXCLUIR
