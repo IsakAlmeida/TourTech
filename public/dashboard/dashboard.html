@@ -31,6 +31,7 @@
 <body>
 
     <div class="janela">
+
         <div class="header-left">
             <h1>TourTech</h1>
 
@@ -38,30 +39,29 @@
                 <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
             </div>
 
-            <div class="btn-nav-white">
-                <a href="./cards.html">
-                    <h3>HomePage</h3>
+            <div class="btn-nav">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
                 </a>
             </div>
 
-            <div class="btn-nav">
-
-                <h3>Gráficos</h3>
-
-            </div>
-
             <div class="btn-nav-white">
-                <a href="./mural.html">
+                <a href="./funcionarios.html">
                     <h3>Funcionarios</h3>
                 </a>
             </div>
 
             <div class="btn-nav-white">
-                <a href="./mural.html">
-                    <h3>Sugestão</h3>
+                <a href="./estabelecimento.html">
+                    <h3>Estabelecimento</h3>
                 </a>
             </div>
 
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Pacotes</h3>
+                </a>
+            </div>
             <div class="btn-nav-white">
                 <a href="./mural.html">
                     <h3>Suporte</h3>
@@ -81,16 +81,20 @@
 
             <div class="kpis">
                 <div class="kpi">
-                    KPI1
+                    <div style="font-weight: bold;">Tempo de turismo médio</div>
+                    <h1 style="color: green;">3 dias</h1>
+                </div>
+                <!-- <div class="kpi">
+                    <div>Tempo de turismo médio <br>(estrangeiros)</div>
+                    <h1>KPI2</h1>
+                </div> -->
+                <div class="kpi">
+                    <div style="font-weight: bold;">País que mais visitam</div>
+                    <h1 style="color: green;">Argentina</h1>
                 </div>
                 <div class="kpi">
-                    KPI2
-                </div>
-                <div class="kpi">
-                    KPI3
-                </div>
-                <div class="kpi">
-                    KPI4
+                    <div style="font-weight: bold;">Mês com o maior fluxo</div>
+                    <h1 style="color: green;">Fevereiro</h1>
                 </div>
             </div>
             <div class="superior">
@@ -124,10 +128,13 @@
     new Chart(ctx1, {
         type: 'bar',
         data: {
-            labels: ['São Paulo', 'Minas Gerais', 'Espírito Santos', 'Goias', 'Distrito Federal', 'Outros'],
+            labels: ['São Paulo', 'Minas Gerais', 'Espírito Santos', 'Paraná', 'Bahia', 'Outros'],
             datasets: [{
-                label: 'Numero de visitantes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: 'Numero de visitantes/ano',
+                data: [3763020, 1873347, 595762, 508795, 374890, 2791629],
+                backgroundColor: ['rgb(213, 226, 147, 0.5)'],
+                borderColor: ['rgb(213, 226, 147)'],
+                borderRadius: 6,
                 borderWidth: 1
             }]
         },
@@ -158,10 +165,18 @@
     new Chart(ctx2, {
         type: 'doughnut',
         data: {
-            labels: ['Brasil', 'Estados Unidos', 'X', 'Y', 'Z', 'Outros'],
+            labels: ['Argentina', 'Chile', 'Estados Unidos', 'França', 'Uruguai', 'Outros'],
             datasets: [{
                 label: 'estrangeiros X brasileiros',
-                data: [12, 19, 3, 5, 2, 3],
+                data: [468037, 239465, 185600, 70115, 69707, 433591],
+                backgroundColor: [
+                    'rgb(213, 226, 147)',
+                    'rgb(213, 226, 147)',
+                    'rgb(213, 226, 147)',
+                    'rgb(213, 226, 147)',
+                    'rgb(213, 226, 147)',
+                    'rgb(213, 226, 147)'
+                ],
                 borderWidth: 1
             }]
         },
@@ -171,7 +186,7 @@
             plugins: {
                 title: {
                     display: true,
-                    text: 'Número de turistas por país',
+                    text: 'Número de turistas por país no ano',
                     color: '#000',
                     padding: {
                         top: 10,
@@ -202,13 +217,15 @@
             labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             datasets: [
                 {
-                    label: '2024',
-                    data: [12, 19, 23, 25, 22, 13, 15, 10, 20, 40, 50, 30],
+                    label: 'Nacional',
+                    data: [1070914, 878024, 748070, 693650, 825337, 651342, 836046, 755994, 909291, 754432, 800330, 984993],
+                    backgroundColor: ['rgb(213, 226, 147)'],
                     borderWidth: 1
                 },
                 {
-                    label: '2025',
-                    data: [15, 25, 18, 30, 28, 20, 22, 18, 25, 45, 55, 35],
+                    label: 'Estrangeiro',
+                    data: [158396, 208631, 188502, 82247, 71755, 65680, 82392, 87003, 102988, 123232, 128351, 163338],
+                    backgroundColor: ['rgb(213, 226, 147)'],
                     borderWidth: 1
                 }
             ]
