@@ -18,7 +18,7 @@ body {
 }
 
 .logo img {
-  height: 15vh; /* controla tamanho do logo */
+  height: 15vh;
   cursor: pointer;
 }
 
@@ -33,7 +33,11 @@ body {
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  gap: 5%;
+  gap: 25px;
+}
+
+.headerClick a:hover {
+  color: #ff8c00;
 }
 
 .btnHome {

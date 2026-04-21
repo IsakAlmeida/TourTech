@@ -8,31 +8,35 @@ body {
 }
 
 .header {
-    background-image: linear-gradient(rgb(255, 211, 129), white);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 5%;
-    height: 10vh;
+  background-image: linear-gradient(rgb(255, 211, 129), white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 10vh;
 }
 
 .logo img {
-    height: 15vh;
-    cursor: pointer;
+  height: 15vh;
+  cursor: pointer;
 }
 
 .logo img:hover {
-    opacity: 0.8;
-    transform: scale(1.05);
-    transition: 0.2s;
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: 0.2s;
 }
 
 .header .headerClick {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    gap: 5%;
+  display:flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 25px;
+}
+
+.headerClick a:hover {
+  color: #ff8c00;
 }
 
 .btnHome {

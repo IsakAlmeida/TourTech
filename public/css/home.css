@@ -20,7 +20,7 @@ body {
 }
 
 .logo img {
-  height: 15vh; /* controla tamanho do logo */
+  height: 15vh;
   cursor: pointer;
 }
 
