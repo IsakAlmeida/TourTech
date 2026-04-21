@@ -10,10 +10,13 @@
 </head>
 
 <body>
+
+    <!-- HEADER -->
     <div class="header">
         <a href="index.html" class="logo">
             <img src="assets/Logo.png" alt="Logo">
         </a>
+
         <div class="headerClick">
             <a href="index.html" class="btnHome">Home</a>
             <a href="sobre_nos.html" class="btnSobre">Sobre</a>
@@ -23,22 +26,29 @@
         </div>
     </div>
 
+    <!-- CAPA -->
     <div class="capa">
-        <div class="texto">
-            <div>
-                <h1>Planeje roteiros inteligentes no <br>Rio de Janeiro</h1>
-            </div>
-            <div>
-                <p>Use dados de hotéis e atrações de <br>maneira fácil e rápida</p>
-            </div>
-            <div>Começe agora</div>
-            <div>Veje como funciona</div>
-        </div>
+
         <img class="imagemRio"
-            src="../public/assets/imgs/Index/cristo-redentor.jpg"
+            src="assets/imgs/Index/cristo-redentor.jpg"
             alt="RioDeJaneiro">
+
+        <div class="overlay"></div>
+
+        <div class="texto">
+            <h1>Planeje roteiros inteligentes no <br>Rio de Janeiro</h1>
+
+            <p>Use dados de hotéis e atrações de <br>maneira fácil e rápida</p>
+
+            <div class="acoesHero">
+                <a href="#contato" class="btnHeroPrimary">Começar agora</a>
+                <a href="#servicos" class="btnHeroSecondary">Ver como funciona</a>
+            </div>
+        </div>
+
     </div>
 
+    <!-- KPI -->
     <div class="capaKPI">
         <div class="boxKPI" style="background-color: #DFB63A;">KPI 1</div>
         <div class="boxKPI" style="background-color: #5F9FB6;">KPI 2</div>
@@ -46,7 +56,8 @@
         <div class="boxKPI" style="background-color: #AEB683;">KPI 4</div>
     </div>
 
-    <div class="boxNossoServico">
+    <!-- SERVIÇOS -->
+    <div class="boxNossoServico" id="servicos">
 
         <h2>Nossos serviços</h2>
         <div class="servicosEx">
@@ -55,33 +66,33 @@
                 <p>Mapa com pontos turísticos</p>
                 <p>Insights para montar pacotes</p>
             </div>
-            <div class="IMGgraficos"><img
-                    src="../public/assets/imgs/Index/imageGraph.jpg"
-                    alt="gráfico"></div>
+            <div class="IMGgraficos">
+                <img src="assets/imgs/Index/imageGraph.jpg" alt="gráfico">
+            </div>
         </div>
-    </div>
     </div>
 
     <div class="boxNossoServico">
         <h1>Nosso serviço</h1>
         <div class="servicosEx">
-            <div class="boxChamadas">
+            <div class="boxChamadas"></div>
 
-            </div>
             <div class="boxKPI" style="background-color: #DFB63A;">
-                <img src="assets/imgs/icones/icons8-hotel-de-5-estrelas-100.png" alt="Logo" class="imgBranca">
+                <img src="assets/imgs/icones/icons8-hotel-de-5-estrelas-100.png" class="imgBranca">
                 <div class="boxChamadas">
                     <p>+5.000</p><br>Hotéis
                 </div>
             </div>
-            <div class="boxKPI" style="background-color: #5F9FB6;" class="imgBranca">
-                <img src="assets/imgs/icones/icons8-marcador-100.png" alt="Logo" class="imgBranca">
+
+            <div class="boxKPI" style="background-color: #5F9FB6;">
+                <img src="assets/imgs/icones/icons8-marcador-100.png" class="imgBranca">
                 <div class="boxChamadas">
                     <p>+7.200</p><br>Pontos Turísticos
                 </div>
             </div>
+
             <div class="boxKPI" style="background-color: #495E51;">
-                <img src="assets/imgs/icones/icons8-prémio-80.png" alt="Logo" class="imgBranca">
+                <img src="assets/imgs/icones/icons8-prémio-80.png" class="imgBranca">
                 <div class="boxChamadas">
                     <p>+200</p><br>Agências
                 </div>
@@ -89,44 +100,45 @@
         </div>
     </div>
 
-    <div class="boxNossoServico">
+    <!-- CONTATO -->
+    <div class="boxNossoServico" id="contato">
         <h1>Adquira nossa solução!</h1>
+
         <p class="textEntreContato">
-            Entre em contato conosco para adquirir a TourTech e ficar por dentro de todas as tendências do turismo no
-            Rio de Janeiro!
+            Entre em contato conosco para adquirir a TourTech e ficar por dentro de todas as tendências do turismo no Rio de Janeiro!
         </p>
+
         <div class="boxInformacoes">
             <div class="cardContato">
                 <h3>Email</h3>
-                <p>Entre em contato diretamente conosco pelo email: contato.tourtech@gmail.com</p>
+                <p>contato.tourtech@gmail.com</p>
                 <a href="mailto:contato.tourtech@gmail.com" class="contato">Enviar Email</a>
             </div>
+
             <div class="cardContato">
                 <h3>Telefone</h3>
-                <p>Fale com nossa equipe comercial de forma rápida.</p>
-                <a class="contato">Ligar: 11 987654321</a>
+                <p>(11) 98765-4321</p>
+                <a class="contato">Ligar</a>
             </div>
         </div>
     </div>
 
+    <!-- FOOTER -->
     <div class="footer">
         <div class="textoFooter">
-            <h4>Serviço voltado ao mapeamento e indicação de serviços de hospedagem e alimentação nas proximidades de
-                destinos e pontos turísticos</h4>
-        </div>
-        <div class="contatoFooter">
-            <p>
-                <br>
-                Contato: (11) 00000-0000<br>
-                Email: contato@tourtech.com<br>
-                Instagram: @tourtech<br>
-                Facebook: tourtech<br>
-            </p>
-        </div>
-        <div class="logoDown">
-            <img src="assets/Logo.png" alt="Logo">
+            <h4>Serviço voltado ao mapeamento e indicação de serviços turísticos</h4>
         </div>
 
+        <div class="contatoFooter">
+            <p>
+                Contato: (11) 00000-0000<br>
+                Email: contato@tourtech.com
+            </p>
+        </div>
+
+        <div class="logoDown">
+            <img src="assets/Logo.png">
+        </div>
     </div>
 
 </body>
