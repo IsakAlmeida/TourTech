@@ -72,3 +72,6 @@ INSERT INTO tempo (mes, nomeMes, ano) VALUES (1, "JAN", 2024),
 (11, "NOV", 2024),
 (12, "DEZ", 2024);
 
+INSERT INTO empresa (razaoSocial, nomeFantasia, cnpj) VALUES ('empresaTeste', 'empresaTeste', 12345678901234);
+INSERT INTO nivelAcesso (nivel, descricao) VALUES ('Administrador', 'Controle sobre funcionários e todas as outras funções do sistema'), ('Visualizador', 'Pode visualizar dados e montar pacotes de viagem');
+INSERT INTO tokenCadastro (codigoToken, dataCriacao, fkEmpresa, fkNivelAcesso) VALUES ('ABC123', current_date(), 1, 1), ('DEF456', current_date(), 1, 2);
