@@ -166,6 +166,9 @@ function deletar(req, res) {
 
 module.exports = {
     listarPacotes,
+    listarMunicipio,
+    listarHospedagem,
+    listarAlimentacao,
     cadastrar,
     buscar,
     atualizar,

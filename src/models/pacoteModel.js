@@ -139,6 +139,9 @@ function deletar(idPacote) {
 
 module.exports = {
     listarPacotes,
+    listarMunicipio,
+    listarHospedagem,
+    listarAlimentacao,
     cadastrar,
     buscar,
     atualizar,
