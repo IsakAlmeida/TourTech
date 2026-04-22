@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
-
 body {
   margin: 0;
   padding: 0;
@@ -39,6 +37,13 @@ body {
 .headerClick a:hover {
   color: #ff8c00;
 }
+
+/* .header .botao{
+  display: flex;
+  background-color: orange;
+  border-radius: 20px;
+  padding: 8px;
+} */
 
 .btnHome {
   text-decoration: none;
@@ -82,245 +87,140 @@ body {
   transform: scale(1.05);
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
-.menu {
-    display: flex;
-    justify-content: center;
-}
 
-.menu p {
-    margin-left: 35px;
-    margin-right: 35px;
-}
-.titulo {
-    text-decoration-line:underline;
-}
-.titulo2{  
-    text-decoration-line:underline;
-}
 .conteudo {
-    background-color: #ffffff71;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
 }
-.caixa {
-    background-image: url(/TourTech/public/assets/img/pexels-joao-ricardo-januzzi-94538344-9229056.jpg);
-    background-size: 110vh 90vh; 
-    height: 30vh;
-    width: 84vh;
+
+.titulo, .titulo2 {
     text-align: center;
-    border-radius: 2vh;
-    padding: 13vh;
-    margin-bottom: 8vh;
-    border-style: solid;
-    border: 1vh solid #1c2a29;
-    font-size: medium;
-    line-height: 5vh;
-}
-.caixa p{
-    font-size: 2.6vh;
-    font-weight: 400;
-}
-.corpo_sobreNos {
-    background-color: #5b739e8d;
-    height: 100%;
-
+    color: #1c2a29;
+    font-weight: 800;
+    margin-bottom: 30px;
+    position: relative;
 }
 
-.container_parte1 {
+.titulo::after, .titulo2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #ff8c00;
+    margin: 10px auto;
+    border-radius: 2px;
+}
+
+.caixa-sobre {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
     display: flex;
-    justify-content: center;
-    gap: 55px;
-    margin-bottom: 45px;
-}
-
-.box1 {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    flex-direction: column;
-    text-align: center;
-    border-style: solid;
-    border: 0.70vh solid #1c2a29;
-    border-radius: 2vh;
-    padding: 10vh;
-    height: 30vh;
-    width: 30vh;
-    background-image: url(/TourTech/public/assets/img/pexels-elijahsad-3473569.jpg);
-    background-size: 100vh 50vh;
-    line-height: 3vh;
-    letter-spacing: 1px;
-    font-weight: 400;
+    gap: 40px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-bottom: 60px;
 }
 
-.box2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    border-style: solid;
-    border: 0.70vh solid #1c2a29;
-    border-radius: 2vh;
-    padding: 10vh;
-    height: 30vh;
-    width: 30vh;
-    background-image: url(/TourTech/public/assets/img/pexels-elijahsad-3473569.jpg);
-    background-size: 100vh 50vh;
-    line-height: 3vh;
-    letter-spacing: 1px;
-    font-weight: 400;
+.texto-historia {
+    flex: 1;
+    line-height: 1.8;
+    font-size: 1.1rem;
 }
 
-.container_parte2 {
-    display: flex;
-    justify-content: center;
-    gap: 55px;
+.imagem-historia {
+    flex: 1;
+}
+
+.imagem-historia img {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.grid-pilares {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
     margin-bottom: 50px;
 }
 
-.rodape {
-    background-color: #1c2a29;
-    display: flex;
-    height: 25.0vh;
+.card-pilar {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    transition: 0.3s;
+    border-bottom: 5px solid #ff8c00;
 }
+
+.card-pilar:hover {
+    transform: translateY(-10px);
+}
+
+.icone-pilar {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.card-pilar h3 {
+    margin-bottom: 15px;
+    color: #ff8c00;
+    font-size: 1.3rem;
+}
+
+.card-pilar p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+}
+
 .footer {
-  width: 100%;
-  height: auto;
-  display: flex;
-  background-color: #495E51;
-  color: #FFFFFF;
-  gap: 20vh;
+    background-color: #495E51;
+    color: white;
+    padding: 40px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .textoFooter {
-  max-width: 30%;
-  padding: 3vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    max-width: 400px;
 }
 
-.contato{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.contatoFooter p {
+    line-height: 1.8;
 }
 
-.logoDown img{
-  height: 30vh;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-
-.imgBranca {
-  filter: brightness(0) invert(1);
-  width: 40px;
-  height: auto;
-}
-@media (max-width: 992px) {
-    body {
-    margin: 0px;
-    padding: 0px;
-}
-  .header {
-  background-image: linear-gradient(rgb(255, 211, 129), white);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 0%;
-  height: 10vh;
-}
-
-.logo img {
+.logoDown img {
     height: 10vh;
+    filter: brightness(0) invert(1);
 }
 
-  .btnHome,
-  .btnSobre,
-  .btnPontos,
-  .btnLogin {
-    font-size: 12px;
-  }
+@media (max-width: 768px) {
+    .caixa-sobre {
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+    }
 
-  .botao {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
+    .header {
+        height: auto;
+        padding: 15px;
+        flex-direction: column;
+        gap: 15px;
+    }
 
-  .headerClick {
-    gap: 10px;
-  }
-.caixa {
-    width: 25vh;
-    height: 31vh;
-    padding: 80px;
-    line-height: 5.5vw;
-    margin-bottom: 4px;
-}
-.caixa p{
-    font-size: 4.5vw;
-    letter-spacing: -1px;
-}
+    .headerClick {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 
-.corpo_sobreNos {
-    width: 40vh;
-    height: 50vh;
-}
-.box1 {
-    width: 0vh;
-    height: 47vw;
-}
-.box1 p{
-    font-size: 3.5vw;
-    line-height: 5vw;
-    letter-spacing: 1px;
-}
-.box1 h3{
-    font-size: 1vw;
-    letter-spacing: 2px;
-}
-.container_parte1{
-    gap: 19px;
-}
-.box2 {
-    width: 0vh;
-    height: 47vw;
-}
-.box2 p{
-    font-size: 3.5vw;
-    line-height: 5vw;
-    letter-spacing: 1px;
-}
-.box2 h3{
-    font-size: 0vw;
-    letter-spacing: 2px;
-}
-.container_parte2 {
-    gap: 19px;
-}
-.footer {
-    font-size: 1.0vh;
-    flex-direction: row;
-    text-align: center;
-    gap: 3vh;
-  }
-
-  .textoFooter h4{
-    width: 100%;
-  }
-
-  .logoDown{
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .logoDown img{
-    height: 10vh;
-  }
+    .footer {
+        flex-direction: column;
+        text-align: center;
+    }
 }
