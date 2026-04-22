@@ -141,7 +141,6 @@ body {
   justify-content: center;
   gap: 10px;
   /* flex-direction: column; */
-
   background-color: #5F9FB6;
   width: 20vw;
   height: 20vh;
@@ -152,6 +151,7 @@ body {
   font-size: larger;
   
 }
+
 
 .boxChamadas {
   display: flex;
@@ -172,16 +172,63 @@ body {
   font-size: larger;
   
 }
+.tituloServico {
+  font-size: 28px;
+  font-weight: 700;
+  padding: 5%;
+}
+
+.servicosTxt {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Cards individuais */
+.cardServico {
+  background: #f8f8f8;
+  border-radius: 15px;
+  padding: 15px 20px;
+
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+
+.cardServico:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.cardServico h3 {
+  margin: 0 0 5px 0;
+  font-size: 18px;
+}
+
+.cardServico p {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.IMGgraficos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+}
 
 .IMGgraficos img {
-  width: 300px;
+  width: 100%;
+  max-width: 400px;
   height: auto;
+  border-radius: 15px;
 }
 
 .boxNossoServico {
   background-color: #FFFFFF;
   width: 80vw;
-  height: 60vh;
+  min-height: auto;
+  padding-bottom: 30px;
   border-radius: 6vh;
   margin: 5vh 10vw;
 }
@@ -197,7 +244,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: left;
-  padding: 5%;
+  padding: 20px 5% 10px 5%;
 }
 
 .footer {
