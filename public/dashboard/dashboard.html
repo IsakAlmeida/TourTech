@@ -32,8 +32,15 @@
 
     <div class="janela">
 
+        <div class="menu-mobile" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <!-- <div class="janela"> -->
         <div class="header-left">
-            <h1>TourTech</h1>
+            <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleMenu()"></i>
+
+            <h1 style="color: #4D6054;">TourTech</h1>
 
             <div class="hello">
                 <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
@@ -76,25 +83,25 @@
 
         <div class="dash">
             <div class="tituloDash">
-                <h1>Dashboards</h1>
+                <h1 style="color: #4D6054;">Dashboards</h1>
             </div>
 
             <div class="kpis">
                 <div class="kpi">
-                    <div style="font-weight: bold;">Tempo de turismo médio</div>
-                    <h1 style="color: green;">3 dias</h1>
+                    <div style="font-weight: bold;"><i class="fa-solid fa-clock" style="font-size: x-large; margin: 5px;"></i>Tempo de turismo médio</div>
+                    <h1 style="color: #4D6054;">3 dias</h1>
                 </div>
                 <!-- <div class="kpi">
                     <div>Tempo de turismo médio <br>(estrangeiros)</div>
                     <h1>KPI2</h1>
                 </div> -->
                 <div class="kpi">
-                    <div style="font-weight: bold;">País que mais visitam</div>
-                    <h1 style="color: green;">Argentina</h1>
+                    <div style="font-weight: bold;"><i class="fa-solid fa-flag" style="font-size: x-large; margin: 5px;"></i>País que mais visitam</div>
+                    <h1 style="color: #4D6054;">Argentina</h1>
                 </div>
                 <div class="kpi">
-                    <div style="font-weight: bold;">Mês com o maior fluxo</div>
-                    <h1 style="color: green;">Fevereiro</h1>
+                    <div style="font-weight: bold;"><i class="fa-solid fa-plane" style="font-size: x-large; margin: 5px;"></i>Mês com o maior fluxo</div>
+                    <h1 style="color: #4D6054;">Fevereiro</h1>
                 </div>
             </div>
             <div class="superior">
@@ -124,6 +131,11 @@
 
     let proximaAtualizacao;
 
+    function toggleMenu() {
+        const menu = document.querySelector('.header-left');
+        menu.classList.toggle('menu-aberto');
+    }
+
     const ctx1 = document.getElementById('myChart');
     new Chart(ctx1, {
         type: 'bar',
@@ -132,7 +144,14 @@
             datasets: [{
                 label: 'Numero de visitantes/ano',
                 data: [3763020, 1873347, 595762, 508795, 374890, 2791629],
-                backgroundColor: ['rgb(213, 226, 147, 0.5)'],
+                backgroundColor: [
+                    'rgb(77, 96, 84)',   // Cor para São Paulo
+                    'rgb(219, 177, 59)', // Cor para Minas Gerais
+                    'rgb(102, 161, 183)',// Cor para Espírito Santos
+                    'rgb(174, 184, 139)',// Cor para Paraná
+                    'rgb(46, 189, 194)', // Cor para Bahia
+                    'rgb(213, 226, 147)' // Cor para Outros
+                ],
                 borderColor: ['rgb(213, 226, 147)'],
                 borderRadius: 6,
                 borderWidth: 1
@@ -170,11 +189,11 @@
                 label: 'estrangeiros X brasileiros',
                 data: [468037, 239465, 185600, 70115, 69707, 433591],
                 backgroundColor: [
-                    'rgb(213, 226, 147)',
-                    'rgb(213, 226, 147)',
-                    'rgb(213, 226, 147)',
-                    'rgb(213, 226, 147)',
-                    'rgb(213, 226, 147)',
+                    'rgb(219, 177, 59)',
+                    'rgb(102, 161, 183)',
+                    'rgb(77, 96, 84)',
+                    'rgb(174, 184, 139)',
+                    'rgb(46, 189, 194)',
                     'rgb(213, 226, 147)'
                 ],
                 borderWidth: 1
@@ -219,14 +238,14 @@
                 {
                     label: 'Nacional',
                     data: [1070914, 878024, 748070, 693650, 825337, 651342, 836046, 755994, 909291, 754432, 800330, 984993],
-                    backgroundColor: ['rgb(213, 226, 147)'],
-                    borderWidth: 1
+                    backgroundColor: ['rgb(77, 96, 84)'],
+                    borderWidth: 2
                 },
                 {
                     label: 'Estrangeiro',
                     data: [158396, 208631, 188502, 82247, 71755, 65680, 82392, 87003, 102988, 123232, 128351, 163338],
-                    backgroundColor: ['rgb(213, 226, 147)'],
-                    borderWidth: 1
+                    backgroundColor: ['rgb(102, 161, 183)'],
+                    borderWidth: 2
                 }
             ]
         },
