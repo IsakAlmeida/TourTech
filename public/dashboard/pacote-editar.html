@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourTech | Edição de Pacote</title>
+
+
+    <link rel="stylesheet" href="./../css/pacote.css">
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- scripts do Chart.js - 2022-1 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!--FONT AWESOME-->
+    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+</head>
+
+
+<body onload="iniciar()">
+    <!--Menu-->
+    <div class="janela">
+
+        <div class="header-left">
+            <h1>TourTech</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./funcionarios.html">
+                <h3>Funcionários</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./estabelecimento.html">
+                    <h3>Estabelecimento</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./pacote.html">
+                    <h3>Pacotes</h3>
+                </a>
+            </div>
+            <div class="btn-nav-white">
+                <a href="./mural.html">
+                    <h3>Suporte</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+        <!--Final Menu-->
+
+
+        <main>
+            <!--Cadastro-->
+            <div class="caixa-cadastro">
+                <h1>Edição de Pacotes</h1>
+                <p>Insira os dados abaixo para editar um pacote!</p>
+
+                <div class="campo">
+                    <label>Nome do Pacote</label>
+                    <input id="iptNomePacote" type="text" placeholder="Ex: Pacote Bom Rio">
+                    <span class="error" id="errorNomePacote"></span>
+                </div>
+
+                <!--<div class="categorias" style="display: none;">-->
+                <div class="select">
+                    <label>Local</label>
+                    <select id="sltLocal" onchange="carregarDadosLocal()">
+                        <option value="Selecione">Selecione</option>
+                    </select>
+                    <span class="error" id="errorLocal"></span>
+                </div>
+                <div class="select">
+                    <label>Hospedagem</label>
+                    <select id="sltHospedagem">
+                        <option value="Selecione">Selecione</option>
+                    </select>
+                    <span class="error" id="errorHospedagem"></span>
+                </div>
+                <div class="select">
+                    <label>Tipo de Hospedagem</label>
+                    <select id="sltHosped">
+                        <option value="Selecione">Selecione</option>
+                        <option value="Hotel">Hotel</option>
+                        <option value="Pousada">Pousada</option>
+                        <option value="Hostel">Hostel</option>
+                    </select>
+                    <span class="error" id="errorHosped"></span>
+                </div>
+                <div class="select">
+                    <label>Serviços de Alimentação</label>
+                    <select id="sltAlimentacao">
+                        <option value="Selecione">Selecione</option>
+                    </select>
+                    <span class="error" id="errorAlimentacao"></span>
+                </div>
+                <div class="select">
+                    <label>Estabelecimento de Alimentação</label>
+                    <select id="sltAlimen">
+                        <option value="Selecione">Selecione</option>
+                        <option value="Restaurante">Restaurante</option>
+                        <option value="Lanchonete">Lanchonete</option>
+                        <option value="Bar">Bar</option>
+                    </select>
+                    <span class="error" id="errorAlimen"></span>
+                </div>
+                <span id="loading" class="loading"></span>
+                <button class="btn-cadastrar" onclick="atualizar()">Salvar alterações</button>
+
+            </div>
+        </main>
+        <script>
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO || "usuário";
+
+            var errorNomePacote = document.getElementById("errorNomePacote");
+            var errorLocal = document.getElementById("errorLocal");
+            var errorHospedagem = document.getElementById("errorHospedagem");
+            var errorHosped = document.getElementById("errorHosped");
+            var errorAlimentacao = document.getElementById("errorAlimentacao");
+            var errorAlimen = document.getElementById("errorAlimen");
+
+            function iniciar() {
+                listarMunicipio();
+                carregarPacote();
+            }
+
+            /*function listarMunicipio() {
+                fetch("/pacote/listarMunicipio")
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        console.log("ESTOU NO THEN select pacote (cadastro)");
+
+                        var select = document.getElementById("sltLocal");
+                        select.innerHTML = `<option value="">Selecione um Municipio</option>`;
+
+                        for (var i = 0; i < dados.length; i++) {
+                            select.innerHTML += `
+                        <option value="${dados[i].idMunicipio}">
+                            ${dados[i].nome}
+                        </option>
+                    `;
+                        }
+                        console.log("Municipio carregado com sucesso");
+                    })
+                    .catch(function (erro) {
+                        console.log("Erro ao carregar Municipio:", erro);
+                    });
+            }*/
+
+            function carregarPacote() {
+                var idPacote = sessionStorage.ID_HOSPEDAGEM_EDITAR;
+
+                fetch(`/pacote/buscar/${idPacote}`)
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        console.log("ESTOU NO THEN buscar Pacote");
+
+                        var pacote = dados[0];
+
+                        iptNomePacote.value = pacote.nome;
+                        sltLocal.value = pacote.fkMunicipio;
+                        sltHospedagem.value = pacote.fkHospedagem;
+                        sltAlimentacao.value = pacote.fkEstabelecimento;
+                    })
+                    .catch(function (erro) {
+                        console.log(erro);
+                        console.log("Erro ao buscar pacote!");
+                    });
+
+                iptNomePacote.value = pacote.nome;
+                sltLocal.value = pacote.fkMunicipio;
+            }
+
+            function carregarDadosLocal() {
+                var fkMunicipio = sltLocal.value;
+
+                if (fkMunicipio == "" || fkMunicipio == "Selecione") {
+                    sltHospedagem.innerHTML = `<option value="Selecione">Selecione</option>`;
+                    sltAlimentacao.innerHTML = `<option value="Selecione">Selecione</option>`;
+                    return;
+                }
+
+                listarHospedagem(idMunicipio);
+                listarAlimentacao(idMunicipio);
+            }
+
+            function listarHospedagem(idMunicipio) {
+                fetch(`/pacote/listarHospedagem/${idMunicipio}`)
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        var select = document.getElementById("sltHospedagem");
+                        select.innerHTML = `<option value="">Selecione</option>`;
+
+                        for (var i = 0; i < dados.length; i++) {
+                            select.innerHTML += `
+                            <option value="${dados[i].idHospedagem}">
+                                ${dados[i].nome}
+                                </option>
+                    `;
+                        }
+
+                        console.log("Hospedagens carregadas com sucesso");
+                    })
+                    .catch(function (erro) {
+                        console.log("Erro ao carregar hospedagens:", erro);
+                    });
+            }
+
+            function atualizar() {
+
+                errorNomePacote.innerHTML = "";
+                errorLocal.innerHTML = "";
+                errorHospedagem.innerHTML = "";
+                errorHosped.innerHTML = "";
+                errorAlimentacao.innerHTML = "";
+                errorAlimen.innerHTML = "";
+
+                var nomePacote = iptNomePacote.value;
+                var fkMunicipio = sltLocal.value;
+                var fkHospedagem = sltHospedagem.value;
+                var hosped = sltHosped.value;
+                var fkEstabelecimento = sltAlimentacao.value;
+                var alimen = sltAlimen.value;
+
+                var erro = false;
+
+                if (nomePacote == "") {
+                    errorNomePacote.innerHTML = "Preencha o nome";
+                    erro = true;
+                }
+
+                if (fkMunicipio == "") {
+                    errorLocal.innerHTML = "Escolha um local";
+                    erro = true;
+                }
+
+                if (fkHospedagem == "") {
+                    errorHospedagem.innerHTML = "Escolha um local";
+                    erro = true;
+                }
+
+                if (hosped == "") {
+                    errorHosped.innerHTML = "Selecione o tipo de hospedagem";
+                    erro = true;
+                }
+                if (fkEstabelecimento == "") {
+                    errorAlimentacao.innerHTML = "Escolha um local";
+                    erro = true;
+                }
+
+                if (alimen == "") {
+                    errorAlimen.innerHTML = "Selecione um tipo de estabelecimento";
+                    erro = true;
+                }
+
+
+                if (!erro) {
+
+                    fetch("/pacote/atualizar", {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            idPacote: sessionStorage.ID_PACOTE_EDITAR,
+                            nome: nome,
+                            fkMunicipio: fkMunicipio,
+                            fkHospedagem: fkHospedagem,
+                            fkEstabelecimento: fkEstabelecimento,
+                        })
+                    })
+                        .then(function (resposta) {
+                            console.log("ESTOU NO THEN atualizar Pacote");
+
+                            if (resposta.ok) {
+                                console.log("Pacote atualizado!");
+                                window.location = "./pacote.html";
+                            } else {
+                                console.log("Erro ao atualizar pacote");
+                            }
+                        })
+                        .catch(function (erro) {
+                            console.log(erro);
+                            console.log("Erro ao atualizar pacote!");
+                        });
+                }
+            }
+
+            function listarAlimentacao(idMunicipio) {
+                fetch(`/pacote/listarAlimentacao/${idMunicipio}`)
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        var select = document.getElementById("sltAlimentacao");
+                        select.innerHTML = `<option value="">Selecione</option>`;
+
+                        for (var i = 0; i < dados.length; i++) {
+                            select.innerHTML += `
+                    <option value="${dados[i].idAlimentacao}">
+                        ${dados[i].nome}
+                    </option>
+                    `;
+                        }
+
+                        console.log("Alimentações carregadas com sucesso");
+                    })
+                    .catch(function (erro) {
+                        console.log("Erro ao carregar alimentações:", erro);
+                    });
+            }
+
+        </script>
+
+</body>
+
+</html>
