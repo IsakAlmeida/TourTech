@@ -2,7 +2,7 @@ var pacoteModel = require("../models/pacoteModel");
 
 //listar pacotes
 function listarPacotes(req, res) {
-    pacoteModel.listar()
+    pacoteModel.listarPacotes()
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
@@ -16,8 +16,52 @@ function listarPacotes(req, res) {
         });
 }
 
-//cadastrar pacote
+function listarMunicipio(req, res) {
+    pacoteModel.listarMunicipio()
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Controller: Nenhum município encontrado!")
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Controller: Houve um erro ao localizar municípios");
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
+function listarHospedagem(req, res) {
+    pacoteModel.listarHospedagem()
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Controller: Nenhuma hospedagem encontrada!")
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Controller: Houve um erro ao buscar as hospedagens");
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function listarAlimentacao(req, res) {
+    pacoteModel.listarAlimentacao()
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Controller: Nenhum estabelecimento alimentício encontrado!")
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Controller: Houve um erro ao buscar estabelecimentos alimentícios");
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+//cadastrar pacote
 function cadastrar(req, res) {
     var nome = req.body.nome;
     var fkMunicipio = req.body.fkMunicipio;

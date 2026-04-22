@@ -24,6 +24,30 @@ function listarPacotes() {
     return database.executar(instrucaoSql);
 }
 
+function listarMunicipio(){
+    var instrucaoSql = `
+        SELECT
+            m.nome as municipio,
+        FROM municipio m
+        ORDER BY m.nome;
+    `;
+}
+
+function listarHospedagem(){
+    var instrucaoSql = `
+        SELECT
+            h.nome as hospedagem
+        FROM hospedagem h
+        ORDER BY h.nome`
+}
+
+function listarAlimentacao(){
+    var instrucaoSql = `
+        SELECT
+            e.nome as estabelecimento
+        FROM estabelecimentoAlimenticio e
+        ORDER BY e.nome`
+}
 
 //cadastrar pacote
 function cadastrar(nome, fkMunicipio, fkHospedagem, fkEstabelecimento, atrativos = []) {
