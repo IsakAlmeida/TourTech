@@ -50,13 +50,13 @@
                 </a>
             </div>
 
-            <div class="btn-nav">
+            <div class="btn-nav-white">
                 <a href="./estabelecimento.html">
                     <h3>Estabelecimento</h3>
                 </a>
             </div>
 
-            <div class="btn-nav-white">
+            <div class="btn-nav">
                 <a href="./pacote.html">
                     <h3>Pacotes</h3>
                 </a>
@@ -132,9 +132,13 @@
 
                         const lista = document.getElementById('lista-pacote');
                         lista.innerHTML = "";;
+                        
+                        if (listaPacotes == 0){
+                            lista.innerHTML == null;
+                        }
                     })
                     .catch(erro => console.log("Erro em gerar lista de pacotes:", erro));
-                document.getElementById('lista-pacote').innerHTML = "<p>Erro ao carregar pacotes.</p>";
+                    /*document.getElementById('lista-pacote').innerHTML = "<p>Erro ao carregar pacotes.</p>";*/
 
             }
 
