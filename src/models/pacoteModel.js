@@ -1,69 +1,68 @@
 const { listarPacotes } = require("../controllers/pacoteController");
 var database = require("../database/config");
 
-// Listar Estabelecimento 
+// Listar pacotes
 function listarPacotes() {
-    var instrucaoSql = `
-       SELECT
-            p.idPacote 
-            p.nome as nomePacote,
-            m.nome as municipio,
-            h.nome as hospedagem,
-            e.estabelecimento as estabelecimento
-        FROM pacote p
-        JOIN municipio m
-            ON p.fkMunicipio = m.idMunicipio,
-        JOIN hospedagem h
-            ON p.fkHospedagem = h.idHospedagem,
-        JOIN estabelecimentoAlimenticio e
-            ON p.fkEstabelecimento = e.idEstabelecimento
-        ORDER BY p.idPacote;
-    `;
+    var instrucaoSql = `SELECT
+	p.idPacote,
+	p.nome as nomePacote,
+	m.nome as municipio,
+	h.nome as hospedagem,
+	e.estabelecimento as estabelecimento
+	FROM pacote p
+	JOIN municipio m
+	ON p.fkMunicipio = m.idMunicipio
+	JOIN hospedagem h
+	ON p.fkHospedagem = h.idHospedagem
+	JOIN estabelecimentoAlimenticio e
+	ON p.fkEstabelecimento = e.idEstabelecimento
+	ORDER BY p.idPacote;`;
 
     console.log("Executando SQL:\n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function listarMunicipio(){
-    var instrucaoSql = `
-        SELECT
-            m.nome as municipio,
-        FROM municipio m
-        ORDER BY m.nome;
-    `;
+//Listar municípios
+function listarMunicipio() {
+    var instrucaoSql = `SELECT m.idMunicipio,
+    m.nome as municipio
+    FROM municipio m
+    ORDER BY m.nome;`;
+
+    console.log("Executando SQL:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-function listarHospedagem(){
-    var instrucaoSql = `
-        SELECT
-            h.nome as hospedagem
-        FROM hospedagem h
-        ORDER BY h.nome`
+//Listar hospedagens
+function listarHospedagem() {
+    var instrucaoSql = `SELECT h.idHospedagem,
+    h.nome as hospedagem
+    FROM hospedagem h
+    ORDER BY h.nome;`;
+
+    console.log("Executando SQL:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-function listarAlimentacao(){
-    var instrucaoSql = `
-        SELECT
-            e.nome as estabelecimento
-        FROM estabelecimentoAlimenticio e
-        ORDER BY e.nome`
+//Listar Alimentícios
+function listarAlimentacao() {
+    var instrucaoSql = `SELECT e.idEstabelecimento,
+    e.nome as estabelecimento
+    FROM estabelecimentoAlimenticio e
+    ORDER BY e.nome;`;
+
+    console.log("Executando SQL:\n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
-//cadastrar pacote
+//Cadastrar pacote
 function cadastrar(nome, fkMunicipio, fkHospedagem, fkEstabelecimento, atrativos = []) {
-    var instrucao = `
-        INSERT INTO pacote (
-        nome, 
-        fkMunicipio, 
-        fkHospedagem,
-        fkEstabelecimento
-        ) VALUES(
-            '${nome}',
-            '${fkMunicipio}',
-            '${fkHospedagem}',
-            ${fkEstabelecimento}
-        );
-    `;
+    var instrucaoSql = `INSERT INTO pacote (nome, fkMunicipio, fkHospedagem, fkEstabelecimento) VALUES (
+    ${nome},
+    ${fkMunicipio},
+    ${fkHospedagem},
+    ${fkEstabelecimento}
+    );`;
 
     console.log("Executando SQL:\n" + instrucaoSql);
 
@@ -76,10 +75,7 @@ function cadastrar(nome, fkMunicipio, fkHospedagem, fkEstabelecimento, atrativos
             }
 
             var promessas = atrativos.map(idAtrativo => {
-                var sqlAtrativo = `
-                    INSERT INTO pacote_atrativo (pacote_id, atrativo_id)
-                    VALUES (${idPacote}, ${idAtrativo});
-                `;
+                var sqlAtrativo = `INSERT INTO pacote_atrativo (pacote_id, atrativo_id) VALUES (${idPacote}, ${idAtrativo});`;
                 console.log("Executando SQL:\n" + sqlAtrativo);
                 return database.executar(sqlAtrativo);
             });
@@ -90,51 +86,43 @@ function cadastrar(nome, fkMunicipio, fkHospedagem, fkEstabelecimento, atrativos
 
 // Buscar
 function buscar(idPacote) {
-    var instrucao = `
-          SELECT 
-            p.idPacote,
-            p.nome,
-            p.fkMunicipio,
-            p.fkHospedagem,
-            p.fkEstabelecimento,
-        FROM pacote p
-        WHERE p.idPacote = ${idPacote};
-    `;
+    var instrucaoSql = `SELECT 
+    p.idPacote,
+    p.nome,
+    p.fkMunicipio,
+    p.fkHospedagem,
+    p.fkEstabelecimento
+    FROM pacote p
+    WHERE p.idPacote = ${idPacote};`;
 
-    console.log("Model: Executando a instrução SQL: \n" + instrucao);
-    return database.executar(instrucao);
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 // Atualizar
 function atualizar(idPacote, nome, fkMunicipio, fkHospedagem, fkEstabelecimento) {
 
-    var atualizarPacote = `
-        UPDATE pacote SET
-            nome = '${nome}',
-            fkMunicipio = '${fkMunicipio}',
-            fkHospedagem = ${fkHospedagem},
-            fkEstabelecimento = ${fkEstabelecimento}
-        WHERE idPacote = ${idPacote};
-    `;
+    var instrucaoSql = `UPDATE pacote SET
+    nome = ${nome},
+    fkMunicipio = ${fkMunicipio},
+    fkHospedagem = ${fkHospedagem},
+    fkEstabelecimento = ${fkEstabelecimento}
+	WHERE idPacote = ${idPacote};`;
 
-    console.log("Model: Executando a instrução SQL: \n" + atualizarPacote);
-    return database.executar(atualizarPacote);
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
 // Deletar
 function deletar(idPacote) {
-    var deletarRelacionamentos = `
-        DELETE FROM pacote_atrativo WHERE pacote_id = ${idPacote};
-    `;
+    var instrucaoSqlRelacionamentos = `DELETE FROM pacote_atrativo WHERE pacote_id = ${idPacote};`;
 
-    var deletarPacote = `
-        DELETE FROM pacote WHERE idPacote = ${idPacote};
-    `;
+    var instrucaoSqlPacote = `DELETE FROM pacote WHERE idPacote = ${idPacote};`;
 
-    console.log("Model: Executando a instrução SQL: \n" + deletarRelacionamentos);
-    console.log("Model: Executando a instrução SQL: \n" + deletarPacote);
-    return database.executar(deletarRelacionamentos)
-        .then(() => database.executar(deletarPacote));
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSqlRelacionamentos);
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSqlPacote);
+    return database.executar(instrucaoSqlRelacionamentos)
+        .then(() => database.executar(instrucaoSqlPacote));
 }
 
 module.exports = {
