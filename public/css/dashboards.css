@@ -155,7 +155,7 @@ canvas {
   align-items: center;
   border-right: 3px solid #ffff;
   /* background-color: #212124; */
-  background: linear-gradient(90deg, #EBC14D,#ffecc9);
+  background: linear-gradient(90deg, #EBC14D, #ffecc9);
 }
 
 .dash-right {
@@ -181,7 +181,7 @@ canvas {
 }
 
 .hello h3 {
-  color: #ffffff;
+  color: #4D6054;
   font-weight: 200;
   font-size: 1.0rem;
 }
@@ -191,25 +191,25 @@ canvas {
 }
 
 .btn-nav {
-  width: 40%;
+  width: 50%;
   color: white;
-  background-color: #D5E293;
+  background-color: #4D6054;
   border-radius: 5px;
   text-align: center;
   padding: 2% 5%;
 }
 
 .btn-nav-white {
-  width: 40%;
+  width: 50%;
   background-color: white;
-  border: 3px solid #D5E293;
+  border: 3px solid #4D6054;
   border-radius: 5px;
   text-align: center;
   padding: 2% 5%;
 }
 
 .btn-nav-white h3 {
-  color: #D5E293;
+  color: #4D6054;
   padding: 0;
   margin: 0;
   font-size: 1.0rem;
@@ -226,7 +226,7 @@ canvas {
   margin: 0;
   padding: 0;
   width: 20%;
-  background-color: #D5E293;
+  background-color: #4D6054;
   color: white;
   border-radius: 10px;
   text-align: center;
@@ -235,7 +235,7 @@ canvas {
   cursor: pointer;
 }
 
-.tituloDash{
+.tituloDash {
   margin: 3vw 10vh;
 }
 
@@ -277,7 +277,7 @@ canvas {
 }
 
 .bar {
-  flex: 1; 
+  flex: 1;
   align-items: center;
   justify-content: center;
   height: auto;
@@ -285,7 +285,7 @@ canvas {
 }
 
 .doughnut {
-  flex: 1; 
+  flex: 1;
   align-items: center;
   justify-content: center;
   border-left: 3px solid #D5E293;
@@ -301,8 +301,176 @@ canvas {
   justify-content: center;
   border-radius: 10px;
   margin: 10vh;
-  padding: 5vh ;
+  padding: 5vh;
   height: 50%;
   background-color: #ffffff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.menu-mobile {
+    display: none;
+}
+
+.btn-fechar-menu {
+    display: none !important;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+
+  .menu-mobile {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        font-size: 30px;
+        color: #4D6054;
+        cursor: pointer;
+    }
+
+    /* Estilo do botão de fechar dentro do menu */
+    .btn-fechar-menu {
+        display: block !important;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 30px;
+        color: #4D6054; /* ou a cor que preferir */
+        cursor: pointer;
+    }
+
+    .header-left {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1001; /* Z-index maior que o menu-mobile para ficar por cima */
+        height: 100vh;
+        width: 60vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        border-right: 3px solid #ffff;
+        background: linear-gradient(90deg, #EBC14D, #EBC14D);
+        
+        /* NOVO: Esconde o menu jogando ele para fora da tela na esquerda */
+        transform: translateX(-100%);
+        /* NOVO: Adiciona uma animação suave ao abrir/fechar */
+        transition: transform 0.3s ease-in-out; 
+        opacity: 95%;
+    }
+
+    /* NOVO: Classe que será ativada pelo JavaScript para mostrar o menu */
+    .header-left.menu-aberto {
+        transform: translateX(0);
+    }
+
+    /* Adicionando um espaço no topo da dash para o botão não ficar em cima do título */
+    .tituloDash {
+        margin-top: 80px; 
+    }
+
+  /* .header-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    height: 100vh;
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-right: 3px solid #ffff;
+    background: linear-gradient(90deg, #EBC14D, #ffecc9);
+  } */
+
+
+  .dash {
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0%;
+    background-color: #fffaf0;
+    height: 100vh;
+    overflow: auto;
+  }
+
+  /* .dash {
+    width: 85%;
+    position: relative;
+    top: 0;
+    left: 15%;
+    background-color: #fffaf0;
+    height: 100vh;
+    overflow: auto;
+  } */
+
+  .kpis {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    margin: 3vw 2vh;
+    height: 60vh;
+  }
+
+  .kpi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #D5E293;
+    border-radius: 10px;
+    height: 18vh;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .superior {
+  display: flex;
+  /* align-items: stretch; */
+  /* justify-content: space-between; */
+  border: 3px solid #D5E293;
+  border-radius: 10px;
+  margin: 3vw 2vh;
+  height: auto;
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  flex-direction: column;
+}
+
+.bar {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  position: relative;
+}
+
+.doughnut {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #ffffff;
+  height: 100%;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid #D5E293;
+  align-items: flex-end;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 2vh;
+  padding: 1vh;
+  height: 25%;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
 }
