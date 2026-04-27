@@ -10,9 +10,9 @@ public class Conexao {
 
     public Conexao() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setUsername("adminTourTech");
-        driver.setPassword("AdmTourTech123");
-        driver.setUrl("jdbc:mysql://127.0.0.1:3306/TourTech");
+        driver.setUsername("root");
+        driver.setPassword("AdminTourTech");
+        driver.setUrl("jdbc:mysql://ContainerBD:3306/TourTech");
         driver.setDriverClassName("com.mysql.cj.jdbc.Driver");
         this.conexao = driver;
     }
