@@ -1,8 +1,14 @@
 package school.sptech;
 
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import school.sptech.model.*;
+import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -10,16 +16,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeitorExcel {
+    private final S3Client s3 = S3Client.builder()
+            .region(Region.US_EAST_1)
+            .build();
 
     private List<Log> logs = new ArrayList<>();
 
     //PAÍSES
-    public List<Pais> extrairPaises(String nomeArquivo) {
+    public List<Pais> extrairPaises(String nomeArquivo, String nomeBucket) {
         List<Pais> lista = new ArrayList<>();
 
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(nomeBucket)
+                .key(nomeArquivo)
+                .build();
+
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                ResponseInputStream<GetObjectResponse> s3Stream = s3.getObject(getObjectRequest);
+                Workbook workbook = new XSSFWorkbook(s3Stream)
         ) {
 
             logs.add(new Log("INICIO LEITURA EXCEL PAISES", "INFO", "ARQUIVO"));
@@ -45,12 +59,17 @@ public class LeitorExcel {
     }
 
     //HOSPEDAGEM
-    public List<Hospedagem> extrairHospedagens(String nomeArquivo) {
+    public List<Hospedagem> extrairHospedagens(String nomeArquivo, String nomeBucket) {
         List<Hospedagem> lista = new ArrayList<>();
 
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(nomeBucket)
+                .key(nomeArquivo)
+                .build();
+
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                ResponseInputStream<GetObjectResponse> s3Stream = s3.getObject(getObjectRequest);
+                Workbook workbook = new XSSFWorkbook(s3Stream)
         ) {
 
             logs.add(new Log("INICIO LEITURA EXCEL HOSPEDAGEM", "INFO", "ARQUIVO"));
@@ -86,12 +105,17 @@ public class LeitorExcel {
         return lista;
     }
 
-    public List<EstabelecimentoAlimenticio> extrairEstabelecimentos(String nomeArquivo) {
+    public List<EstabelecimentoAlimenticio> extrairEstabelecimentos(String nomeArquivo, String nomeBucket) {
         List<EstabelecimentoAlimenticio> lista = new ArrayList<>();
 
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(nomeBucket)
+                .key(nomeArquivo)
+                .build();
+
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                ResponseInputStream<GetObjectResponse> s3Stream = s3.getObject(getObjectRequest);
+                Workbook workbook = new XSSFWorkbook(s3Stream)
         ) {
 
             logs.add(new Log("INICIO LEITURA EXCEL ESTABELECIMENTO", "INFO", "ARQUIVO"));
@@ -128,12 +152,17 @@ public class LeitorExcel {
     }
 
     //ATRATIVOS
-    public List<Atrativos> extrairAtrativos(String nomeArquivo) {
+    public List<Atrativos> extrairAtrativos(String nomeArquivo, String nomeBucket) {
         List<Atrativos> lista = new ArrayList<>();
 
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(nomeBucket)
+                .key(nomeArquivo)
+                .build();
+
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                ResponseInputStream<GetObjectResponse> s3Stream = s3.getObject(getObjectRequest);
+                Workbook workbook = new XSSFWorkbook(s3Stream)
         ) {
 
             logs.add(new Log("INICIO LEITURA EXCEL ATRATIVOS", "INFO", "ARQUIVO"));
@@ -161,12 +190,17 @@ public class LeitorExcel {
     }
 
     //TURISMO NACIONAL POR ATRATIVOS
-    public List<TurismoNacionalAtrativo> extrairTurismoNacionalAtrativo(String nomeArquivo) {
+    public List<TurismoNacionalAtrativo> extrairTurismoNacionalAtrativo(String nomeArquivo, String nomeBucket) {
         List<TurismoNacionalAtrativo> lista = new ArrayList<>();
 
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(nomeBucket)
+                .key(nomeArquivo)
+                .build();
+
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                ResponseInputStream<GetObjectResponse> s3Stream = s3.getObject(getObjectRequest);
+                Workbook workbook = new XSSFWorkbook(s3Stream)
         ) {
 
             logs.add(new Log("INICIO LEITURA EXCEL TURISMO NACIONAL POR ATRATIVOS", "INFO", "ARQUIVO"));
@@ -213,12 +247,17 @@ public class LeitorExcel {
     }
 
     //TURISMO INTERNACIONAL POR ATRATIVOS
-    public List<TurismoInternacionalAtrativo> extrairTurismoInternacionalAtrativo(String nomeArquivo) {
+    public List<TurismoInternacionalAtrativo> extrairTurismoInternacionalAtrativo(String nomeArquivo, String nomeBucket) {
         List<TurismoInternacionalAtrativo> lista = new ArrayList<>();
 
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(nomeBucket)
+                .key(nomeArquivo)
+                .build();
+
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                ResponseInputStream<GetObjectResponse> s3Stream = s3.getObject(getObjectRequest);
+                Workbook workbook = new XSSFWorkbook(s3Stream)
         ) {
 
             logs.add(new Log("INICIO LEITURA EXCEL TURISMO INTERNACIONAL POR ATRATIVOS", "INFO", "ARQUIVO"));
@@ -264,12 +303,17 @@ public class LeitorExcel {
         return lista;
     }
 
-    public List<TurismoNacionalEstado> extrairTurismoNacionalEstado(String nomeArquivo) {
+    public List<TurismoNacionalEstado> extrairTurismoNacionalEstado(String nomeArquivo, String nomeBucket) {
         List<TurismoNacionalEstado> lista = new ArrayList<>();
 
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(nomeBucket)
+                .key(nomeArquivo)
+                .build();
+
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                ResponseInputStream<GetObjectResponse> s3Stream = s3.getObject(getObjectRequest);
+                Workbook workbook = new XSSFWorkbook(s3Stream)
         ) {
 
             logs.add(new Log("INICIO LEITURA EXCEL TURISMO NACIONAL POR ESTADO", "INFO", "ARQUIVO"));
@@ -315,12 +359,17 @@ public class LeitorExcel {
         return lista;
     }
 
-    public List<TurismoInternacionalPais> extrairTurismoInternacionalPais(String nomeArquivo) {
+    public List<TurismoInternacionalPais> extrairTurismoInternacionalPais(String nomeArquivo, String nomeBucket) {
         List<TurismoInternacionalPais> lista = new ArrayList<>();
 
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(nomeBucket)
+                .key(nomeArquivo)
+                .build();
+
         try (
-                InputStream arquivo = new FileInputStream(nomeArquivo);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                ResponseInputStream<GetObjectResponse> s3Stream = s3.getObject(getObjectRequest);
+                Workbook workbook = new XSSFWorkbook(s3Stream)
         ) {
 
             logs.add(new Log("INICIO LEITURA EXCEL TURISMO INTERNACIONAL POR PAIS", "INFO", "ARQUIVO"));
