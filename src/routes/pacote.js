@@ -27,7 +27,7 @@ router.post("/cadastrar", function (req, res){
 });
 
 //buscar pacotes
-router.get("/buscar", function(req, res){
+router.get("/buscar/:idPacote", function(req, res){
     pacoteController.buscar(req, res);
 });
 

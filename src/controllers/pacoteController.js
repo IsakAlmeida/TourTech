@@ -69,13 +69,13 @@ function cadastrar(req, res) {
     var fkEstabelecimento = req.body.fkEstabelecimento;
     var atrativos = req.body.atrativos || [];
 
-    if (!nomePacote || !fkMunicipio || !fkHospedagem || !fkEstabelecimento) {
+    if (!nome || !fkMunicipio || !fkHospedagem || !fkEstabelecimento) {
         return res.status(400).json({
             erro: "Controller: Todos os campos são obrigatórios"
         });
     }
 
-    console.log("Controller: Cadastrando Pacote:", { nomePacote, local, hospedagem, hosped, alimentacao, alimen });
+    console.log("Controller: Cadastrando Pacote:", { nome, local, hospedagem, hosped, alimentacao, alimen });
 
     pacoteModel.cadastrar(nome, fkMunicipio, fkHospedagem, fkEstabelecimento, atrativos)
         .then(function (resultado) {

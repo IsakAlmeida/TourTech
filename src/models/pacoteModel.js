@@ -1,4 +1,3 @@
-const { listarPacotes } = require("../controllers/pacoteController");
 var database = require("../database/config");
 
 // Listar pacotes
@@ -8,7 +7,7 @@ function listarPacotes() {
 	p.nome as nomePacote,
 	m.nome as municipio,
 	h.nome as hospedagem,
-	e.estabelecimento as estabelecimento
+	e.nome as estabelecimento
 	FROM pacote p
 	JOIN municipio m
 	ON p.fkMunicipio = m.idMunicipio
@@ -23,9 +22,10 @@ function listarPacotes() {
 }
 
 //Listar municípios
-function listarMunicipio() {
+function listarMunicipio(fkMunicipio) {
     var instrucaoSql = `SELECT m.idMunicipio,
     m.nome as municipio
+    WHERE h.fkMunicipio = ${fkMunicipio}
     FROM municipio m
     ORDER BY m.nome;`;
 
@@ -34,10 +34,11 @@ function listarMunicipio() {
 }
 
 //Listar hospedagens
-function listarHospedagem() {
+function listarHospedagem(fkMunicipio) {
     var instrucaoSql = `SELECT h.idHospedagem,
     h.nome as hospedagem
     FROM hospedagem h
+    WHERE h.fkMunicipio = ${fkMunicipio}
     ORDER BY h.nome;`;
 
     console.log("Executando SQL:\n" + instrucaoSql);
@@ -45,10 +46,11 @@ function listarHospedagem() {
 }
 
 //Listar Alimentícios
-function listarAlimentacao() {
+function listarAlimentacao(fkMunicipio) {
     var instrucaoSql = `SELECT e.idEstabelecimento,
     e.nome as estabelecimento
     FROM estabelecimentoAlimenticio e
+    WHERE h.fkMunicipio = ${fkMunicipio}
     ORDER BY e.nome;`;
 
     console.log("Executando SQL:\n" + instrucaoSql);
