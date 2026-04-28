@@ -80,6 +80,7 @@ public class Main {
                      PreparedStatement stmtBuscaPais = conn.prepareStatement(sqlBuscaPais);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertPais)) {
 
+                    conn.createStatement().execute("SET NAMES utf8mb4");
                     conn.setAutoCommit(false);
 
                     for (int i = 0; i < lista.size(); i++) {
@@ -167,6 +168,7 @@ public class Main {
                      PreparedStatement stmtBusca = conn.prepareStatement(sqlBuscaMunicipio);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertHospedagem)) {
 
+                    conn.createStatement().execute("SET NAMES utf8mb4");
                     conn.setAutoCommit(false);
 
                     for (int i = 0; i < lista.size(); i++) {
@@ -264,6 +266,7 @@ public class Main {
                      PreparedStatement stmtBusca = conn.prepareStatement(sqlBuscaMunicipio);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertEstabelecimento)) {
 
+                    conn.createStatement().execute("SET NAMES utf8mb4");
                     conn.setAutoCommit(false);
 
                     for (int i = 0; i < lista.size(); i++) {
@@ -361,6 +364,7 @@ public class Main {
                      PreparedStatement stmtBusca = conn.prepareStatement(sqlBuscaMunicipio);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertAtrativos)) {
 
+                    conn.createStatement().execute("SET NAMES utf8mb4");
                     conn.setAutoCommit(false);
 
                     for (int i = 0; i < lista.size(); i++) {
@@ -451,6 +455,7 @@ public class Main {
                      PreparedStatement stmtAtrativo = conn.prepareStatement(sqlBuscafkAtrativo);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
 
+                    conn.createStatement().execute("SET NAMES utf8mb4");
                     conn.setAutoCommit(false);
 
                     for (TurismoNacionalAtrativo turismo : lista) {
@@ -530,6 +535,7 @@ public class Main {
                      PreparedStatement stmtAtrativo = conn.prepareStatement(sqlBuscafkAtrativo);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
 
+                    conn.createStatement().execute("SET NAMES utf8mb4");
                     conn.setAutoCommit(false);
 
                     for (TurismoInternacionalAtrativo turismo : lista) {
@@ -609,6 +615,7 @@ public class Main {
                      PreparedStatement stmtBuscafkEstado = conn.prepareStatement(sqlBuscafkEstado);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
 
+                    conn.createStatement().execute("SET NAMES utf8mb4");
                     conn.setAutoCommit(false);
 
                     for (TurismoNacionalEstado turismo : lista) {
@@ -685,6 +692,7 @@ public class Main {
                      PreparedStatement stmtBuscafkPais = conn.prepareStatement(sqlBuscafkPais);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
 
+                    conn.createStatement().execute("SET NAMES utf8mb4");
                     conn.setAutoCommit(false);
 
                     for (TurismoInternacionalPais turismo : lista) {
