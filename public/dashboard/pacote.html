@@ -31,8 +31,14 @@
     <!--Menu-->
     <div class="janela">
 
+        <div class="menu-mobile" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
         <div class="header-left">
-            <h1>TourTech</h1>
+            <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleMenu()"></i>
+
+            <h1 style="color: #4D6054;">TourTech</h1>
 
             <div class="hello">
                 <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
@@ -55,7 +61,6 @@
                     <h3>Estabelecimento</h3>
                 </a>
             </div>
-
             <div class="btn-nav">
                 <a href="./pacote.html">
                     <h3>Pacotes</h3>
@@ -106,6 +111,11 @@
         </main>
         <script>
             b_usuario.innerHTML = sessionStorage.NOME_USUARIO || "usuário";
+
+            function toggleMenu() {
+                const menu = document.querySelector('.header-left');
+                menu.classList.toggle('menu-aberto');
+            }
 
             var listaPacotes = [];
 

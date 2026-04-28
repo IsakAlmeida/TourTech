@@ -21,9 +21,10 @@ public class Main {
         List<Log> logs = new ArrayList<>();
         Log log;
 
-        String url = "jdbc:mysql://127.0.0.1:3306/TourTech";
-        String usuario = "adminTourTech";
-        String senha = "AdmTourTech123";
+        String url = "jdbc:mysql://ContainerBD:3306/TourTech";
+        String usuario = "root";
+        String senha = "AdminTourTech";
+        String nomeBucket = "s3-project-pi";
 
         Integer op = 0;
 
@@ -65,7 +66,7 @@ public class Main {
 
                 String nomeArquivoHospedagem = "turismo-rio-de-janeiro.xlsx";
                 LeitorExcel leitor = new LeitorExcel();
-                List<Pais> lista = leitor.extrairPaises(nomeArquivoHospedagem);
+                List<Pais> lista = leitor.extrairPaises(nomeArquivoHospedagem, nomeBucket);
 
                 log = new Log("LEITURA PAÍSES FINALIZADA", "SUCESSO", "ARQUIVO");
                 logs.add(log);
@@ -152,7 +153,7 @@ public class Main {
 
                 String nomeArquivoHospedagem = "meio-de-hospedagem (2).xlsx";
                 LeitorExcel leitor = new LeitorExcel();
-                List<Hospedagem> lista = leitor.extrairHospedagens(nomeArquivoHospedagem);
+                List<Hospedagem> lista = leitor.extrairHospedagens(nomeArquivoHospedagem, nomeBucket);
 
                 log = new Log("LEITURA HOSPEDAGEM FINALIZADA", "SUCESSO", "ARQUIVO");
                 logs.add(log);
@@ -249,7 +250,7 @@ public class Main {
 
                 String nomeArquivoEstabelecimento = "restaurante-cafeteria-bar-e-similares.xlsx";
                 LeitorExcel leitor = new LeitorExcel();
-                List<EstabelecimentoAlimenticio> lista = leitor.extrairEstabelecimentos(nomeArquivoEstabelecimento);
+                List<EstabelecimentoAlimenticio> lista = leitor.extrairEstabelecimentos(nomeArquivoEstabelecimento, nomeBucket);
 
                 log = new Log("LEITURA ESTABELECIMENTOS FINALIZADA", "SUCESSO", "ARQUIVO");
                 logs.add(log);
@@ -346,7 +347,7 @@ public class Main {
 
                 String nomeArquivoAtrativos = "atrativos-turisticos.xlsx";
                 LeitorExcel leitor = new LeitorExcel();
-                List<Atrativos> lista = leitor.extrairAtrativos(nomeArquivoAtrativos);
+                List<Atrativos> lista = leitor.extrairAtrativos(nomeArquivoAtrativos, nomeBucket);
 
                 log = new Log("LEITURA ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO");
                 logs.add(log);
@@ -438,7 +439,7 @@ public class Main {
                 logs.add(new Log("INICIO LEITURA EXCEL TURISMO NACIONAL ATRATIVOS", "SUCESSO", "ARQUIVO"));
 
                 LeitorExcel leitor = new LeitorExcel();
-                List<TurismoNacionalAtrativo> lista = leitor.extrairTurismoNacionalAtrativo("atrativos-turisticos.xlsx");
+                List<TurismoNacionalAtrativo> lista = leitor.extrairTurismoNacionalAtrativo("atrativos-turisticos.xlsx", nomeBucket);
 
                 logs.add(new Log("LEITURA TURISMO NACIONAL ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO"));
 
@@ -517,7 +518,7 @@ public class Main {
                 logs.add(new Log("INICIO LEITURA EXCEL TURISMO INTERNACIONAL ATRATIVOS", "SUCESSO", "ARQUIVO"));
 
                 LeitorExcel leitor = new LeitorExcel();
-                List<TurismoInternacionalAtrativo> lista = leitor.extrairTurismoInternacionalAtrativo("atrativos-turisticos.xlsx");
+                List<TurismoInternacionalAtrativo> lista = leitor.extrairTurismoInternacionalAtrativo("atrativos-turisticos.xlsx", nomeBucket);
 
                 logs.add(new Log("LEITURA TURISMO INTERNACIONAL ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO"));
 
@@ -596,7 +597,7 @@ public class Main {
                 logs.add(new Log("INICIO LEITURA EXCEL TURISMO NACIONAL ESTADO", "SUCESSO", "ARQUIVO"));
 
                 LeitorExcel leitor = new LeitorExcel();
-                List<TurismoNacionalEstado> lista = leitor.extrairTurismoNacionalEstado("turismo-rio-de-janeiro.xlsx");
+                List<TurismoNacionalEstado> lista = leitor.extrairTurismoNacionalEstado("turismo-rio-de-janeiro.xlsx", nomeBucket);
 
                 logs.add(new Log("LEITURA TURISMO NACIONAL ESTADO FINALIZADA", "SUCESSO", "ARQUIVO"));
 
@@ -672,7 +673,7 @@ public class Main {
                 logs.add(new Log("INICIO LEITURA EXCEL TURISMO INTERNACIONAL PAIS", "SUCESSO", "ARQUIVO"));
 
                 LeitorExcel leitor = new LeitorExcel();
-                List<TurismoInternacionalPais> lista = leitor.extrairTurismoInternacionalPais("turismo-rio-de-janeiro.xlsx");
+                List<TurismoInternacionalPais> lista = leitor.extrairTurismoInternacionalPais("turismo-rio-de-janeiro.xlsx", nomeBucket);
 
                 logs.add(new Log("LEITURA TURISMO INTERNACIONAL PAIS FINALIZADA", "SUCESSO", "ARQUIVO"));
 
