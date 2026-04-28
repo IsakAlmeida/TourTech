@@ -119,12 +119,9 @@
 
             var listaPacotes = [];
 
-            //VAI PARA TELA DE CADASTRO
             function adicionar() {
                 window.location = "./pacote-cadastro.html";
             }
-
-            //LISTAR
 
             function listarPacotes() {
 
@@ -141,30 +138,27 @@
                         renderizarPacotes(listaPacotes);
 
                         const lista = document.getElementById('lista-pacote');
-                        lista.innerHTML = "";;
-                        
-                        if (listaPacotes == 0){
+
+                        if (listaPacotes == 0) {
                             lista.innerHTML == null;
                         }
                     })
                     .catch(erro => console.log("Erro em gerar lista de pacotes:", erro));
-                    /*document.getElementById('lista-pacote').innerHTML = "<p>Erro ao carregar pacotes.</p>";*/
+                /*document.getElementById('lista-pacote').innerHTML = "<p>Erro ao carregar pacotes.</p>";*/
 
             }
 
-            //CRIAR CARDS
             function renderizarPacotes(pacotes) {
                 const lista = document.getElementById('lista-pacote');
-                lista.innerHTML = "";
 
                 pacotes.forEach((pacote) => {
                     lista.innerHTML += `
                         <div class="card-pacote">
-                            <p class="local">Local: ${pacote.fkMunicipio || 'Não informado'}</p>
-                            <h2>${pacote.nome}</h2>
+                            <p class="local">Local: ${pacote.municipio || 'Não informado'}</p>
+                            <h2>${pacote.nomePacote}</h2>
 
-                            <p><strong>Hospedagem:</strong> ${pacote.fkHospedagem || 'Não informado'}</p>
-                            <p><strong>Alimentação:</strong> ${pacote.fkEstabelecimento || 'Não informado'}</p>
+                            <p><strong>Hospedagem:</strong> ${pacote.hospedagem || 'Não informado'}</p>
+                            <p><strong>Alimentação:</strong> ${pacote.estabelecimento || 'Não informado'}</p>
 
                             <div class="acoes">
                                 <button class="btn-excluir" onclick="excluir(${pacote.idPacote})">Excluir</button>
@@ -175,16 +169,15 @@
                 });
             }
 
-            //BUSCAR PACOTE JÁ CRIADO
             function buscarPacote() {
                 var termo = iptBusca.value.toLowerCase();
 
                 var filtrados = listaPacotes.filter(pacote => {
                     return (
-                        pacote.nomePacote.toLowerCase().includes(termo) ||
-                        (pacote.local && pacote.local.toLowerCase().includes(termo)) ||
-                        (pacote.hospedagem && pacote.hospedagem.toLowerCase().includes(termo)) ||
-                        (pacote.alimentacao && pacote.alimentacao.toLowerCase().includes(termo))
+                        pacote.nome.toLowerCase().includes(termo) ||
+                        (pacote.fkMunicipio && pacote.fkMunicipio.toLowerCase().includes(termo)) ||
+                        (pacote.fkHospedagem && pacote.fkHospedagem.toLowerCase().includes(termo)) ||
+                        (pacote.fkEstabelecimento && pacote.fkEstabelecimento.toLowerCase().includes(termo))
                     );
                 });
 
@@ -199,7 +192,7 @@
                     return;
                 }
 
-                fetch("/pacote/deletar/${idPacote}", {
+                fetch(`/pacote/deletar/${idPacote}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
@@ -217,7 +210,8 @@
                     .then(() => {
                         console.log("Pacote deletado:", idPacote);
                         alert("Pacote deletado com sucesso!");
-                        listarPacotes(); // atualiza a tela
+                        listaPacotes = listaPacotes.filter(pacote => pacote.idPacote != idPacote);
+                        renderizarPacotes(listaPacotes);
                     })
                     .catch(erro => console.error("Erro ao deletar pacote:", erro));
             }

@@ -59,7 +59,7 @@ function listarAlimentacao(idMunicipio) {
 //Cadastrar pacote
 function cadastrar(nome, fkMunicipio, fkHospedagem, fkEstabelecimento, atrativos = []) {
     var instrucaoSql = `INSERT INTO pacote (nome, fkMunicipio, fkHospedagem, fkEstabelecimento) VALUES (
-    ${nome},
+    '${nome}',
     ${fkMunicipio},
     ${fkHospedagem},
     ${fkEstabelecimento}
@@ -76,7 +76,7 @@ function cadastrar(nome, fkMunicipio, fkHospedagem, fkEstabelecimento, atrativos
             }
 
             var promessas = atrativos.map(idAtrativo => {
-                var sqlAtrativo = `INSERT INTO pacote_atrativo (pacote_id, atrativo_id) VALUES (${idPacote}, ${idAtrativo});`;
+                var sqlAtrativo = `INSERT INTO pacoteAtrativo (pacote_id, atrativo_id) VALUES (${idPacote}, ${idAtrativo});`;
                 console.log("Executando SQL:\n" + sqlAtrativo);
                 return database.executar(sqlAtrativo);
             });
@@ -104,7 +104,7 @@ function buscar(idPacote) {
 function atualizar(idPacote, nome, fkMunicipio, fkHospedagem, fkEstabelecimento) {
 
     var instrucaoSql = `UPDATE pacote SET
-    nome = ${nome},
+    nome = '${nome}',
     fkMunicipio = ${fkMunicipio},
     fkHospedagem = ${fkHospedagem},
     fkEstabelecimento = ${fkEstabelecimento}
@@ -116,14 +116,14 @@ function atualizar(idPacote, nome, fkMunicipio, fkHospedagem, fkEstabelecimento)
 
 // Deletar
 function deletar(idPacote) {
-    var instrucaoSqlRelacionamentos = `DELETE FROM pacote_atrativo WHERE pacote_id = ${idPacote};`;
-
     var instrucaoSqlPacote = `DELETE FROM pacote WHERE idPacote = ${idPacote};`;
+    
+    var instrucaoSqlRelacionamentos = `DELETE FROM pacoteAtrativo WHERE pacote_id = ${idPacote};`;
 
-    console.log("Model: Executando a instrução SQL: \n" + instrucaoSqlRelacionamentos);
     console.log("Model: Executando a instrução SQL: \n" + instrucaoSqlPacote);
-    return database.executar(instrucaoSqlRelacionamentos)
-        .then(() => database.executar(instrucaoSqlPacote));
+    console.log("Model: Executando a instrução SQL: \n" + instrucaoSqlRelacionamentos);
+    return database.executar(instrucaoSqlPacote)
+    .then(() => database.executar(instrucaoSqlRelacionamentos));
 }
 
 module.exports = {

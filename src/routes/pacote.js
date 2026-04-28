@@ -37,7 +37,7 @@ router.put("/atualizar", function(req, res){
 })
 
 //deletar pacotes
-router.delete("/deletar", function(req, res){
+router.delete("/deletar/:idPacote", function(req, res){
     pacoteController.deletar(req, res);
 });
 

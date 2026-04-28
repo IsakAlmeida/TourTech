@@ -77,7 +77,7 @@ function cadastrar(req, res) {
         });
     }
 
-    console.log("Controller: Cadastrando Pacote:", { nome, local, hospedagem, hosped, alimentacao, alimen });
+    console.log("Controller: Cadastrando Pacote:", { nome, fkMunicipio, fkHospedagem, fkEstabelecimento });
 
     pacoteModel.cadastrar(nome, fkMunicipio, fkHospedagem, fkEstabelecimento, atrativos)
         .then(function (resultado) {

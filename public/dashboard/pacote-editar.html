@@ -158,7 +158,7 @@
                 carregarPacote();
             }
 
-            /*function listarMunicipio() {
+            function listarMunicipio() {
                 fetch("/pacote/listarMunicipio")
                     .then(function (resposta) {
                         return resposta.json();
@@ -172,7 +172,7 @@
                         for (var i = 0; i < dados.length; i++) {
                             select.innerHTML += `
                         <option value="${dados[i].idMunicipio}">
-                            ${dados[i].nome}
+                            ${dados[i].municipio}
                         </option>
                     `;
                         }
@@ -181,10 +181,10 @@
                     .catch(function (erro) {
                         console.log("Erro ao carregar Municipio:", erro);
                     });
-            }*/
+            }
 
             function carregarPacote() {
-                var idPacote = sessionStorage.ID_HOSPEDAGEM_EDITAR;
+                var idPacote = sessionStorage.ID_PACOTE_EDITAR;
 
                 fetch(`/pacote/buscar/${idPacote}`)
                     .then(function (resposta) {
@@ -197,22 +197,25 @@
 
                         iptNomePacote.value = pacote.nome;
                         sltLocal.value = pacote.fkMunicipio;
-                        sltHospedagem.value = pacote.fkHospedagem;
-                        sltAlimentacao.value = pacote.fkEstabelecimento;
+
+                        istarHospedagem(pacote.fkMunicipio);
+                        listarAlimentacao(pacote.fkMunicipio);
+
+                        setTimeout(function () {
+                            sltHospedagem.value = pacote.fkHospedagem;
+                            sltAlimentacao.value = pacote.fkEstabelecimento;
+                        }, 300);
                     })
                     .catch(function (erro) {
                         console.log(erro);
                         console.log("Erro ao buscar pacote!");
                     });
-
-                iptNomePacote.value = pacote.nome;
-                sltLocal.value = pacote.fkMunicipio;
             }
 
             function carregarDadosLocal() {
-                var fkMunicipio = sltLocal.value;
+                var idMunicipio = sltLocal.value;
 
-                if (fkMunicipio == "" || fkMunicipio == "Selecione") {
+                if (idMunicipio == "" || idMunicipio == "Selecione") {
                     sltHospedagem.innerHTML = `<option value="Selecione">Selecione</option>`;
                     sltAlimentacao.innerHTML = `<option value="Selecione">Selecione</option>`;
                     return;
@@ -234,7 +237,7 @@
                         for (var i = 0; i < dados.length; i++) {
                             select.innerHTML += `
                             <option value="${dados[i].idHospedagem}">
-                                ${dados[i].nome}
+                                ${dados[i].hospedagem}
                                 </option>
                     `;
                         }
@@ -243,6 +246,31 @@
                     })
                     .catch(function (erro) {
                         console.log("Erro ao carregar hospedagens:", erro);
+                    });
+            }
+
+
+            function listarAlimentacao(idMunicipio) {
+                fetch(`/pacote/listarAlimentacao/${idMunicipio}`)
+                    .then(function (resposta) {
+                        return resposta.json();
+                    })
+                    .then(function (dados) {
+                        var select = document.getElementById("sltAlimentacao");
+                        select.innerHTML = `<option value="">Selecione</option>`;
+
+                        for (var i = 0; i < dados.length; i++) {
+                            select.innerHTML += `
+                    <option value="${dados[i].idEstabelecimento}">
+                        ${dados[i].estabelecimento}
+                    </option>
+                    `;
+                        }
+
+                        console.log("Alimentações carregadas com sucesso");
+                    })
+                    .catch(function (erro) {
+                        console.log("Erro ao carregar alimentações:", erro);
                     });
             }
 
@@ -255,16 +283,14 @@
                 errorAlimentacao.innerHTML = "";
                 errorAlimen.innerHTML = "";
 
-                var nomePacote = iptNomePacote.value;
+                var nome = iptNomePacote.value;
                 var fkMunicipio = sltLocal.value;
                 var fkHospedagem = sltHospedagem.value;
-                var hosped = sltHosped.value;
                 var fkEstabelecimento = sltAlimentacao.value;
-                var alimen = sltAlimen.value;
 
                 var erro = false;
 
-                if (nomePacote == "") {
+                if (nome == "") {
                     errorNomePacote.innerHTML = "Preencha o nome";
                     erro = true;
                 }
@@ -279,74 +305,39 @@
                     erro = true;
                 }
 
-                if (hosped == "") {
-                    errorHosped.innerHTML = "Selecione o tipo de hospedagem";
-                    erro = true;
-                }
                 if (fkEstabelecimento == "") {
                     errorAlimentacao.innerHTML = "Escolha um local";
                     erro = true;
                 }
 
-                if (alimen == "") {
-                    errorAlimen.innerHTML = "Selecione um tipo de estabelecimento";
-                    erro = true;
-                }
+                if (erro) return;
 
-
-                if (!erro) {
-
-                    fetch("/pacote/atualizar", {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            idPacote: sessionStorage.ID_PACOTE_EDITAR,
-                            nome: nome,
-                            fkMunicipio: fkMunicipio,
-                            fkHospedagem: fkHospedagem,
-                            fkEstabelecimento: fkEstabelecimento,
-                        })
+                fetch("/pacote/atualizar", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        idPacote: sessionStorage.ID_PACOTE_EDITAR,
+                        nome: nome,
+                        fkMunicipio: fkMunicipio,
+                        fkHospedagem: fkHospedagem,
+                        fkEstabelecimento: fkEstabelecimento,
                     })
-                        .then(function (resposta) {
-                            console.log("ESTOU NO THEN atualizar Pacote");
-
-                            if (resposta.ok) {
-                                console.log("Pacote atualizado!");
-                                window.location = "./pacote.html";
-                            } else {
-                                console.log("Erro ao atualizar pacote");
-                            }
-                        })
-                        .catch(function (erro) {
-                            console.log(erro);
-                            console.log("Erro ao atualizar pacote!");
-                        });
-                }
-            }
-
-            function listarAlimentacao(idMunicipio) {
-                fetch(`/pacote/listarAlimentacao/${idMunicipio}`)
+                })
                     .then(function (resposta) {
-                        return resposta.json();
-                    })
-                    .then(function (dados) {
-                        var select = document.getElementById("sltAlimentacao");
-                        select.innerHTML = `<option value="">Selecione</option>`;
+                        console.log("ESTOU NO THEN atualizar Pacote");
 
-                        for (var i = 0; i < dados.length; i++) {
-                            select.innerHTML += `
-                    <option value="${dados[i].idAlimentacao}">
-                        ${dados[i].nome}
-                    </option>
-                    `;
+                        if (resposta.ok) {
+                            console.log("Pacote atualizado!");
+                            window.location = "./pacote.html";
+                        } else {
+                            console.log("Erro ao atualizar pacote");
                         }
-
-                        console.log("Alimentações carregadas com sucesso");
                     })
                     .catch(function (erro) {
-                        console.log("Erro ao carregar alimentações:", erro);
+                        console.log(erro);
+                        console.log("Erro ao atualizar pacote!");
                     });
             }
 

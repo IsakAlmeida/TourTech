@@ -260,67 +260,54 @@
 
                 var erro = false;
 
-                if (nomePacote == "") {
+                if (nome == "") {
                     errorNomePacote.innerHTML = "Preencha com o nome do pacote";
                     erro = true;
                 }
 
-                if (local == "" || local == "Selecione") {
+                if (fkMunicipio == "" || fkMunicipio == "Selecione") {
                     errorLocal.innerHTML = "Selecione um dos locais";
                     erro = true;
                 }
 
-                if (hospedagem == "" || hospedagem == "Selecione") {
+                if (fkHospedagem == "" || fkHospedagem == "Selecione") {
                     errorHospedagem.innerHTML = "Selecione uma das hospedagens";
                     erro = true;
                 }
 
-                if (hosped == "" || hosped == "Selecione") {
-                    errorHosped.innerHTML = "Selecione o tipo de hospedagem"
-                    erro = true;
-                }
-
-                if (alimentacao == "" || alimentacao == "Selecione") {
+                if (fkEstabelecimento == "" || fkEstabelecimento == "Selecione") {
                     errorAlimentacao.innerHTML = "Selecione um dos espaços de alimentação";
                     erro = true;
                 }
 
-                if (alimen == "" || alimen == "Selecione") {
-                    errorAlimen.innerHTML = "Selecione o tipo do serviço de alimentação"
-                    erro = true;
-                }
+                if (erro) return;
 
-                if (!erro) {
-
-                    fetch("/pacote/cadastrar", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            nomePacote: nomePacote,
-                            local: local,
-                            hospedagem: hospedagem,
-                            hosped: hosped,
-                            alimentacao: alimentacao,
-                            alimen: alimen
-                        })
+                fetch("/pacote/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        nome: nome,
+                        fkMunicipio: fkMunicipio,
+                        fkHospedagem: fkHospedagem,
+                        fkEstabelecimento: fkEstabelecimento,
                     })
-                        .then(function (resposta) {
-                            console.log("ESTOU NO THEN cadastrar pacote");
+                })
+                    .then(function (resposta) {
+                        console.log("ESTOU NO THEN cadastrar pacote");
 
-                            if (resposta.ok) {
-                                console.log("Pacote cadastrado!");
-                                window.location = "./pacote.html";
-                            } else {
-                                console.log("Erro ao cadastrar pacote");
-                            }
-                        })
-                        .catch(function (erro) {
-                            console.log(erro);
-                            console.log("Erro ao cadastrar pacote!");
-                        });
-                }
+                        if (resposta.ok) {
+                            console.log("Pacote cadastrado!");
+                            window.location = "./pacote.html";
+                        } else {
+                            console.log("Erro ao cadastrar pacote");
+                        }
+                    })
+                    .catch(function (erro) {
+                        console.log(erro);
+                        console.log("Erro ao cadastrar pacote!");
+                    });
             }
         </script>
 
