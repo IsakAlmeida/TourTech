@@ -169,7 +169,7 @@
                         for (var i = 0; i < dados.length; i++) {
                             select.innerHTML += `
                         <option value="${dados[i].idMunicipio}">
-                            ${dados[i].nome}
+                            ${dados[i].municipio}
                         </option>
                     `;
                         }
@@ -207,7 +207,7 @@
                         for (var i = 0; i < dados.length; i++) {
                             select.innerHTML += `
                     <option value="${dados[i].idHospedagem}">
-                        ${dados[i].nome}
+                        ${dados[i].hospedagem}
                     </option>
                     `;
                         }
@@ -230,11 +230,12 @@
 
                         for (var i = 0; i < dados.length; i++) {
                             select.innerHTML += `
-                    <option value="${dados[i].idAlimentacao}">
-                        ${dados[i].nome}
+                    <option value="${dados[i].idEstabelecimento}">
+                        ${dados[i].estabelecimento}
                     </option>
                     `;
                         }
+                        console.log("Dados recebidos:", dados);
 
                         console.log("Alimentações carregadas com sucesso");
                     })

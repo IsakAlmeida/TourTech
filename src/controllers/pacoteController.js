@@ -32,7 +32,8 @@ function listarMunicipio(req, res) {
 }
 
 function listarHospedagem(req, res) {
-    pacoteModel.listarHospedagem()
+    var idMunicipio = req.params.idMunicipio;
+    pacoteModel.listarHospedagem(idMunicipio)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
@@ -47,7 +48,8 @@ function listarHospedagem(req, res) {
 }
 
 function listarAlimentacao(req, res) {
-    pacoteModel.listarAlimentacao()
+    var idMunicipio = req.params.idMunicipio;
+    pacoteModel.listarAlimentacao(idMunicipio)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);

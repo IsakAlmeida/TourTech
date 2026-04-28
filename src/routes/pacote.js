@@ -13,11 +13,11 @@ router.get("/listarMunicipio", function (req, res){
     pacoteController.listarMunicipio(req, res);
 });
 
-router.get("/listarHospedagem", function (req, res){
+router.get("/listarHospedagem/:idMunicipio", function (req, res){
     pacoteController.listarHospedagem(req, res);
 });
 
-router.get("/listarAlimentacao", function (req, res){
+router.get("/listarAlimentacao/:idMunicipio", function (req, res){
     pacoteController.listarAlimentacao(req, res);
 });
 

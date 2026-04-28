@@ -22,10 +22,9 @@ function listarPacotes() {
 }
 
 //Listar municípios
-function listarMunicipio(fkMunicipio) {
+function listarMunicipio() {
     var instrucaoSql = `SELECT m.idMunicipio,
     m.nome as municipio
-    WHERE h.fkMunicipio = ${fkMunicipio}
     FROM municipio m
     ORDER BY m.nome;`;
 
@@ -34,11 +33,11 @@ function listarMunicipio(fkMunicipio) {
 }
 
 //Listar hospedagens
-function listarHospedagem(fkMunicipio) {
+function listarHospedagem(idMunicipio) {
     var instrucaoSql = `SELECT h.idHospedagem,
     h.nome as hospedagem
     FROM hospedagem h
-    WHERE h.fkMunicipio = ${fkMunicipio}
+    WHERE h.fkMunicipio = ${idMunicipio}
     ORDER BY h.nome;`;
 
     console.log("Executando SQL:\n" + instrucaoSql);
@@ -46,11 +45,11 @@ function listarHospedagem(fkMunicipio) {
 }
 
 //Listar Alimentícios
-function listarAlimentacao(fkMunicipio) {
+function listarAlimentacao(idMunicipio) {
     var instrucaoSql = `SELECT e.idEstabelecimento,
     e.nome as estabelecimento
     FROM estabelecimentoAlimenticio e
-    WHERE h.fkMunicipio = ${fkMunicipio}
+    WHERE e.fkMunicipio = ${idMunicipio}
     ORDER BY e.nome;`;
 
     console.log("Executando SQL:\n" + instrucaoSql);
