@@ -21,7 +21,7 @@ public class Main {
         List<Log> logs = new ArrayList<>();
         Log log;
 
-        String url = "jdbc:mysql://ContainerBD:3306/TourTech";
+        String url = "jdbc:mysql://ContainerBD:3306/TourTech" + "?useUnicode=true" + "&characterEncoding=UTF-8" + "&connectionCollation=utf8mb4_unicode_ci" + "&serverTimezone=UTC";
         String usuario = "root";
         String senha = "AdminTourTech";
         String nomeBucket = "s3-project-pi";
@@ -44,18 +44,18 @@ public class Main {
             System.out.println("================================================================");
             op = sc.nextInt();
 
-            if(op < 0 || op > 8){
+            if (op < 0 || op > 8) {
                 System.out.println("Digite uma opção válida!!");
                 System.out.println();
             }
 
-            if(op == 8){
+            if (op == 8) {
                 System.out.println("Até mais!");
                 break;
             }
 
             //PAÍSES
-            if(op == 0){
+            if (op == 0) {
                 String sqlBuscaPais = "SELECT idPais FROM paisOrigem WHERE nomePais = ?";
                 String sqlInsertPais = "INSERT INTO paisOrigem(nomePais) VALUES (?)";
 
@@ -142,7 +142,7 @@ public class Main {
             }
 
             // HOSPEDAGEM
-            if(op == 1){
+            if (op == 1) {
                 String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
                 String sqlInsertHospedagem = "INSERT INTO hospedagem(nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -239,8 +239,8 @@ public class Main {
             }
 
             // ESTABELECIMENTOS
-            if(op == 2){
-                    String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
+            if (op == 2) {
+                String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
                 String sqlInsertEstabelecimento = "INSERT INTO estabelecimentoAlimenticio(nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                 // LEITURA DO EXCEL
@@ -336,7 +336,7 @@ public class Main {
             }
 
             // ATRATIVOS
-            if(op == 3){
+            if (op == 3) {
                 String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
                 String sqlInsertAtrativos = "INSERT INTO atrativoTuristico(nome, categoria, fkMunicipio) VALUES (?, ?, ?)";
 
@@ -429,7 +429,7 @@ public class Main {
             }
 
             // TURISMO NACIONAL POR ATRATIVOS
-            if(op == 4){
+            if (op == 4) {
 
                 String sqlBuscafkTempo = "SELECT idTempo FROM tempo WHERE nomeMes = ? AND ano = ?";
                 String sqlBuscafkAtrativo = "SELECT idAtrativo FROM atrativoTuristico WHERE nome = ?";
@@ -508,7 +508,7 @@ public class Main {
             }
 
             // TURISMO INTERNACIONAL POR ATRATIVOS
-            if(op == 5){
+            if (op == 5) {
 
                 String sqlBuscafkTempo = "SELECT idTempo FROM tempo WHERE nomeMes = ? AND ano = ?";
                 String sqlBuscafkAtrativo = "SELECT idAtrativo FROM atrativoTuristico WHERE nome = ?";
@@ -587,7 +587,7 @@ public class Main {
             }
 
             // TURISMO NACIONAL POR ESTADO
-            if(op == 6){
+            if (op == 6) {
 
                 String sqlBuscafkTempo = "SELECT idTempo FROM tempo WHERE nomeMes = ? AND ano = ?";
                 String sqlBuscafkEstado = "SELECT idEstado FROM estado WHERE nome = ?";
@@ -663,7 +663,7 @@ public class Main {
             }
 
             // TURISMO INTERNACIONAL POR PAIS
-            if(op == 7){
+            if (op == 7) {
 
                 String sqlBuscafkTempo = "SELECT idTempo FROM tempo WHERE nomeMes = ? AND ano = ?";
                 String sqlBuscafkPais = "SELECT idPais FROM paisOrigem WHERE nomePais = ?";
@@ -737,6 +737,6 @@ public class Main {
                 System.out.println("==============================================");
                 System.out.println();
             }
-        } while(op != 8);
+        } while (op != 8);
     }
 }
