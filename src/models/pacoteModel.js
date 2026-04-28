@@ -1,4 +1,3 @@
-const { listarPacotes } = require("../controllers/pacoteController");
 var database = require("../database/config");
 
 // Listar pacotes
