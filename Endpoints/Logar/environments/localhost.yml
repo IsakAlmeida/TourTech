@@ -2,3 +2,5 @@ name: localhost
 variables:
   - name: localhost
     value: http://localhost:3333
+  - name: PROD
+    value: http://44.197.246.42:3333

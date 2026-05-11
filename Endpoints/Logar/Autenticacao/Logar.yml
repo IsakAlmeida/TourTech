@@ -5,13 +5,13 @@ info:
 
 http:
   method: POST
-  url: "{{localhost}}/autenticacao/logar"
+  url: "{{PROD}}/autenticacao/logar"
   body:
     type: json
     data: |-
       {
         "emailServer": "bruno@gmail.com",
-        "senhaServer": "123456"
+        "senhaServer": "asdf1234"
       }
   auth: inherit
 
