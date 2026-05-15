@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourTech | Suporte</title>
+
+    <link rel="stylesheet" href="../css/suporte.css">
+    <script src="../js/sessao.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="janela">
+        
+        <div class="header-left">
+            <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleMenu()"></i>
+
+            <h1 style="color: #4D6054;">TourTech</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./funcionarios.html">
+                    <h3>Funcionários</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./estabelecimento.html">
+                    <h3>Estabelecimento</h3>
+                </a>
+            </div>
+            <div class="btn-nav">
+                <a href="./pacote.html">
+                    <h3>Pacotes</h3>
+                </a>
+            </div>
+            <div class="btn-nav-white">
+                <a href="./suporte.html">
+                    <h3>Suporte</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+
+        <main class="conteudo-suporte">
+            <section class="topo-suporte">
+                <div>
+                    <span class="etiqueta">Central de atendimento</span>
+                    <h1>Suporte</h1>
+                    <p>Envie sua dúvida, problema ou sugestão para a equipe TourTech.</p>
+                </div>
+            </section>
+
+            <section class="area-suporte">
+                <div class="card-info">
+                    <h2>Como podemos ajudar?</h2>
+                    <p>Preencha o formulário com o máximo de detalhes possível para facilitar o atendimento.</p>
+
+                    <div class="item-info">
+                        <strong>Tempo de resposta</strong>
+                        <span>Até 2 dias úteis</span>
+                    </div>
+
+                    <div class="item-info">
+                        <strong>Tipos de solicitação</strong>
+                        <span>Dúvidas, erros, acesso, cadastro e sugestões</span>
+                    </div>
+                </div>
+
+                <form class="form-suporte">
+                    <div class="grupo-campos">
+                        <div class="campo">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo">
+                        </div>
+
+                        <div class="campo">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="email@email.com">
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="situacao">Situação</label>
+                        <select id="situacao" name="situacao">
+                            <option value="" selected>Selecione uma opção</option>
+                            <option value="duvida">Dúvida</option>
+                            <option value="erro">Erro no sistema</option>
+                            <option value="acesso">Problema de acesso</option>
+                            <option value="cadastro">Cadastro</option>
+                            <option value="sugestao">Sugestão</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="descricao">Descrição</label>
+                        <textarea id="descricao" name="descricao" placeholder="Descreva sua solicitação"></textarea>
+                    </div>
+
+                    <div class="acoes-formulario">
+                        <button type="reset" class="btn-secundario">Limpar</button>
+                        <button type="submit" class="btn-principal">Enviar</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
+
+<script>
+    if (sessionStorage.NOME_USUARIO) {
+        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    }
+</script>
