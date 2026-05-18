@@ -28,7 +28,7 @@
 
 <!-- <body onload=" atualizarFeed()"> -->
 
-<body>
+<body  onload="kpiModaNacional()">
 
     <div class="janela">
 
@@ -88,21 +88,21 @@
             </div>
 
             <div class="kpis">
-                <div class="kpi">
+                <!-- <div class="kpi">
                     <div style="font-weight: bold;"><i class="fa-solid fa-clock" style="font-size: x-large; margin: 5px;"></i>Estadia moda</div>
                     <h1 style="color: #4D6054;">3 dias</h1>
-                </div>
+                </div> -->
                 <!-- <div class="kpi">
                     <div>Tempo de turismo médio <br>(estrangeiros)</div>
                     <h1>KPI2</h1>
                 </div> -->
                 <div class="kpi">
                     <div style="font-weight: bold;"><i class="fa-solid fa-flag" style="font-size: x-large; margin: 5px;"></i>Estado que mais visita</div>
-                    <h1 style="color: #4D6054;">Argentina</h1>
+                    <h1 style="color: #4D6054;">São Paulo</h1>
                 </div>
                 <div class="kpi">
                     <div style="font-weight: bold;"><i class="fa-solid fa-plane" style="font-size: x-large; margin: 5px;"></i>Pico de demanda Nacional</div>
-                    <h1 style="color: #4D6054;">Fevereiro</h1>
+                    <h1 style="color: #4D6054;"><div id="KpiPicoMes">FevTeste</div></h1>
                 </div>
             </div>
             <div class="superior">
@@ -120,10 +120,10 @@
             </div>
 
             <div class="kpis">
-                <div class="kpi">
+                <!-- <div class="kpi">
                     <div style="font-weight: bold;"><i class="fa-solid fa-clock" style="font-size: x-large; margin: 5px;"></i>Estadia moda</div>
                     <h1 style="color: #4D6054;">3 dias</h1>
-                </div>
+                </div> -->
                 <!-- <div class="kpi">
                     <div>Tempo de turismo médio <br>(estrangeiros)</div>
                     <h1>KPI2</h1>
@@ -413,5 +413,30 @@
         }
     });
 
+     //KPI Teste
+
+    function kpiModaNacional() {
+                fetch(`/dashboard/kpiModaNacional`)
+                    .then(resposta => {
+                        if (!resposta.ok) {
+                            throw new Error("Erro ao listar Pico de demanda Nacional");
+                        }
+                        return resposta.json();
+                    })
+                    .then(vt_nomeMes => {
+
+                        const KpiPicoMes = document.getElementById('KpiPicoMes');
+                        KpiPicoMes.innerHTML = "";
+
+                        vt_nomeMes.forEach((nomeMes) => {
+
+                            KpiPicoMes.innerHTML += `
+                ${nomeMes.nomeMes}
+                `;
+
+                        });
+                    })
+                    .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+            }
 
 </script>
