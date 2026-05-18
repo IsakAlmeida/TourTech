@@ -21,9 +21,6 @@ public class Main {
         List<Log> logs = new ArrayList<>();
         Log log;
 
-        String url = "jdbc:mysql://ContainerBD:3306/TourTech" + "?useUnicode=true" + "&characterEncoding=UTF-8" + "&connectionCollation=utf8mb4_unicode_ci" + "&serverTimezone=UTC";
-        String usuario = "root";
-        String senha = "AdminTourTech";
         String nomeBucket = "s3-project-pi";
 
         Integer op = 0;
@@ -76,7 +73,7 @@ public class Main {
                 log = new Log("INICIO INSERT PAÍSES", "SUCESSO", "BANCO");
                 logs.add(log);
 
-                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                try (Connection conn = conexao.getConexao().getConnection();
                      PreparedStatement stmtBuscaPais = conn.prepareStatement(sqlBuscaPais);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertPais)) {
 
@@ -164,7 +161,7 @@ public class Main {
                 log = new Log("INICIO INSERT HOSPEDAGEM", "SUCESSO", "BANCO");
                 logs.add(log);
 
-                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                try (Connection conn = conexao.getConexao().getConnection();
                      PreparedStatement stmtBusca = conn.prepareStatement(sqlBuscaMunicipio);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertHospedagem)) {
 
@@ -262,7 +259,7 @@ public class Main {
                 log = new Log("INICIO INSERT ESTABELECIMENTOS", "SUCESSO", "BANCO");
                 logs.add(log);
 
-                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                try (Connection conn = conexao.getConexao().getConnection();
                      PreparedStatement stmtBusca = conn.prepareStatement(sqlBuscaMunicipio);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertEstabelecimento)) {
 
@@ -360,7 +357,7 @@ public class Main {
                 log = new Log("INICIO INSERT ATRATIVOS", "SUCESSO", "BANCO");
                 logs.add(log);
 
-                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                try (Connection conn = conexao.getConexao().getConnection();
                      PreparedStatement stmtBusca = conn.prepareStatement(sqlBuscaMunicipio);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsertAtrativos)) {
 
@@ -450,7 +447,7 @@ public class Main {
                 System.out.println("Inserindo no banco...");
                 logs.add(new Log("INICIO INSERT TURISMO NACIONAL ATRATIVOS", "SUCESSO", "BANCO"));
 
-                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                try (Connection conn = conexao.getConexao().getConnection();
                      PreparedStatement stmtTempo = conn.prepareStatement(sqlBuscafkTempo);
                      PreparedStatement stmtAtrativo = conn.prepareStatement(sqlBuscafkAtrativo);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
@@ -530,7 +527,7 @@ public class Main {
                 System.out.println("Inserindo no banco...");
                 logs.add(new Log("INICIO INSERT TURISMO INTERNACIONAL ATRATIVOS", "SUCESSO", "BANCO"));
 
-                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                try (Connection conn = conexao.getConexao().getConnection();
                      PreparedStatement stmtTempo = conn.prepareStatement(sqlBuscafkTempo);
                      PreparedStatement stmtAtrativo = conn.prepareStatement(sqlBuscafkAtrativo);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
@@ -610,7 +607,7 @@ public class Main {
                 System.out.println("Inserindo no banco...");
                 logs.add(new Log("INICIO INSERT TURISMO NACIONAL ESTADO", "SUCESSO", "BANCO"));
 
-                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                try (Connection conn = conexao.getConexao().getConnection();
                      PreparedStatement stmtTempo = conn.prepareStatement(sqlBuscafkTempo);
                      PreparedStatement stmtBuscafkEstado = conn.prepareStatement(sqlBuscafkEstado);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
@@ -687,7 +684,7 @@ public class Main {
                 System.out.println("Inserindo no banco...");
                 logs.add(new Log("INICIO INSERT TURISMO INTERNACIONAL PAIS", "SUCESSO", "BANCO"));
 
-                try (Connection conn = DriverManager.getConnection(url, usuario, senha);
+                try (Connection conn = conexao.getConexao().getConnection();
                      PreparedStatement stmtTempo = conn.prepareStatement(sqlBuscafkTempo);
                      PreparedStatement stmtBuscafkPais = conn.prepareStatement(sqlBuscafkPais);
                      PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
