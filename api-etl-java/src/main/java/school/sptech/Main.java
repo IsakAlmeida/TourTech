@@ -5,7 +5,6 @@ import school.sptech.database.Conexao;
 import school.sptech.model.*;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class Main {
         Log log;
 
         String nomeBucket = "s3-project-pi";
-
         Integer op = 0;
 
         System.out.println("Bem vindo ao sistema de leitura e inserção de dados da TourTech");
@@ -36,7 +34,7 @@ public class Main {
             System.out.println("4 - Visitas Nacionais por Atrativos Turisticos");
             System.out.println("5 - Visitas Internacionais por Atrativos Turisticos");
             System.out.println("6 - Chegadas Nacionais ao Rio de Janeiro");
-            System.out.println("7 - Chegadas Interacionais ao Rio de Janeiro");
+            System.out.println("7 - Chegadas Internacionais ao Rio de Janeiro");
             System.out.println("8 - Sair");
             System.out.println("================================================================");
             op = sc.nextInt();
@@ -51,12 +49,11 @@ public class Main {
                 break;
             }
 
-            //PAÍSES
+            // PAÍSES
             if (op == 0) {
                 String sqlBuscaPais = "SELECT idPais FROM paisOrigem WHERE nomePais = ?";
                 String sqlInsertPais = "INSERT INTO paisOrigem(nomePais) VALUES (?)";
 
-                // LEITURA DO EXCEL
                 System.out.println("Lendo Excel...");
                 log = new Log("INICIO LEITURA EXCEL PAÍSES", "SUCESSO", "ARQUIVO");
                 logs.add(log);
@@ -64,11 +61,11 @@ public class Main {
                 String nomeArquivoHospedagem = "turismo-rio-de-janeiro.xlsx";
                 LeitorExcel leitor = new LeitorExcel();
                 List<Pais> lista = leitor.extrairPaises(nomeArquivoHospedagem, nomeBucket);
+                logs.addAll(leitor.getLogs());
 
                 log = new Log("LEITURA PAÍSES FINALIZADA", "SUCESSO", "ARQUIVO");
                 logs.add(log);
 
-                // INSERÇÃO NO BANCO
                 System.out.println("Inserindo no banco...");
                 log = new Log("INICIO INSERT PAÍSES", "SUCESSO", "BANCO");
                 logs.add(log);
@@ -115,25 +112,7 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
 
-                // INSERINDO LOGS NO BANCO
-                System.out.println("Inserindo logs...");
-
-                String queryLogs = "INSERT INTO logsGerais (dataHora, evento, status, objeto) VALUES ";
-
-                for (int i = 0; i < logs.size(); i++) {
-
-                    if (i != 0) queryLogs += ",\n";
-
-                    queryLogs += "('" + logs.get(i).getDataHora() + "', '" +
-                            logs.get(i).getEvento() + "', '" +
-                            logs.get(i).getStatus() + "', '" +
-                            logs.get(i).getObjeto() + "')";
-                }
-
-                queryLogs += ";";
-
-                template.update(queryLogs);
-
+                inserirLogs(logs, template);
                 System.out.println("Processo de países finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
@@ -144,7 +123,6 @@ public class Main {
                 String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
                 String sqlInsertHospedagem = "INSERT INTO hospedagem(nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-                // LEITURA DO EXCEL
                 System.out.println("Lendo Excel...");
                 log = new Log("INICIO LEITURA EXCEL HOSPEDAGEM", "SUCESSO", "ARQUIVO");
                 logs.add(log);
@@ -152,11 +130,11 @@ public class Main {
                 String nomeArquivoHospedagem = "meio-de-hospedagem (2).xlsx";
                 LeitorExcel leitor = new LeitorExcel();
                 List<Hospedagem> lista = leitor.extrairHospedagens(nomeArquivoHospedagem, nomeBucket);
+                logs.addAll(leitor.getLogs());
 
                 log = new Log("LEITURA HOSPEDAGEM FINALIZADA", "SUCESSO", "ARQUIVO");
                 logs.add(log);
 
-                // INSERÇÃO NO BANCO
                 System.out.println("Inserindo no banco...");
                 log = new Log("INICIO INSERT HOSPEDAGEM", "SUCESSO", "BANCO");
                 logs.add(log);
@@ -191,7 +169,6 @@ public class Main {
                             stmtInsert.setString(5, hospedagem.getContato());
                             stmtInsert.setString(6, hospedagem.getEmailComercial());
                             stmtInsert.setInt(7, fkMunicipio);
-
                             stmtInsert.addBatch();
 
                             System.out.println("Preparado para inserir: " + hospedagem.getNome());
@@ -213,25 +190,7 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
 
-                // INSERINDO LOGS NO BANCO
-                System.out.println("Inserindo logs...");
-
-                String queryLogs = "INSERT INTO logsGerais (dataHora, evento, status, objeto) VALUES ";
-
-                for (int i = 0; i < logs.size(); i++) {
-
-                    if (i != 0) queryLogs += ",\n";
-
-                    queryLogs += "('" + logs.get(i).getDataHora() + "', '" +
-                            logs.get(i).getEvento() + "', '" +
-                            logs.get(i).getStatus() + "', '" +
-                            logs.get(i).getObjeto() + "')";
-                }
-
-                queryLogs += ";";
-
-                template.update(queryLogs);
-
+                inserirLogs(logs, template);
                 System.out.println("Processo de hospedagem finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
@@ -242,7 +201,6 @@ public class Main {
                 String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
                 String sqlInsertEstabelecimento = "INSERT INTO estabelecimentoAlimenticio(nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-                // LEITURA DO EXCEL
                 System.out.println("Lendo Excel...");
                 log = new Log("INICIO LEITURA EXCEL ESTABELECIMENTOS", "SUCESSO", "ARQUIVO");
                 logs.add(log);
@@ -250,11 +208,11 @@ public class Main {
                 String nomeArquivoEstabelecimento = "restaurante-cafeteria-bar-e-similares.xlsx";
                 LeitorExcel leitor = new LeitorExcel();
                 List<EstabelecimentoAlimenticio> lista = leitor.extrairEstabelecimentos(nomeArquivoEstabelecimento, nomeBucket);
+                logs.addAll(leitor.getLogs());
 
                 log = new Log("LEITURA ESTABELECIMENTOS FINALIZADA", "SUCESSO", "ARQUIVO");
                 logs.add(log);
 
-                // INSERÇÃO NO BANCO
                 System.out.println("Inserindo no banco...");
                 log = new Log("INICIO INSERT ESTABELECIMENTOS", "SUCESSO", "BANCO");
                 logs.add(log);
@@ -289,7 +247,6 @@ public class Main {
                             stmtInsert.setString(5, estabelecimento.getContato());
                             stmtInsert.setString(6, estabelecimento.getEmailComercial());
                             stmtInsert.setInt(7, fkMunicipio);
-
                             stmtInsert.addBatch();
 
                             System.out.println("Preparado para inserir: " + estabelecimento.getNome());
@@ -311,25 +268,7 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
 
-                // INSERINDO LOGS NO BANCO
-                System.out.println("Inserindo logs...");
-
-                String queryLogs = "INSERT INTO logsGerais (dataHora, evento, status, objeto) VALUES ";
-
-                for (int i = 0; i < logs.size(); i++) {
-
-                    if (i != 0) queryLogs += ",\n";
-
-                    queryLogs += "('" + logs.get(i).getDataHora() + "', '" +
-                            logs.get(i).getEvento() + "', '" +
-                            logs.get(i).getStatus() + "', '" +
-                            logs.get(i).getObjeto() + "')";
-                }
-
-                queryLogs += ";";
-
-                template.update(queryLogs);
-
+                inserirLogs(logs, template);
                 System.out.println("Processo de estabelecimentoS finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
@@ -340,7 +279,6 @@ public class Main {
                 String sqlBuscaMunicipio = "SELECT idMunicipio FROM municipio WHERE nome = ?";
                 String sqlInsertAtrativos = "INSERT INTO atrativoTuristico(nome, categoria, fkMunicipio) VALUES (?, ?, ?)";
 
-                // LEITURA DO EXCEL
                 System.out.println("Lendo Excel...");
                 log = new Log("INICIO LEITURA EXCEL ATRATIVOS", "SUCESSO", "ARQUIVO");
                 logs.add(log);
@@ -348,11 +286,11 @@ public class Main {
                 String nomeArquivoAtrativos = "atrativos-turisticos.xlsx";
                 LeitorExcel leitor = new LeitorExcel();
                 List<Atrativos> lista = leitor.extrairAtrativos(nomeArquivoAtrativos, nomeBucket);
+                logs.addAll(leitor.getLogs());
 
                 log = new Log("LEITURA ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO");
                 logs.add(log);
 
-                // INSERÇÃO NO BANCO
                 System.out.println("Inserindo no banco...");
                 log = new Log("INICIO INSERT ATRATIVOS", "SUCESSO", "BANCO");
                 logs.add(log);
@@ -383,7 +321,6 @@ public class Main {
                             stmtInsert.setString(1, atrativos.getNome());
                             stmtInsert.setString(2, atrativos.getCategoria());
                             stmtInsert.setInt(3, fkMunicipio);
-
                             stmtInsert.addBatch();
 
                             System.out.println("Preparado para inserir: " + atrativos.getNome());
@@ -405,25 +342,7 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
 
-                // INSERINDO LOGS NO BANCO
-                System.out.println("Inserindo logs...");
-
-                String queryLogs = "INSERT INTO logsGerais (dataHora, evento, status, objeto) VALUES ";
-
-                for (int i = 0; i < logs.size(); i++) {
-
-                    if (i != 0) queryLogs += ",\n";
-
-                    queryLogs += "('" + logs.get(i).getDataHora() + "', '" +
-                            logs.get(i).getEvento() + "', '" +
-                            logs.get(i).getStatus() + "', '" +
-                            logs.get(i).getObjeto() + "')";
-                }
-
-                queryLogs += ";";
-
-                template.update(queryLogs);
-
+                inserirLogs(logs, template);
                 System.out.println("Processo de atrativos finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
@@ -441,6 +360,7 @@ public class Main {
 
                 LeitorExcel leitor = new LeitorExcel();
                 List<TurismoNacionalAtrativo> lista = leitor.extrairTurismoNacionalAtrativo("atrativos-turisticos.xlsx", nomeBucket);
+                logs.addAll(leitor.getLogs());
 
                 logs.add(new Log("LEITURA TURISMO NACIONAL ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO"));
 
@@ -486,7 +406,6 @@ public class Main {
                             stmtInsert.setInt(1, turismo.getQuantidade());
                             stmtInsert.setInt(2, fkTempo);
                             stmtInsert.setInt(3, fkAtrativo);
-
                             stmtInsert.addBatch();
 
                         } catch (Exception e) {
@@ -504,6 +423,7 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
 
+                inserirLogs(logs, template);
                 System.out.println("Processo turismo nacional por atrativo finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
@@ -521,6 +441,7 @@ public class Main {
 
                 LeitorExcel leitor = new LeitorExcel();
                 List<TurismoInternacionalAtrativo> lista = leitor.extrairTurismoInternacionalAtrativo("atrativos-turisticos.xlsx", nomeBucket);
+                logs.addAll(leitor.getLogs());
 
                 logs.add(new Log("LEITURA TURISMO INTERNACIONAL ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO"));
 
@@ -566,7 +487,6 @@ public class Main {
                             stmtInsert.setInt(1, turismo.getQuantidade());
                             stmtInsert.setInt(2, fkTempo);
                             stmtInsert.setInt(3, fkAtrativo);
-
                             stmtInsert.addBatch();
 
                         } catch (Exception e) {
@@ -584,6 +504,7 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
 
+                inserirLogs(logs, template);
                 System.out.println("Processo turismo internacional por atrativo finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
@@ -601,6 +522,7 @@ public class Main {
 
                 LeitorExcel leitor = new LeitorExcel();
                 List<TurismoNacionalEstado> lista = leitor.extrairTurismoNacionalEstado("turismo-rio-de-janeiro.xlsx", nomeBucket);
+                logs.addAll(leitor.getLogs());
 
                 logs.add(new Log("LEITURA TURISMO NACIONAL ESTADO FINALIZADA", "SUCESSO", "ARQUIVO"));
 
@@ -642,8 +564,6 @@ public class Main {
                             stmtInsert.setInt(1, turismo.getQuantidade());
                             stmtInsert.setInt(2, fkTempo);
                             stmtInsert.setInt(3, fkEstado);
-
-
                             stmtInsert.addBatch();
 
                         } catch (Exception e) {
@@ -661,6 +581,7 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
 
+                inserirLogs(logs, template);
                 System.out.println("Processo turismo nacional por estado finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
@@ -678,6 +599,7 @@ public class Main {
 
                 LeitorExcel leitor = new LeitorExcel();
                 List<TurismoInternacionalPais> lista = leitor.extrairTurismoInternacionalPais("turismo-rio-de-janeiro.xlsx", nomeBucket);
+                logs.addAll(leitor.getLogs());
 
                 logs.add(new Log("LEITURA TURISMO INTERNACIONAL PAIS FINALIZADA", "SUCESSO", "ARQUIVO"));
 
@@ -719,8 +641,6 @@ public class Main {
                             stmtInsert.setInt(1, turismo.getQuantidade());
                             stmtInsert.setInt(2, fkTempo);
                             stmtInsert.setInt(3, fkPais);
-
-
                             stmtInsert.addBatch();
 
                         } catch (Exception e) {
@@ -738,10 +658,33 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
 
+                inserirLogs(logs, template);
                 System.out.println("Processo turismo internacional por pais finalizado.");
                 System.out.println("==============================================");
                 System.out.println();
             }
+
         } while (op != 8);
+    }
+
+    private static void inserirLogs(List<Log> logs, JdbcTemplate template) {
+        if (logs.isEmpty()) return;
+
+        System.out.println("Inserindo logs...");
+
+        String queryLogs = "INSERT INTO logsGerais (dataHora, evento, status, objeto) VALUES ";
+
+        for (int i = 0; i < logs.size(); i++) {
+            if (i != 0) queryLogs += ",\n";
+            queryLogs += "('" + logs.get(i).getDataHora() + "', '" +
+                    logs.get(i).getEvento() + "', '" +
+                    logs.get(i).getStatus() + "', '" +
+                    logs.get(i).getObjeto() + "')";
+        }
+
+        queryLogs += ";";
+        template.update(queryLogs);
+
+        logs.clear();
     }
 }
