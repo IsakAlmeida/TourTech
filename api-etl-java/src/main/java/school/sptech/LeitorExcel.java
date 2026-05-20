@@ -176,7 +176,7 @@ public class LeitorExcel {
                 String categoria = row.getCell(2).getStringCellValue();
                 String municipio = row.getCell(3).getStringCellValue();
 
-                lista.add(new Atrativos(nome, categoria, municipio));
+                lista.add(new Atrativos(nome, categoria, new Municipio(municipio)));
             }
 
             logs.add(new Log("LEITURA ATRATIVOS FINALIZADA", "SUCESSO", "ARQUIVO"));
