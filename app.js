@@ -21,6 +21,7 @@ var autenticacaoRouter = require("./src/routes/autenticacao");
 var funcionariosRouter  = require("./src/routes/funcionarios");
 var estabelecimentoRouter  = require("./src/routes/estabelecimento");
 var pacoteRouter = require("./src/routes/pacote");
+var suporteRouter = require("./src/routes/suporte");
 
 // CONFIGURAÇÕES DO EXPRESS
 app.use(express.json());
@@ -34,6 +35,7 @@ app.use("/autenticacao", autenticacaoRouter);
 app.use("/funcionarios", funcionariosRouter);
 app.use("/estabelecimento", estabelecimentoRouter);
 app.use("/pacote", pacoteRouter);
+app.use("/suporte", suporteRouter);
 
 // INICIANDO SERVIDOR
 app.listen(PORTA_APP, function () {

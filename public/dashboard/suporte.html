@@ -18,7 +18,7 @@
 
 <body>
     <div class="janela">
-        
+
         <div class="header-left">
             <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleMenu()"></i>
 
@@ -45,12 +45,12 @@
                     <h3>Estabelecimento</h3>
                 </a>
             </div>
-            <div class="btn-nav">
+            <div class="btn-nav-white">
                 <a href="./pacote.html">
                     <h3>Pacotes</h3>
                 </a>
             </div>
-            <div class="btn-nav-white">
+            <div class="btn-nav">
                 <a href="./suporte.html">
                     <h3>Suporte</h3>
                 </a>
@@ -92,11 +92,13 @@
                         <div class="campo">
                             <label for="nome">Nome completo</label>
                             <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo">
+                            <span class="error" id="errorNome"></span>
                         </div>
 
                         <div class="campo">
                             <label for="email">E-mail</label>
                             <input type="email" id="email" name="email" placeholder="email@email.com">
+                            <span class="error" id="errorEmail"></span>
                         </div>
                     </div>
 
@@ -111,27 +113,110 @@
                             <option value="sugestao">Sugestão</option>
                             <option value="outros">Outros</option>
                         </select>
+                        <span class="error" id="errorSituacao"></span>
                     </div>
 
                     <div class="campo">
                         <label for="descricao">Descrição</label>
                         <textarea id="descricao" name="descricao" placeholder="Descreva sua solicitação"></textarea>
+                        <span class="error" id="errorDescricao"></span>
                     </div>
 
                     <div class="acoes-formulario">
                         <button type="reset" class="btn-secundario">Limpar</button>
-                        <button type="submit" class="btn-principal">Enviar</button>
+                        <button type="button" class="btn-principal" onclick="enviar()">Enviar</button>
                     </div>
                 </form>
             </section>
         </main>
     </div>
+
+
+
+
+    <script>
+        if (sessionStorage.NOME_USUARIO) {
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+        }
+
+        var errorNome = document.getElementById("errorNome");
+        var errorEmail = document.getElementById("errorEmail");
+        var errorSituacao = document.getElementById("errorSituacao");
+        var errorDescricao = document.getElementById("errorDescricao");
+        var fkUsuario = sessionStorage.getItem("ID_USUARIO");
+
+
+        //Enviar
+
+        function enviar() {
+            errorNome.innerHTML = "";
+            errorEmail.innerHTML = "";
+            errorSituacao.innerHTML = "";
+            errorDescricao.innerHTML = "";
+
+            var nomeVar = document.getElementById("nome").value;
+            var emailVar = document.getElementById("email").value;
+            var situacaoVar = document.getElementById("situacao").value;
+            var descricaoVar = document.getElementById("descricao").value;
+
+
+            var erro = false;
+
+            if (nomeVar == "") {
+                errorNome.innerHTML = "Preencha o nome"; erro = true;
+            }
+            if (emailVar == "") {
+                errorEmail.innerHTML = "Preencha o email"; erro = true;
+            }
+            if (!emailVar.includes("@") || !emailVar.includes(".")) {
+                errorEmail.innerHTML = "Email inválido"; erro = true;
+            }
+            if (situacaoVar == "") {
+                errorSituacao.innerHTML = "Selecione a Situação"; erro = true;
+            }
+            if (descricaoVar == "") {
+                errorDescricao.innerHTML = "Preencha a Descriçãp"; erro = true;
+            }
+            if (descricaoVar.length < 6) {
+                errorDescricao.innerHTML = "Descrição tem que ter mais de 6 caracteres"; erro = true;
+            }
+
+            if (!erro) {
+
+
+                fetch("/suporte/enviar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        nome: nomeVar,
+                        email: emailVar,
+                        situacao: situacaoVar,
+                        descricao: descricaoVar,
+                        fkUsuario: fkUsuario
+                    })
+                })
+                    .then(function (resposta) {
+                        console.log("ESTOU NO THEN enviar Suporte");
+
+                        if (resposta.ok) {
+                            console.log("Suporte Enviado!");
+                            alert("Mensagem enviado com Sucesso");
+
+                        } else {
+                            console.log("Erro ao Enviar o suporte");
+                            alert("ERRO ao enviar a mensagem, por favor tente mais tarde");
+                        }
+                    })
+                    .catch(function (erro) {
+                        console.log(erro);
+                        console.log("Erro ao enviar Suporte!");
+                        alert("ERRO ao ao o Funcionario, por favor tente mais tarde");
+                    });
+            }
+        }
+    </script>
 </body>
 
 </html>
-
-<script>
-    if (sessionStorage.NOME_USUARIO) {
-        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-    }
-</script>
