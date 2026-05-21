@@ -21,6 +21,7 @@ var autenticacaoRouter = require("./src/routes/autenticacao");
 var funcionariosRouter  = require("./src/routes/funcionarios");
 var estabelecimentoRouter  = require("./src/routes/estabelecimento");
 var pacoteRouter = require("./src/routes/pacote");
+var suporteRouter = require("./src/routes/suporte");
 var dashboardRouter = require("./src/routes/dashboard");
 
 // CONFIGURAÇÕES DO EXPRESS
@@ -35,6 +36,7 @@ app.use("/autenticacao", autenticacaoRouter);
 app.use("/funcionarios", funcionariosRouter);
 app.use("/estabelecimento", estabelecimentoRouter);
 app.use("/pacote", pacoteRouter);
+app.use("/suporte", suporteRouter);
 app.use("/dashboard", dashboardRouter);
 
 // INICIANDO SERVIDOR
