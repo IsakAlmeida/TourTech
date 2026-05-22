@@ -8,7 +8,7 @@ import java.net.http.HttpResponse;
 
 public class Slack {
     // TOKEN DO BOT
-    private final String TOKEN = "xoxb-11099590956243-11130977257239-rXRUDkgJeJXtvQFWUXX0tESd";
+    private final String TOKEN = "";
     // CANAL ID SLACK
     private final String CANAL = "C0B2XHL8QTV";
 

@@ -20,7 +20,7 @@ public class Conexao {
 //        String host = "localhost";
 //        String database = "TourTech";
 //        String user = "root";
-//        String password = "@Pipoka12.";
+//        String password = "SENHA";
 //        String port = "3306";
 
 
