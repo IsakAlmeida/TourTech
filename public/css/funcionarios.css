@@ -201,6 +201,27 @@ main {
     background-color: #eee; /* amarelo */
 }
 
+.popup-alerta {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+
+    background-color: #ffcc00;
+    color: #000;
+
+    padding: 15px 20px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+    display: none;
+
+    z-index: 9999;
+}
+
 /* ------------ FIM TOPO ------------ */
 /* ------------ TABELA ------------ */
 .tabela {
