@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: "{{localhost}}/autenticacao/cadastrar"
+  url: "{{PROD}}/autenticacao/cadastrar"
   body:
     type: json
     data: |-

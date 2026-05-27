@@ -1,148 +1,78 @@
 var estabelecimentoModel = require("../models/estabelecimentoModel");
 
-// Listar estabelecimento
 function listar(req, res) {
-    estabelecimentoModel.listar()
-        .then(function (resultado) {
-            if (resultado.length > 0) {
-                res.status(200).json(resultado);
-            } else {
-                res.status(204).send("Controller: Nenhum Estabelecimento encontrado!")
-            }
-        }).catch(function (erro) {
-            console.log(erro);
-            console.log("Controller: Houve um erro ao buscar Estabelecimento: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
+
+    var limite = Number(req.query.limite) || 10;
+    var pagina = Number(req.query.pagina) || 1;
+    var busca = req.query.busca || "";
+
+    var offset = (pagina - 1) * limite;
+
+    Promise.all([
+        estabelecimentoModel.listar(limite, offset, busca),
+        estabelecimentoModel.contar(busca)
+    ])
+    .then(([dados, totalResult]) => {
+
+        var total = totalResult[0].total;
+
+        res.status(200).json({
+            dados,
+            total,
+            pagina,
+            limite
         });
+    })
+    .catch(function (erro) {
+        console.log(erro);
+        res.status(500).json(erro);
+    });
 }
 
-
-// Cadastrar Estabelecimento
 function cadastrar(req, res) {
-    var tipo = req.body.tipo;
-    var nome = req.body.nome;
-    var categoria = req.body.categoria;
-    var endereco = req.body.endereco;
-    var multilingue = req.body.multilingue;
-    var contato = req.body.contato;
-    var emailComercial = req.body.emailComercial;
-    var fkMunicipio = req.body.fkMunicipio;
 
+    var { tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio } = req.body;
 
     if (!tipo || !nome || !categoria || !endereco || !multilingue || !contato || !emailComercial || !fkMunicipio) {
-        return res.status(400).json({
-            erro: "Controller: Todos os campos são obrigatórios"
-        });
+        return res.status(400).json({ erro: "Todos os campos são obrigatórios" });
     }
-
-    console.log("Controller: Cadastrando Estabelecimento:", {tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio});
 
     estabelecimentoModel.cadastrar(tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio)
-        .then(function (resultado) {
-            res.status(201).json({
-                mensagem: "Controller: Estabelecimento cadastrado com sucesso", resultado
-            });
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            res.status(500).send("Erro no servidor");
-
-        });
+        .then(resultado => res.status(201).json(resultado))
+        .catch(erro => res.status(500).json(erro));
 }
 
-// Municipio
 function listarMunicipio(req, res) {
     estabelecimentoModel.listarMunicipio()
-        .then(function (resultado) {
-            console.log("Controller: Municipio listado com sucesso ", resultado);
-            res.status(200).json(resultado);
-        })
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Controller: Houve um erro ao listar Municipio: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro));
 }
 
-// Buscar Estabelecimento
 function buscarEstabelecimento(req, res) {
-    var id = req.params.id;
-    var tipo = req.params.tipo;
+    var { id, tipo } = req.params;
 
     estabelecimentoModel.buscarEstabelecimento(id, tipo)
-        .then(function (resultado) {
-            console.log("Controller: Estabelecimento buscado com sucesso ", resultado);
-            res.status(200).json(resultado);
-        })
-        .catch(function (erro) {
-            console.log(erro);
-            res.status(500).send("Erro no servidor buscar estabelecimento");
-
-        });
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro));
 }
 
-// Atualizar Estabelecimento
 function atualizar(req, res) {
-    var id = req.body.id;
-    var tipo = req.body.tipo;
-    var nome = req.body.nome;
-    var categoria = req.body.categoria;
-    var endereco = req.body.endereco;
-    var multilingue = req.body.multilingue;
-    var contato = req.body.contato;
-    var emailComercial = req.body.emailComercial;
-    var fkMunicipio = req.body.fkMunicipio;
 
-    if (!id || !tipo || !nome || !categoria || !endereco || !multilingue || !contato || !emailComercial || !fkMunicipio) {
-        return res.status(400).json({
-            erro: "Controller: Todos os campos para atualização são obrigatórios"
-        });
-    }
+    var { id, tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio } = req.body;
 
     estabelecimentoModel.atualizar(id, tipo, nome, categoria, endereco, multilingue, contato, emailComercial, fkMunicipio)
-        .then(function (resultado) {
-            res.status(200).json({
-                mensagem: "Controller: Atualizado com sucesso", resultado
-            });
-        })
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Controller: Houve um erro ao atualizar o Estabelecimento: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro));
 }
 
-
-// Deletar Estabelecimento
 function deletar(req, res) {
-    var id = req.body.id;
-    var tipo = req.body.tipo;
 
-    if (!id || !tipo) {
-        return res.status(400).send("ID e Tipo não informado");
-    }
+    var { id, tipo } = req.body;
 
     estabelecimentoModel.deletar(id, tipo)
-        .then(function (resultado) {
-            res.status(200).json({
-                mensagem: "Controller: Deletado com sucesso", resultado
-
-            });
-        })
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Controller: Houve um erro ao deletar o Estabelecimento: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
+        .then(resultado => res.json(resultado))
+        .catch(erro => res.status(500).json(erro));
 }
-
-
 
 module.exports = {
     listar,

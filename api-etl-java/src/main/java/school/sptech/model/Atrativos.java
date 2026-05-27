@@ -3,12 +3,12 @@ package school.sptech.model;
 public class Atrativos {
     private String nome;
     private String categoria;
-    private String Municipio;
+    private Municipio municipio;
 
-    public Atrativos(String nome, String categoria, String municipio) {
+    public Atrativos(String nome, String categoria, Municipio municipio) {
         this.nome = nome;
         this.categoria = categoria;
-        Municipio = municipio;
+        this.municipio = municipio;
     }
 
     public String getNome() {
@@ -20,6 +20,6 @@ public class Atrativos {
     }
 
     public String getMunicipio() {
-        return Municipio;
+        return municipio.getNome();
     }
 }

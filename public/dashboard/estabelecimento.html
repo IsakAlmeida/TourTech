@@ -31,8 +31,14 @@
     <!--Menu-->
     <div class="janela">
 
+        <div class="menu-mobile" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
         <div class="header-left">
-            <h1>TourTech</h1>
+            <i class="fa-solid fa-xmark btn-fechar-menu" onclick="toggleMenu()"></i>
+
+            <h1 style="color: #4D6054;">TourTech</h1>
 
             <div class="hello">
                 <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
@@ -46,7 +52,7 @@
 
             <div class="btn-nav-white">
                 <a href="./funcionarios.html">
-                    <h3>Funcionario</h3>
+                    <h3>Funcionários</h3>
                 </a>
             </div>
 
@@ -55,14 +61,13 @@
                     <h3>Estabelecimento</h3>
                 </a>
             </div>
-
             <div class="btn-nav-white">
-                <a href="./mural.html">
+                <a href="./pacote.html">
                     <h3>Pacotes</h3>
                 </a>
             </div>
             <div class="btn-nav-white">
-                <a href="./mural.html">
+                <a href="./suporte.html">
                     <h3>Suporte</h3>
                 </a>
             </div>
@@ -157,6 +162,7 @@
                     </div>
                     -->
                 </div>
+                <div id="paginacao" style="margin-top: 10px;"></div>
 
             </div>
 
@@ -165,72 +171,92 @@
             b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
             //VAI PARA TELA DE CADASTRO
+
+            function toggleMenu() {
+                const menu = document.querySelector('.header-left');
+                menu.classList.toggle('menu-aberto');
+            }
+            
             function adicionar() {
                 window.location = "./estabelecimento-cadastro.html";
             }
 
             //LISTAR
+            let paginaAtual = 1;
 
-            function listarEstabelecimento() {
+            function listarEstabelecimento(pagina = 1) {
 
-                fetch(`/estabelecimento/listar`)
+                paginaAtual = pagina;
+
+                const busca = document.querySelector(".buscar input").value;
+
+                fetch(`/estabelecimento/listar?limite=10&pagina=${pagina}&busca=${busca}`)
+                    .then(res => res.json())
                     .then(resposta => {
-                        if (!resposta.ok) {
-                            throw new Error("Erro ao listar Estabelecimento");
-                        }
-                        return resposta.json();
-                    })
-                    .then(vt_estabelecimento => {
 
-                        const lista = document.getElementById('lista-empresa');
-                        lista.innerHTML = "";
+                        const { dados, total, limite } = resposta;
 
-                        vt_estabelecimento.forEach((estabelecimento) => {
+                        renderTabela(dados);
+                        renderPaginacao(total, limite);
+                    });
+            }
 
-                            lista.innerHTML += `
-                       <div class="linha informacao">
-                            <div class="coluna check">
-                                <input type="checkbox" value="${estabelecimento.id}" data-tipo="${estabelecimento.tipo}">
-                            </div>
+            // TABELA
+            function renderTabela(dados) {
 
-                            <div class="coluna">
-                                ${estabelecimento.nome}
-                            </div>
+                const lista = document.getElementById('lista-empresa');
 
-                            <div class="coluna">
-                                <spam class="nivel">
-                                    ${estabelecimento.tipo === 'hospedagem' ? 'Hospedagem' : 'Alimentício'}
-                                </spam>
-                            </div>
+                let html = "";
 
-                            <div class="coluna">
-                                ${estabelecimento.endereco}
-                            </div>
+                dados.forEach(estabelecimento => {
+                    html += `
+        <div class="linha informacao">
+            <div class="coluna check">
+                <input type="checkbox" value="${estabelecimento.id}" data-tipo="${estabelecimento.tipo}">
+            </div>
 
-                            <div class="coluna">
-                            ${estabelecimento.contato}
-                            </div>
+            <div class="coluna">${estabelecimento.nome}</div>
 
-                            <div class="coluna">
-                            ${estabelecimento.emailComercial}
-                            </div>
+            <div class="coluna">
+                ${estabelecimento.tipo === 'hospedagem' ? 'Hospedagem' : 'Alimentício'}
+            </div>
 
-                            <div class="coluna">
-                                ${estabelecimento.multilingue == 1 ? 'Sim' : 'Não'}
-                            </div>
+            <div class="coluna">${estabelecimento.endereco}</div>
+            <div class="coluna">${estabelecimento.contato}</div>
+            <div class="coluna">${estabelecimento.emailComercial}</div>
+            <div class="coluna">${estabelecimento.multilingue == 1 ? 'Sim' : 'Não'}</div>
 
-                            <div class="coluna">
-                                <button class="btn-editar" onclick="editar(${estabelecimento.id}, '${estabelecimento.tipo}')">
-                                    Editar
-                                </button>
-                            </div>
-                        </div>
-                     `;
+            <div class="coluna">
+                <button onclick="editar(${estabelecimento.id}, '${estabelecimento.tipo}')">Editar</button>
+            </div>
+        </div>
+        `;
+                });
 
-                        });
-                    })
-                    .catch(erro => console.log("Erro em gerar lista de estabelecimento:", erro));
+                lista.innerHTML = html;
+            }
 
+            // PAGINAÇÃO (SIMPLIFICADA)
+            function renderPaginacao(total, limite) {
+
+                const totalPaginas = Math.ceil(total / limite);
+                const container = document.getElementById("paginacao");
+
+                let html = "";
+
+                if (paginaAtual > 1) {
+                    html += `<button onclick="listarEstabelecimento(${paginaAtual - 1})">Anterior</button>`;
+                    html += `<button onclick="listarEstabelecimento(${paginaAtual - 1})">${paginaAtual - 1}</button>`;
+                }
+
+                html += `<button style="font-weight:bold;">${paginaAtual}</button>`;
+
+                if (paginaAtual < totalPaginas) {
+                    html += `<button onclick="listarEstabelecimento(${paginaAtual + 1})">${paginaAtual + 1}</button>`;
+                    html += `<button onclick="listarEstabelecimento(${paginaAtual + 1})">Próxima</button>`;
+                }
+
+                container.innerHTML = html;
             }
 
             //EXCLUIR

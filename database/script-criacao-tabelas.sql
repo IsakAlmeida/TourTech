@@ -7,7 +7,7 @@ USE TourTech;
 CREATE TABLE nivelAcesso(
 idNivelAcesso INT PRIMARY KEY AUTO_INCREMENT,
 nivel VARCHAR(15) NOT NULL,
-descricao VARCHAR(50) NOT NULL
+descricao VARCHAR(500) NOT NULL
 );
 
 -- TABELA DAS EMPRESAS
@@ -103,6 +103,32 @@ emailComercial VARCHAR(100) NOT NULL,
 fkMunicipio INT,
 FOREIGN KEY (fkMunicipio)
 REFERENCES municipio(idMunicipio)
+);
+
+-- TABELA DE PACOTES
+CREATE TABLE pacote(
+idPacote INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(100) NOT NULL UNIQUE,
+fkMunicipio INT,
+fkHospedagem INT,
+fkEstabelecimento INT,
+FOREIGN KEY (fkMunicipio)
+REFERENCES municipio(idMunicipio),
+FOREIGN KEY (fkHospedagem)
+REFERENCES hospedagem(idHospedagem),
+FOREIGN KEY (fkEstabelecimento)
+REFERENCES estabelecimentoAlimenticio(idEstabelecimento)
+);
+
+-- TABELA PACOTES + ATRATIVOS
+CREATE TABLE pacoteAtrativo(
+pacote_id INT,
+atrativo_id INT,
+PRIMARY KEY (pacote_id, atrativo_id),
+FOREIGN KEY (pacote_id)
+REFERENCES pacote(idPacote),
+FOREIGN KEY (atrativo_id)
+REFERENCES atrativoTuristico(idAtrativo)
 );
 
 -- TABELA DE TEMPO

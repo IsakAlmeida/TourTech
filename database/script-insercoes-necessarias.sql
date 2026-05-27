@@ -1,12 +1,4 @@
 use TourTech;
-SELECT * FROM hospedagem;
-SELECT * FROM logsGerais;
-SELECT * FROM estabelecimentoAlimenticio;
-SELECT * FROM atrativoTuristico JOIN fatoVisitaAtrativo ON idAtrativo = fkAtrativo JOIN tempo ON idTempo = fkTempo;
-SELECT * FROM fatoVisitaAtrativo;
-SELECT * FROM chegadaTurismo;
-SELECT * FROM paisOrigem;
-SELECT * FROM estado;
 
 INSERT INTO paisOrigem (nomePais) VALUES ("Brasil");
 
@@ -39,7 +31,7 @@ INSERT INTO estado (nome, sigla, fkPais) VALUES ("Rio de Janeiro", "RJ", 1),
 ('Amapá', 'AP', 1);
 
 
-INSERT INTO Municipio (nome, fkEstado) VALUES ("Rio de Janeiro", 1),
+INSERT INTO municipio (nome, fkEstado) VALUES ("Rio de Janeiro", 1),
 ('Angra dos Reis', 1), ('Aperibé', 1), ('Araruama', 1), ('Areal', 1), ('Armação dos Búzios', 1),
 ('Arraial do Cabo', 1), ('Barra do Piraí', 1), ('Barra Mansa', 1), ('Belford Roxo', 1), ('Bom Jardim', 1),
 ('Bom Jesus do Itabapoana', 1), ('Cabo Frio', 1), ('Cachoeiras de Macacu', 1), ('Cambuci', 1), ('Carapebus', 1),
@@ -72,3 +64,6 @@ INSERT INTO tempo (mes, nomeMes, ano) VALUES (1, "JAN", 2024),
 (11, "NOV", 2024),
 (12, "DEZ", 2024);
 
+INSERT INTO empresa (razaoSocial, nomeFantasia, cnpj) VALUES ('empresaTeste', 'empresaTeste', 12345678901234);
+INSERT INTO nivelAcesso (nivel, descricao) VALUES ('Administrador', 'Controle sobre funcionários e todas as outras funções do sistema'), ('Visualizador', 'Pode visualizar dados e montar pacotes de viagem');
+INSERT INTO tokenCadastro (codigoToken, dataCriacao, fkEmpresa, fkNivelAcesso) VALUES ('ABC123', current_date(), 1, 1), ('DEF456', current_date(), 1, 2);

@@ -1,4 +1,6 @@
-name: localhost
+name: Ambientes
 variables:
   - name: localhost
     value: http://localhost:3333
+  - name: PROD
+    value: http://tourtech.duckdns.org
