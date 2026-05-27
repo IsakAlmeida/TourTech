@@ -160,6 +160,8 @@
                             <p><strong>Hospedagem:</strong> ${pacote.hospedagem || 'Não informado'}</p>
                             <p><strong>Alimentação:</strong> ${pacote.estabelecimento || 'Não informado'}</p>
 
+                            <p class="data-criacao">Criado em:${new Date(pacote.dataCriacao).toLocaleDateString('pt-BR')}</p>
+
                             <div class="acoes">
                                 <button class="btn-excluir" onclick="excluir(${pacote.idPacote})">Excluir</button>
                                 <button class="btn-editar" onclick="editar(${pacote.idPacote})">Editar</button>

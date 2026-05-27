@@ -323,6 +323,12 @@ main {
   background-color: #ddd;
 }
 
+.data-criacao {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #777;
+}
+
 .error{
   color: #ff0000;
 }
