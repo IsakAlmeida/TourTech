@@ -5,7 +5,7 @@ function listarPacotes() {
     var instrucaoSql = `SELECT
 	p.idPacote,
 	p.nome as nomePacote,
-    P.dataCriacao,
+    p.dataCriacao,
 	m.nome as municipio,
 	h.nome as hospedagem,
 	e.nome as estabelecimento
