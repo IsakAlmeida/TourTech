@@ -109,7 +109,7 @@ REFERENCES municipio(idMunicipio)
 CREATE TABLE pacote(
 idPacote INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(100) NOT NULL UNIQUE,
-dataCriacao DATE,
+dataCriacao DATE DEFAULT (CURRENT_DATE),
 fkMunicipio INT,
 fkHospedagem INT,
 fkEstabelecimento INT,
