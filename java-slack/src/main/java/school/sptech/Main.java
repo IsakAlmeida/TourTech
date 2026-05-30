@@ -13,11 +13,12 @@ public class Main {
 
         try {
             Conexao conexaoBanco = new Conexao();
-
             Connection conexao = conexaoBanco.getConexao().getConnection();
 
 
-            String sql = """
+            //------------- CHAMADOS DE SUPORTE------------
+
+            String sqlChamado = """
                     SELECT
                         idChamado,
                         nomeCompleto,
@@ -27,41 +28,38 @@ public class Main {
                     FROM chamadoSuporte
                     """;
 
-            PreparedStatement ps =
-                    conexao.prepareStatement(sql);
+            PreparedStatement ps = conexao.prepareStatement(sqlChamado);
+            ResultSet resultatoSlack = ps.executeQuery();
 
-            ResultSet rs = ps.executeQuery();
+            Slack slack = new Slack();
 
-            Slack slack =
-                    new Slack();
-
-            while (rs.next()) {
+            while (resultatoSlack.next()) {
 
                 SuporteDto chamado = new SuporteDto();
 
                 chamado.setIdChamado(
-                        rs.getInt("idChamado")
+                        resultatoSlack.getInt("idChamado")
                 );
 
                 chamado.setNomeCompleto(
-                        rs.getString("nomeCompleto")
+                        resultatoSlack.getString("nomeCompleto")
                 );
 
                 chamado.setEmail(
-                        rs.getString("email")
+                        resultatoSlack.getString("email")
                 );
 
                 chamado.setSituacao(
-                        rs.getString("situacao")
+                        resultatoSlack.getString("situacao")
                 );
 
                 chamado.setDescricao(
-                        rs.getString("descricao")
+                        resultatoSlack.getString("descricao")
                 );
 
-                String mensagem = """
+                String mensagemChamado = """
                         Novo chamado de suporte
-
+                        
                         ID do chamado: %d
                         Nome: %s
                         Email: %s
@@ -75,13 +73,57 @@ public class Main {
                         chamado.getDescricao()
                 );
 
-                slack.enviarMensagem(mensagem);
+                slack.enviarMensagem(mensagemChamado);
             }
 
-            conexao.close();
+            //------------- ALERTA PACOTE ------------
 
-        } catch (Exception e) {
-            e.printStackTrace();
+                String sqlPacotes = """
+                    SELECT 
+                        COUNT(*) AS total
+                    FROM pacote
+                    WHERE MONTH(dataCriacao) = MONTH(CURRENT_DATE())
+                    AND YEAR(dataCriacao) = YEAR(CURRENT_DATE())
+                    """;
+
+                PreparedStatement psPacotes = conexao.prepareStatement(sqlPacotes);
+                ResultSet resultadoPacotes = psPacotes.executeQuery();
+
+                PacotesSlack pacoteSlack = new PacotesSlack();
+
+                if (resultadoPacotes.next()) {
+
+                    Integer totalPacotes = resultadoPacotes.getInt("total");
+
+                    System.out.println("Pacotes do mês: " + totalPacotes);
+
+                    //Verificação quantia de pacotes
+                    if (totalPacotes < 5) {
+
+                        String mensagemPacote = """
+                            ALERTA TOURTECH
+
+                            Existem apenas %d pacotes
+                            cadastrados neste mês.
+
+                            Quantidade mínima esperada: 5.
+                            """.formatted(totalPacotes);
+
+                        pacoteSlack.enviarMensagem(mensagemPacote);
+
+                        System.out.println("Alerta enviado ao Slack!");
+
+                    } else {
+
+                        System.out.println("Quantidade de pacotes OK.");
+                    }
+                }
+
+                conexao.close();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
         }
     }
-}
