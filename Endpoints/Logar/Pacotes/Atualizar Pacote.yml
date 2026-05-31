@@ -1,0 +1,25 @@
+info:
+  name: Atualizar Pacote
+  type: http
+  seq: 7
+
+http:
+  method: PUT
+  url: "{{PROD}}/pacote/atualizar"
+  body:
+    type: json
+    data: |-
+      {
+        "idPacote":          2,
+        "nome":              "Pacote Exemplo Atualizado",
+        "fkMunicipio":       1,
+        "fkHospedagem":      8,
+        "fkEstabelecimento": 14
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

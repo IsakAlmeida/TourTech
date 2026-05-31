@@ -1,0 +1,25 @@
+info:
+  name: Cadastrar Pacote
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{PROD}}/pacote/cadastrar"
+  body:
+    type: json
+    data: |-
+      {
+        "nome":             "Pacote Exemplo",
+        "fkMunicipio":      1,
+        "fkHospedagem":     7,
+        "fkEstabelecimento": 12,
+        "atrativos":        [1, 4, 9]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

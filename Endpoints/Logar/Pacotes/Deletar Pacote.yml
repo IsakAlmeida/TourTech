@@ -1,18 +1,14 @@
 info:
-  name: Deletar Funcionário
+  name: Deletar Pacote
   type: http
-  seq: 6
+  seq: 8
 
 http:
   method: DELETE
-  url: "{{PROD}}/funcionarios/deletar"
+  url: "{{PROD}}/pacote/deletar/2"
   body:
     type: json
-    data: |-
-      {
-        "id_usuario": 2,
-        "idEmpresa":  1
-      }
+    data: ""
   auth: inherit
 
 settings:

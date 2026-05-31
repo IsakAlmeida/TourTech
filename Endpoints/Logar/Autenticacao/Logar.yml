@@ -11,7 +11,7 @@ http:
     data: |-
       {
         "emailServer": "bruno@gmail.com",
-        "senhaServer": "asdf1234"
+        "senhaServer": "senha123"
       }
   auth: inherit
 
