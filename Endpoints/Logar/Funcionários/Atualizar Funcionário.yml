@@ -1,0 +1,25 @@
+info:
+  name: Atualizar Funcionário
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{PROD}}/funcionarios/atualizar"
+  body:
+    type: json
+    data: |-
+      {
+        "idUsuario":     1,
+        "nome":          "Carlos Souza",
+        "email":         "carlos.novo@empresa.com",
+        "fkNivelAcesso": 2,
+        "senha":         "novaSenha456"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

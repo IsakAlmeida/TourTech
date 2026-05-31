@@ -1,16 +1,17 @@
 info:
-  name: Verificar Token
+  name: Deletar Estabelecimento
   type: http
-  seq: 2
+  seq: 6
 
 http:
-  method: POST
-  url: "{{PROD}}/autenticacao/verificarToken"
+  method: DELETE
+  url: "{{PROD}}/estabelecimento/deletar"
   body:
     type: json
     data: |-
       {
-        "tokenServer": "ABC123"
+        "id":   400,
+        "tipo": "hospedagem"
       }
   auth: inherit
 
