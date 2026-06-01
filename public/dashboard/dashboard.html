@@ -28,7 +28,8 @@
 
 <!-- <body onload=" atualizarFeed()"> -->
 
-<body  onload="kpiModaNacional()">
+<body onload="carregarDashboard()">
+    <!-- <body  onload="kpiModaNacional()"> -->
 
     <div class="janela">
 
@@ -97,12 +98,14 @@
                     <h1>KPI2</h1>
                 </div> -->
                 <div class="kpi">
-                    <div style="font-weight: bold;"><i class="fa-solid fa-flag" style="font-size: x-large; margin: 5px;"></i>Estado que mais visita</div>
-                    <h1 style="color: #4D6054;">São Paulo</h1>
+                    <div style="font-weight: bold;"><i class="fa-solid fa-flag"
+                            style="font-size: x-large; margin: 5px;"></i>Estado que mais visita</div>
+                    <h1 style="color: #4D6054; " id="kpiEstadoNacional">São PauloTeste</h1>
                 </div>
                 <div class="kpi">
-                    <div style="font-weight: bold;"><i class="fa-solid fa-plane" style="font-size: x-large; margin: 5px;"></i>Pico de demanda Nacional</div>
-                    <h1 style="color: #4D6054;"><div id="KpiPicoMes">FevTeste</div></h1>
+                    <div style="font-weight: bold;"><i class="fa-solid fa-plane"
+                            style="font-size: x-large; margin: 5px;"></i>Pico de demanda Nacional</div>
+                    <h1 style="color: #4D6054;" id="KpiPicoMes">FevTeste</h1>
                 </div>
             </div>
             <div class="superior">
@@ -129,12 +132,14 @@
                     <h1>KPI2</h1>
                 </div> -->
                 <div class="kpi">
-                    <div style="font-weight: bold;"><i class="fa-solid fa-flag" style="font-size: x-large; margin: 5px;"></i>País que mais visita</div>
-                    <h1 style="color: #4D6054;">Argentina</h1>
+                    <div style="font-weight: bold;"><i class="fa-solid fa-flag"
+                            style="font-size: x-large; margin: 5px;"></i>País que mais visita</div>
+                    <h1 style="color: #4D6054;" id="kpiPaisInternacional">Argentina Teste</h1>
                 </div>
                 <div class="kpi">
-                    <div style="font-weight: bold;"><i class="fa-solid fa-plane" style="font-size: x-large; margin: 5px;"></i>Pico de demanda Internacional</div>
-                    <h1 style="color: #4D6054;">Fevereiro</h1>
+                    <div style="font-weight: bold;"><i class="fa-solid fa-plane"
+                            style="font-size: x-large; margin: 5px;"></i>Pico de demanda Internacional</div>
+                    <h1 style="color: #4D6054;" id="kpiPicoInternacional">Fevereiro Teste</h1>
                 </div>
             </div>
             <div class="superior">
@@ -168,275 +173,389 @@
 
     let proximaAtualizacao;
 
+    let chartNacBar, chartNacDoughnut;
+    let chartInterBar, chartInterDoughnut;
+    let chartNacXInter;
+
     function toggleMenu() {
         const menu = document.querySelector('.header-left');
         menu.classList.toggle('menu-aberto');
     }
 
-    const ctx1 = document.getElementById('myChart');
-    new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: ['São Paulo', 'Minas Gerais', 'Espírito Santos', 'Paraná', 'Bahia', 'Outros'],
-            datasets: [{
-                label: 'Numero de visitantes/ano',
-                data: [3763020, 1873347, 595762, 508795, 374890, 2791629],
-                backgroundColor: [
-                    'rgb(77, 96, 84)',   // Cor para São Paulo
-                    'rgb(219, 177, 59)', // Cor para Minas Gerais
-                    'rgb(102, 161, 183)',// Cor para Espírito Santos
-                    'rgb(174, 184, 139)',// Cor para Paraná
-                    'rgb(46, 189, 194)', // Cor para Bahia
-                    'rgb(213, 226, 147)' // Cor para Outros
-                ],
-                borderColor: ['rgb(213, 226, 147)'],
-                borderRadius: 6,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Principais mercados emissores nacionais',
-                    color: '#000',
-                    font: {
-                        size: 20,
-                        weight: 'bold'
-                    }
-                }
+    function inicializarGraficos() {
+        // chartNacBar = document.getElementById('myChart');
+        // new Chart(chartNacBar, {
+        chartNacBar = new Chart(document.getElementById('myChart'),{
+            type: 'bar',
+            data: {
+                labels: ['Carregando...'],
+                datasets: [{
+                    label: 'Numero de visitantes/ano',
+                    data: [3763020, 1873347, 595762, 508795, 374890, 2791629],
+                    backgroundColor: [
+                        'rgb(77, 96, 84)',   // Cor para São Paulo
+                        'rgb(219, 177, 59)', // Cor para Minas Gerais
+                        'rgb(102, 161, 183)',// Cor para Espírito Santos
+                        'rgb(174, 184, 139)',// Cor para Paraná
+                        'rgb(46, 189, 194)', // Cor para Bahia
+                        'rgb(213, 226, 147)' // Cor para Outros
+                    ],
+                    borderColor: ['rgb(213, 226, 147)'],
+                    borderRadius: 6,
+                    borderWidth: 1
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    const ctx4 = document.getElementById('barInter');
-    new Chart(ctx4, {
-        type: 'bar',
-        data: {
-            labels: ['São Paulo', 'Minas Gerais', 'Espírito Santos', 'Paraná', 'Bahia', 'Outros'],
-            datasets: [{
-                label: 'Numero de visitantes/ano',
-                data: [3763020, 1873347, 595762, 508795, 374890, 2791629],
-                backgroundColor: [
-                    'rgb(77, 96, 84)',   // Cor para São Paulo
-                    'rgb(219, 177, 59)', // Cor para Minas Gerais
-                    'rgb(102, 161, 183)',// Cor para Espírito Santos
-                    'rgb(174, 184, 139)',// Cor para Paraná
-                    'rgb(46, 189, 194)', // Cor para Bahia
-                    'rgb(213, 226, 147)' // Cor para Outros
-                ],
-                borderColor: ['rgb(213, 226, 147)'],
-                borderRadius: 6,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Principais mercados emissores internacionais',
-                    color: '#000',
-                    font: {
-                        size: 20,
-                        weight: 'bold'
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    const ctx2 = document.getElementById('myChart2');
-
-    new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-            labels: ['Argentina', 'Chile', 'Estados Unidos', 'França', 'Uruguai', 'Outros'],
-            datasets: [{
-                label: 'estrangeiros X brasileiros',
-                data: [468037, 239465, 185600, 70115, 69707, 433591],
-                backgroundColor: [
-                    'rgb(219, 177, 59)',
-                    'rgb(102, 161, 183)',
-                    'rgb(77, 96, 84)',
-                    'rgb(174, 184, 139)',
-                    'rgb(46, 189, 194)',
-                    'rgb(213, 226, 147)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Market Share por nacionalidade',
-                    color: '#000',
-                    padding: {
-                        top: 10,
-                        bottom: 25 // Espaço entre o texto e a linha
-                    },
-                    font: {
-                        size: 20,
-                        weight: 'bold'
-                    }
-                },
-
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    display: false
-                }
-            }
-        }
-    });
-
-
-     const ctx5 = document.getElementById('doughnutInter');
-
-    new Chart(ctx5, {
-        type: 'doughnut',
-        data: {
-            labels: ['Argentina', 'Chile', 'Estados Unidos', 'França', 'Uruguai', 'Outros'],
-            datasets: [{
-                label: 'estrangeiros X brasileiros',
-                data: [468037, 239465, 185600, 70115, 69707, 433591],
-                backgroundColor: [
-                    'rgb(219, 177, 59)',
-                    'rgb(102, 161, 183)',
-                    'rgb(77, 96, 84)',
-                    'rgb(174, 184, 139)',
-                    'rgb(46, 189, 194)',
-                    'rgb(213, 226, 147)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                    color: '#333',
-                    padding: 20
-                }
-            },
-                title: {
-                    display: true,
-                    text: 'Market Share por país',
-                    color: '#000',
-                    padding: {
-                        top: 10,
-                        bottom: 25 // Espaço entre o texto e a linha
-                    },
-                    font: {
-                        size: 20,
-                        weight: 'bold'
-                    }
-                },
-
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    display: false
-                }
-            }
-        }
-    });
-
-    const ctx3 = document.getElementById('myChart3');
-
-    new Chart(ctx3, {
-        type: 'line',
-        data: {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-            datasets: [
-                {
-                    label: 'Nacional',
-                    data: [1070914, 878024, 748070, 693650, 825337, 651342, 836046, 755994, 909291, 754432, 800330, 984993],
-                    backgroundColor: ['rgb(77, 96, 84)'],
-                    borderWidth: 3,
-                    pointStyle: 'circle',
-                    pointRadius: 5,
-                    pointHoverRadius: 15
-                },
-                {
-                    label: 'Estrangeiro',
-                    data: [158396, 208631, 188502, 82247, 71755, 65680, 82392, 87003, 102988, 123232, 128351, 163338],
-                    backgroundColor: ['rgb(182, 124, 121)'],
-                    borderWidth: 3,
-                    pointStyle: 'circle',
-                    pointRadius: 5,
-                    pointHoverRadius: 15
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Número de turistas/mês',
-                    color: '#000',
-                    font: {
-                        size: 20,
-                        weight: 'bold'
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-     //KPI Teste
-
-    function kpiModaNacional() {
-                fetch(`/dashboard/kpiModaNacional`)
-                    .then(resposta => {
-                        if (!resposta.ok) {
-                            throw new Error("Erro ao listar Pico de demanda Nacional");
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Principais mercados emissores nacionais',
+                        color: '#000',
+                        font: {
+                            size: 20,
+                            weight: 'bold'
                         }
-                        return resposta.json();
-                    })
-                    .then(vt_nomeMes => {
-
-                        const KpiPicoMes = document.getElementById('KpiPicoMes');
-                        KpiPicoMes.innerHTML = "";
-
-                        vt_nomeMes.forEach((nomeMes) => {
-
-                            KpiPicoMes.innerHTML += `
-                ${nomeMes.nomeMes}
-                `;
-
-                        });
-                    })
-                    .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
+        });
+
+        chartNacDoughnut = new Chart(document.getElementById('myChart2'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Argentina', 'Chile', 'Estados Unidos', 'França', 'Uruguai', 'Outros'],
+                datasets: [{
+                    label: 'estrangeiros X brasileiros',
+                    data: [468037, 239465, 185600, 70115, 69707, 433591],
+                    backgroundColor: [
+                        'rgb(77, 96, 84)',
+                        'rgb(219, 177, 59)',
+                        'rgb(102, 161, 183)',
+                        'rgb(174, 184, 139)',
+                        'rgb(46, 189, 194)',
+                        'rgb(213, 226, 147)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Market Share Nacional',
+                        color: '#000',
+                        padding: {
+                            top: 10,
+                            bottom: 25 // Espaço entre o texto e a linha
+                        },
+                        font: {
+                            size: 20,
+                            weight: 'bold'
+                        }
+                    },
+
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        display: false
+                    }
+                }
+            }
+        });
+
+        chartInterBar = new Chart(document.getElementById('barInter'), {
+            type: 'bar',
+            data: {
+                labels: ['São Paulo', 'Minas Gerais', 'Espírito Santos', 'Paraná', 'Bahia', 'Outros'],
+                datasets: [{
+                    label: 'Numero de visitantes/ano',
+                    data: [3763020, 1873347, 595762, 508795, 374890, 2791629],
+                    backgroundColor: [
+                        'rgb(102, 161, 183)',// Cor para Espírito Santos
+                        'rgb(77, 96, 84)',   // Cor para São Paulo
+                        'rgb(219, 177, 59)', // Cor para Minas Gerais
+                        'rgb(174, 184, 139)',// Cor para Paraná
+                        'rgb(46, 189, 194)', // Cor para Bahia
+                        'rgb(213, 226, 147)' // Cor para Outros
+                    ],
+                    borderColor: ['rgb(213, 226, 147)'],
+                    borderRadius: 6,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Principais mercados emissores internacionais',
+                        color: '#000',
+                        font: {
+                            size: 20,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+
+
+
+        chartInterDoughnut = new Chart(document.getElementById('doughnutInter'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Carregando...'],
+                datasets: [{
+                    label: 'estrangeiros X brasileiros',
+                    data: [468037, 239465, 185600, 70115, 69707, 433591],
+                    backgroundColor: [
+                        'rgb(77, 96, 84)',
+                        'rgb(219, 177, 59)',
+                        'rgb(102, 161, 183)',
+                        'rgb(174, 184, 139)',
+                        'rgb(46, 189, 194)',
+                        'rgb(213, 226, 147)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'right',
+                        labels: {
+                            color: '#333',
+                            padding: 20
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Market Share Internacional',
+                        color: '#000',
+                        padding: {
+                            top: 10,
+                            bottom: 25 // Espaço entre o texto e a linha
+                        },
+                        font: {
+                            size: 20,
+                            weight: 'bold'
+                        }
+                    },
+
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        display: false
+                    }
+                }
+            }
+        });
+
+        chartNacXInter = new Chart(document.getElementById('myChart3'), {
+            type: 'line',
+            data: {
+                labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                datasets: [
+                    {
+                        label: 'Nacional',
+                        data: [1070914, 878024, 748070, 693650, 825337, 651342, 836046, 755994, 909291, 754432, 800330, 984993],
+                        backgroundColor: ['rgb(77, 96, 84)'],
+                        borderWidth: 3,
+                        pointStyle: 'circle',
+                        pointRadius: 5,
+                        pointHoverRadius: 15
+                    },
+                    {
+                        label: 'Estrangeiro',
+                        data: [158396, 208631, 188502, 82247, 71755, 65680, 82392, 87003, 102988, 123232, 128351, 163338],
+                        backgroundColor: ['rgb(255, 102, 0)'],
+                        borderWidth: 3,
+                        pointStyle: 'circle',
+                        pointRadius: 5,
+                        pointHoverRadius: 15
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Número de turistas/mês',
+                        color: '#000',
+                        font: {
+                            size: 20,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+
+    function carregarDashboard() {
+        inicializarGraficos();
+        buscarKPIs();
+        buscarDadosNacionais();
+        buscarDadosInterNacionais();
+        buscarDadosLinha();
+    }
+
+    //Fetchs KPI
+
+    function buscarKPIs() {
+        fetch(`/dashboard/kpiNacionalEstado`)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error("Erro ao listar Pico de demanda Nacional");
+                }
+                return resposta.json();
+            })
+            // .then(vt_nomeMes => {
+            //     const kpiEstadoNacional = document.getElementById('kpiEstadoNacional');
+            //     kpiEstadoNacional.innerHTML = "";
+            //     vt_nomeMes.forEach((nomeMes) => {
+            //         kpiEstadoNacional.innerHTML += `
+            //     ${nomeMes.nomeMes}
+            //     `;
+            //     });
+            // })
+            .then(dados => {
+                if (dados.length > 0) document.getElementById('kpiEstadoNacional').innerHTML = dados[0].nome_estado;
+            })
+            .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+
+        fetch(`/dashboard/kpiModaNacional`)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error("Erro ao listar Pico de demanda Nacional");
+                }
+                return resposta.json();
+            })
+            .then(dados => {
+                if (dados.length > 0) document.getElementById('KpiPicoMes').innerHTML = dados[0].mes_pico;
+            })
+            .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+
+        fetch(`/dashboard/kpiInterNacionalEstado`)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error("Erro ao listar Pico de demanda Nacional");
+                }
+                return resposta.json();
+            })
+            .then(dados => {
+                if (dados.length > 0) document.getElementById('kpiPaisInternacional').innerHTML = dados[0].nome_pais;
+            })
+            .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+
+        fetch(`/dashboard/kpiPicoDemandaInterNacional`)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error("Erro ao listar Pico de demanda Nacional");
+                }
+                return resposta.json();
+            })
+            .then(dados => {
+                if (dados.length > 0) document.getElementById('kpiPicoInternacional').innerHTML = dados[0].mes_pico;
+            })
+            .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+    }
+
+
+
+    //Fetchs Grafico Nacional 
+    function buscarDadosNacionais() {
+        fetch("/dashboard/chartNacionalEstado")
+            .then(res => res.json())
+            .then(dados => {
+                const rotulos = dados.map(item => item.label);
+                const valores = dados.map(item => item.data);
+
+                chartNacBar.data.labels = rotulos;
+                chartNacBar.data.datasets[0].data = valores;
+                chartNacBar.update();
+
+                chartNacDoughnut.data.labels = rotulos;
+                chartNacDoughnut.data.datasets[0].data = valores;
+                chartNacDoughnut.update();
+            })
+            .catch(erro => console.log("Erro no gráfico nacional:", erro));
+    }
+
+
+    //Fetchs Grafico Internacional
+    function buscarDadosInterNacionais() {
+        fetch("/dashboard/chartInterNacionalEstado")
+            .then(res => res.json())
+            .then(dados => {
+                const rotulos = dados.map(item => item.label);
+                const valores = dados.map(item => item.data);
+
+                chartInterBar.data.labels = rotulos;
+                chartInterBar.data.datasets[0].data = valores;
+                chartInterBar.update();
+
+                chartInterDoughnut.data.labels = rotulos;
+                chartInterDoughnut.data.datasets[0].data = valores;
+                chartInterDoughnut.update();
+            })
+            .catch(erro => console.log("Erro no gráfico internacional:", erro));
+    }
+
+
+    //Fetchs Grafico Linha
+
+    function buscarDadosLinha() {
+        fetch(`/dashboard/chartNacionalXInternacional`)
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error("Erro ao buscar dados do Gráfico Nacional x Internacional");
+                }
+                return resposta.json();
+            })
+            .then(dados => {
+                const meses = dados.map(item => item.label);
+                const valoresNacional = dados.map(item => item.dataNacional);
+                const valoresInternacional = dados.map(item => item.dataInternacional);
+
+                chartNacXInter.data.labels = meses;
+
+                chartNacXInter.data.datasets[0].data = valoresNacional;
+
+                chartNacXInter.data.datasets[1].data = valoresInternacional;
+
+                chartNacXInter.update();
+            })
+            .catch(erro => console.log("Erro ao plotar Gráfico de Linha:", erro));
+    }
 
 </script>

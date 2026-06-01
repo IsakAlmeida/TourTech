@@ -1,0 +1,15 @@
+info:
+  name: KPI Pico Demana (Meses)
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: http://localhost:8080/dashboard/kpiModaNacional
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
