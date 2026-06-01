@@ -1,0 +1,25 @@
+info:
+  name: Enviar Chamado
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{PROD}}/suporte/enviar"
+  body:
+    type: json
+    data: |-
+      {
+        "nome":      "bruno",
+        "email":     "bruno@gmail.com",
+        "situacao":  "Erro ao acessar o sistema",
+        "descricao": "Ao tentar fazer login, aparece erro 500.",
+        "fkUsuario": 1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
