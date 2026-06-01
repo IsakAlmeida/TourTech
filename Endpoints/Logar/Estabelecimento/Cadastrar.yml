@@ -1,0 +1,28 @@
+info:
+  name: Cadastrar
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{PROD}}/estabelecimento/cadastrar"
+  body:
+    type: json
+    data: |-
+      {
+        "tipo":           "hospedagem",
+        "nome":           "Hotel Central",
+        "categoria":      "Hotel",
+        "endereco":       "Rua das Flores, 123",
+        "multilingue":    1,
+        "contato":        "(11) 99999-9999",
+        "emailComercial": "contato@hotelcentral.com",
+        "fkMunicipio":    1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

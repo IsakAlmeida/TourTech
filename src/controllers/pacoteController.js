@@ -144,7 +144,7 @@ function atualizar(req, res) {
 
 // deletar pacote
 function deletar(req, res) {
-    var id_pacote = req.body.idPacote;
+    var id_pacote = req.params.idPacote;
 
     if (!id_pacote) {
         return res.status(400).send("ID não informado");

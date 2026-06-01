@@ -85,6 +85,8 @@
                     <h2>Funcionários</h2>
                     <div></div>
 
+                    <div id="popup-alerta" class="popup-alerta"></div>
+
                     <!-- Ações tabela -->
                     <div class="separacao">
 
@@ -151,6 +153,25 @@
                 window.location = "./funcionarios-cadastro.html";
             }
 
+            //Exibir Pop-up
+
+            let timeoutPopup;
+
+            function mostrarPopup(mensagem) {
+
+                const popup = document.getElementById("popup-alerta");
+
+                popup.innerHTML = mensagem;
+
+                popup.style.display = "block";
+
+                clearTimeout(timeoutPopup);
+
+                setTimeout(() => {
+                    popup.style.display = "none";
+                }, 5000);
+            }
+
             //LISTAR
 
             function listarFuncionarios() {
@@ -164,6 +185,26 @@
                         return resposta.json();
                     })
                     .then(vt_funcionarios => {
+
+                        const cargosObrigatorios = [
+                            "Gerente Pessoal",
+                            "Turismólogo",
+                            "Gerente Comercial"
+                        ];
+
+                        const cargosExistentes = vt_funcionarios.map(funcionario => funcionario.nivel);
+
+                        const cargosFaltando = cargosObrigatorios.filter(
+                            cargo => !cargosExistentes.includes(cargo)
+                        );
+
+                        if (cargosFaltando.length > 0) {
+
+                            mostrarPopup(`
+                        Cargos sem funcionários cadastrados:<br><br>
+                        ${cargosFaltando.join("<br>")}
+                        `);
+                        }
 
                         const lista = document.getElementById('lista-funcionarios');
                         lista.innerHTML = "";
@@ -186,7 +227,7 @@
 
                         });
                     })
-                    .catch(erro => console.log("Erro em gerar lista de funcionarios:", erro));
+                    .catch(erro => console.log("Erro em gerar lista de funcionários:", erro));
 
             }
 
