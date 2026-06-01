@@ -1,0 +1,29 @@
+info:
+  name: Atualizar Estabelecimento Existente
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{PROD}}/estabelecimento/atualizar"
+  body:
+    type: json
+    data: |-
+      {
+        "id":             105,
+        "tipo":           "alimenticio",
+        "nome":           "Restaurante Bela Vista",
+        "categoria":      "Restaurante",
+        "endereco":       "Av. Principal, 456",
+        "multilingue":    0,
+        "contato":        "(11) 88888-8888",
+        "emailComercial": "bela@vista.com",
+        "fkMunicipio":    2
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -5,12 +5,12 @@ info:
 
 http:
   method: POST
-  url: "{{localhost}}/autenticacao/verificarToken"
+  url: "{{PROD}}/autenticacao/verificarToken"
   body:
     type: json
     data: |-
       {
-        "tokenServer": "CDE456"
+        "tokenServer": "ABC123"
       }
   auth: inherit
 

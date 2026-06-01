@@ -1,17 +1,17 @@
 info:
-  name: Logar
+  name: Deletar Funcionário
   type: http
-  seq: 1
+  seq: 6
 
 http:
-  method: POST
-  url: "{{PROD}}/autenticacao/logar"
+  method: DELETE
+  url: "{{PROD}}/funcionarios/deletar"
   body:
     type: json
     data: |-
       {
-        "emailServer": "bruno@gmail.com",
-        "senhaServer": "senha123"
+        "id_usuario": 2,
+        "idEmpresa":  1
       }
   auth: inherit
 
