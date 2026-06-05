@@ -8,9 +8,9 @@ import java.net.http.HttpResponse;
 
 public class PacotesSlack {
     // TOKEN DO BOTpacote
-    private final String TOKEN = "";
+    private final String TOKEN = "SLACK_TOKEN";
     // CANAL ID SLACKpacote
-    private final String CANAL = "C0B6E10Q74K";
+    private final String CANAL = "SLACK_CANAL_PACOTES";
 
     public void enviarMensagem(String mensagem) {
         try {
