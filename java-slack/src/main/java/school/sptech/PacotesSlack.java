@@ -8,7 +8,7 @@ import java.net.http.HttpResponse;
 
 public class PacotesSlack {
     // TOKEN DO BOTpacote
-    private final String TOKEN = System.getenv("SLACK_TOKEN");
+    private final String TOKEN = System.getenv("SLACK_TOKEN_PACOTES");
     // CANAL ID SLACKpacote
     private final String CANAL = System.getenv("SLACK_CANAL_PACOTES");
 
