@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TourTech | Dashboards</title>
+    <title>AquaTech | Dashboards</title>
 
 
     <link rel="stylesheet" href="./../css/dashboards.css">
@@ -70,7 +70,7 @@
                 </a>
             </div>
             <div class="btn-nav-white">
-                <a href="./suporte.html">
+                <a href="./mural.html">
                     <h3>Suporte</h3>
                 </a>
             </div>
@@ -85,6 +85,7 @@
         <div class="dash">
             <div class="tituloDash">
                 <h1 style="color: #4D6054;">Dashboards - Turismo no Rio de Janeiro</h1>
+                <hr class="linha-divisoria">
                 <h1 style="color: #4D6054;">Turismo Nacional</h1>
             </div>
 
@@ -182,13 +183,43 @@
         menu.classList.toggle('menu-aberto');
     }
 
+    //Formatando
+    const formatarEixoY = function(value) {
+        if (value >= 1000000) {
+            return (value / 1000000).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' mi';
+        } else if (value >= 1000) {
+            return (value / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' mil';
+        }
+        return value;
+    };
+
+    const formatarTooltipPadrao = {
+        label: function(context) {
+            let label = context.dataset.label || '';
+            if (label) { label += ': '; }
+            label += Number(context.raw).toLocaleString('pt-BR');
+            return label;
+        }
+    };
+
+    const formatarTooltipDoughnut = {
+        label: function(context) {
+        const todosOsValores = context.dataset.data;
+        const total = todosOsValores.reduce((acumulador, valorAtual) => acumulador + Number(valorAtual), 0);
+        const valorFatia = Number(context.raw);
+        const porcentagem = ((valorFatia / total) * 100).toFixed(1);
+        const valorFormatado = valorFatia.toLocaleString('pt-BR');
+        return `${context.label}: ${porcentagem}% (${valorFormatado} visitantes)`;
+    }
+    };
+
     function inicializarGraficos() {
         // chartNacBar = document.getElementById('myChart');
         // new Chart(chartNacBar, {
         chartNacBar = new Chart(document.getElementById('myChart'),{
             type: 'bar',
             data: {
-                labels: ['Carregando...'],
+                labels: ['Carregando...','Carregando...','Carregando...','Carregando...','Carregando...','Carregando...'],
                 datasets: [{
                     label: 'Numero de visitantes/ano',
                     data: [3763020, 1873347, 595762, 508795, 374890, 2791629],
@@ -217,11 +248,13 @@
                             size: 20,
                             weight: 'bold'
                         }
-                    }
+                    },
+                    tooltip: { callbacks: formatarTooltipPadrao }
                 },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: { callback: formatarEixoY }
                     }
                 }
             }
@@ -230,7 +263,7 @@
         chartNacDoughnut = new Chart(document.getElementById('myChart2'), {
             type: 'doughnut',
             data: {
-                labels: ['Argentina', 'Chile', 'Estados Unidos', 'França', 'Uruguai', 'Outros'],
+                labels: ['Carregando...','Carregando...','Carregando...','Carregando...','Carregando...',],
                 datasets: [{
                     label: 'estrangeiros X brasileiros',
                     data: [468037, 239465, 185600, 70115, 69707, 433591],
@@ -249,6 +282,14 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
+                    legend: {
+                        display: true,
+                        position: 'right',
+                        labels: {
+                            color: '#333',
+                            padding: 20
+                        }
+                    },
                     title: {
                         display: true,
                         text: 'Market Share Nacional',
@@ -262,7 +303,7 @@
                             weight: 'bold'
                         }
                     },
-
+                    tooltip: { callbacks: formatarTooltipDoughnut },
                 },
                 scales: {
                     y: {
@@ -276,7 +317,7 @@
         chartInterBar = new Chart(document.getElementById('barInter'), {
             type: 'bar',
             data: {
-                labels: ['São Paulo', 'Minas Gerais', 'Espírito Santos', 'Paraná', 'Bahia', 'Outros'],
+                labels: ['Carregando...','Carregando...','Carregando...','Carregando...','Carregando...',],
                 datasets: [{
                     label: 'Numero de visitantes/ano',
                     data: [3763020, 1873347, 595762, 508795, 374890, 2791629],
@@ -305,11 +346,13 @@
                             size: 20,
                             weight: 'bold'
                         }
-                    }
+                    },
+                    tooltip: { callbacks: formatarTooltipPadrao }
                 },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: { callback: formatarEixoY }
                     }
                 }
             }
@@ -321,7 +364,7 @@
         chartInterDoughnut = new Chart(document.getElementById('doughnutInter'), {
             type: 'doughnut',
             data: {
-                labels: ['Carregando...'],
+                labels: ['Carregando...','Carregando...','Carregando...','Carregando...','Carregando...','Carregando...',],
                 datasets: [{
                     label: 'estrangeiros X brasileiros',
                     data: [468037, 239465, 185600, 70115, 69707, 433591],
@@ -361,7 +404,7 @@
                             weight: 'bold'
                         }
                     },
-
+                    tooltip: { callbacks: formatarTooltipDoughnut }
                 },
                 scales: {
                     y: {
@@ -409,11 +452,13 @@
                             size: 20,
                             weight: 'bold'
                         }
-                    }
+                    },
+                    tooltip: { callbacks: formatarTooltipPadrao }
                 },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: { callback: formatarEixoY }
                     }
                 }
             }
