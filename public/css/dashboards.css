@@ -239,6 +239,15 @@ canvas {
   margin: 3vw 10vh;
 }
 
+.linha-divisoria {
+    border: none;
+    height: 3px;
+    background-color: #D5E293;
+    width: 100%;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
 .kpis {
   display: flex;
   flex-direction: row;
